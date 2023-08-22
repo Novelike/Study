@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>문자 테스트</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="main_img">
+        <div class="inner">
+            <div class="img1_text_area">
+                <h2>
+                    문자 보내기의 새로운 시대!<br>
+                    TSIT에서 문자보내기
+                </h2>
+                <p>
+                    국내 최저가, 전송 결과 및 통계, 실패 건 재전송 등<br>
+                    슬기롭게 문자를 보내세요.<br><br>
+                    그 어떤 마케팅 수단보다 쉽고, 빠릅니다.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="content1">
+        <div class="inner">
+            <h2>
+                서비스 장점
+                <span></span>
+            </h2>
+            <ul class="box_area">
+                <li class="icon01">
+                    <h3>무료 문자 혜택</h3>
+                    <span>
+                            회원가입만 해도 <br>
+                            보너스 포인트를 드립니다.
+                        </span>
+                </li>
+                <li class="icon02">
+                    <h3>실시간 전송 리포트</h3>
+                    <span>
+                            문자를 보내는 즉시 <br>
+                            전송결과를 확인할 수 <br>
+                            있어요.
+                        </span>
+                </li>
+                <li class="icon03">
+                    <h3>예약 전송</h3>
+                    <span>
+                            원하는 일시로 예약전송하고 <br>
+                            자유롭게 예약 변경이 <br>
+                            가능합니다.
+                        </span>
+                </li>
+                <li class="icon04">
+                    <h3>편리한 주소록 관리</h3>
+                    <span>
+                            직접입력, 엑셀 업로드 등<br>
+                            다양한 방식으로 주소록을<br>
+                            관리하세요.
+                        </span>
+                </li>
+                <li class="icon05">
+                    <h3>주소록 등록 무료대행</h3>
+                    <span>
+                            주소록 등록이 어려우시면 <br>
+                            저희가 대신 등록해드립니다.
+                        </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="content2">
+        <div class="inner">
+            <h2>
+                합리적인 가격
+                <span>단 1건을 보내도 이 가격. 국내 최저가로 이용하세요.</span>
+            </h2>
+            <ul class="box_area">
+                <li>
+                    <p class="label">sms</p>
+                    <h3>
+                        <strong>100</strong>원
+                    </h3>
+                    <span>(1건 당)</span>
+                </li>
+                <li>
+                    <p class="label">sms</p>
+                    <h3>
+                        <strong>100</strong>원
+                    </h3>
+                    <span>(1건 당)</span>
+                </li>
+                <li>
+                    <p class="label">sms</p>
+                    <h3>
+                        <strong>100</strong>원
+                    </h3>
+                    <span>(1건 당)</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="content3">
+        <div class="inner">
+            <h2 class="white">
+                실시간 전송 리포트
+                <span class="white">
+                    문자 전송 결과를 실시간으로 확인하세요.
+                </span>
+            </h2>
+            <ul class="box_area">
+                <li>
+                    <span class="bl01">오늘의 전송건수</span>
+                    <h3><strong>500</strong>건</h3>
+                </li>
+                <li>
+                    <span class="bl02">오늘의 성공건수</span>
+                    <h3><strong>500</strong>건</h3>
+                </li>
+                <li>
+                    <span class="bl03">오늘의 실패건수</span>
+                    <h3><strong>500</strong>건</h3>
+                </li>
+                <li>
+                    <span class="bl04">오늘의 예약건수</span>
+                    <h3><strong>500</strong>건</h3>
+                </li>
+            </ul>
+            <div class="status">
+                <h2 class="white">
+                    실시간 전송 상태
+                    <span class="white">
+                        발송 중인 메세지 상태의 전송 결과를 확인합니다.
+                    </span>
+                </h2>
+                <div class="box_area2">
+                    <table class="table1">
+                        <colgroup>
+                            <col width="25%">
+                            <col width="50%">
+                            <col width="25%">
+                        </colgroup>
+                        <tr>
+                            <th>전송요청</th>
+                            <th>내용</th>
+                            <th>구분</th>
+                        </tr>
+                        <tr>
+                            <td>2022.11.30 14:20</td>
+                            <td>안녕하세요. 감사의 마음을 담아 쿠폰을 드립니다.</td>
+                            <td>SMS</td>
+                        </tr>
+                    </table>
+                    <div class="status_imgs">
+                        <img src="/images/graph_circle.png" alt="원그래프">
+                        <div class="box_area3">
+                            <img src="/images/graph_square.png" alt="막대그래프">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content4">
+        <div class="inner">
+            <h2>문자 발송 가이드<span>의무사항을 꼭 확인하세요.</span></h2>
+            <ul class="box_area">
+                <li>
+                    <h3 class="bl02">발신번호 사전등록</h3>
+                    <span>발송전에 미리 발신번호를<br>
+                                등록해 주세요. </span>
+                    <button class="bt_rb bt_move" onclick="fnLayerPopup('guide01')">icon</button>
+                </li>
+                <li>
+                    <h3 class="bl02">광고성 메세지 표기의무</h3>
+                    <span>광고성 메시지 발송전<br>
+                                반드시 확인해 주세요.</span>
+                    <button class="bt_rb bt_move" onclick="fnLayerPopup('guide02')">icon</button>
+                </li>
+                <li>
+                    <h3 class="bl02">광고문자 수신동의</h3>
+                    <span>수신자에게 최초 수신동의를<br>
+                                받은 날부터 매 2년마다 수신동의<br>
+                                여부를 확인해 주세요.</span>
+                    <button class="bt_rb bt_move" onclick="fnLayerPopup('guide03')">icon</button>
+                </li>
+                <li>
+                    <h3 class="bl02">야간광고 전송제한</h3>
+                    <span>21시부터 다음 날 8시까지<br>
+                                광고문자를 보내려면 수신자에게<br>
+                                별도로 사전동의 받으세요.</span>
+                    <button class="bt_rb bt_move" onclick="fnLayerPopup('guide04')">icon</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div>
+        <!-- 팝업 : 발신번호 사전등록 안내 -->
+        <div class="dimmed_black" id="guide01">
+            <div class="popupBox left">
+                <h3 class="popup_title txt-l">발신번호 사전등록 안내
+                    <span>전기통신사업법 제84조에 의거 인증 및 등록된 발신번호로만
+                        문자 발송이 가능합니다.</span>
+                </h3>
+                <div class="popup_message">
+                    <strong>1. 등록할 발신번호의 명의자를 먼저 확인해 주세요.</strong>
+                    <span>발신번호 명의자는 통신사 가입증명서 상의 명의자입니다. </span><br>
+                    <strong>2. 회원별 발신번호 명의자에 따라 아래의 증빙서류 표를 확인하여 서류를 준비하세요.</strong>
+                    <a href="">위임장 양식 다운로드&gt;</a>
+                    <table class="table1 pop">
+                        <colgroup>
+                            <col width="20%">
+                            <col width="20%">
+                            <col width="30%">
+                            <col width="30%">
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                            <th>회원유형</th>
+                            <th>발신번호 명의자</th>
+                            <th>휴대폰 번호</th>
+                            <th>일반 번호</th>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">개인회원</td>
+                            <td>본인</td>
+                            <td>휴대폰 본인 인증</td>
+                            <td>통신사 가입증명서</td>
+                        </tr>
+                        <tr>
+                            <td>타인, 기업</td>
+                            <td colspan="2">개인회원은 등록불가,<br>명의자 본인이 개인회원 또는 기업회원으로 새로 가입해야 합니다.</td>
+                        </tr>
+                        <tr><td rowspan="2">기업회원</td>
+                            <td>기업, 대표자</td>
+                            <td colspan="2">통신사 가입증명서, 사업자등록증</td>
+                        </tr>
+                        <tr>
+                            <td>재직자</td>
+                            <td colspan="2">통신사 가입증명서, 사업자등록증, 재직증명서, 위임장</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <strong>3. 마이 페이지&gt;발신번호 관리에서 발신번호를 등록해 주세요.</strong><br>
+                    <strong>4. 발신번호 등록은 신청 후 영업일 기준 1~2일 소요됩니다.</strong>
+                </div>
+                <div class="popup_close"><a href="javascript:void(0);" class="close_button"></a></div>
+            </div>
+        </div>
+        <!-- 팝업 : 광고문자 표기의무 안내 -->
+        <div class="dimmed_black" id="guide02">
+            <div class="popupBox left">
+                <h3 class="popup_title txt-l">광고문자 표기의무 안내
+                    <span>표기 의무 미준수 시 문자 발송이 중단될 수 있습니다.</span>
+                </h3>
+                <div class="popup_message">
+                    <strong>1. 광고문자란?</strong>
+                    <span>문자 전송자가 경제적 이득을 취할 목적으로 발송하는 문자를 뜻합니다.</span>
+                    <span>예1) 영업사원이 고객에게 보내는 홍보 문자<br>
+                        예2) 영리목적 기관이 고객에게 보내는 뉴스레터, 쿠폰발급 안내 문자</span><br>
+                    <strong>2. 광고문자 보내기 전 해야 할 일</strong>
+                    <span>수신자에게 반드시 수신동의를 받습니다.<br>
+                        광고 문자 표기 의무 사항을 숙지하여 문자 내용을 작성합니다.</span><br>
+                    <strong class="mt10">* 수신동의 여부확인 문자 예시</strong>
+                    <div class="box_area mb20 mt10"><img src="/images/img_ad01.png"></div>
+                    <strong>3. 표기 의무 사항을 지키지 않았을 경우</strong>
+                    <span>표기 의무 미준수 또는 불법스팸 발송 시 문자 발송 중단 등 서비스 이용이 제한되며,
+                        잔여 포인트는 환불 되지 않습니다. 1회 위반 750만원, 2회 위반 1,500만원, 3회 위반 3,000만원의 과태료가 부과될 수 있습니다.</span>
+                </div>
+                <div class="popup_close"><a href="javascript:void(0);" class="close_button"></a></div>
+            </div>
+        </div>
+        <!-- 팝업 : 광고문자 수신동의 -->
+        <div class="dimmed_black" id="guide03">
+            <div class="popupBox left">
+                <h3 class="popup_title txt-l">광고문자 수신동의 여부확인 의무 안내
+                    <span>수신자에게 최초 수신동의를 받은 날부터 매 2년마다 수신동의 여부를 확인해야 합니다.</span>
+                </h3>
+                <div class="popup_message">
+                    <strong>1. 광고문자 수신동의 여부확인 의무란?</strong>
+                    <span>광고문자 발송자는 광고문자 수신동의를 받은 날 부터 매 2년마다 수신자에게 수신동의 여부를 확인해야 합니다.<br>
+                     수신동의 했다는 사실에 대한 의무로 재 동의를 받아야 하는 것은 아닙니다.<br>
+                     수신자의 의사표시 방법은 비용이 발생하지 않도록 합니다.
+                     수신자의 의사표시가 없을 경우 수신동의 의사가 그대로 유지됩니다.</span><br>
+                    <strong class="mt10">* 수신동의 여부확인 문자 예시</strong>
+                    <div class="box_area mb20 mt10"><img src="/images/img_ad02.png" alt="팝업 메시지"></div>
+                    <strong>2. 수신동의 여부를 확인하지 않을 경우</strong>
+                    <span>3천만원 이하의 과태료가 부과될 수 있습니다.</span>
+                </div>
+                <div class="popup_close"><a href="javascript:void(0);" class="close_button"></a></div>
+            </div>
+        </div>
+        <!-- 팝업 : 야간광고 전송제한 안내 -->
+        <div class="dimmed_black" id="guide04">
+            <div class="popupBox left">
+                <h3 class="popup_title txt-l">야간광고 전송제한 안내
+                    <span>야간 시간에 광고 문자를 발송하려면 별도의 수신동의를 받아야 합니다.</span>
+                </h3>
+                <div class="popup_message">
+                    <strong>야간광고 전송제한이란?</strong>
+                    <span>오후 9시부터 그 다음 날 오전 8시까지 광고 문자를 보내려면 수신자에게 별도의 사전동의를 받아야 합니다.<br>
+                    야간 광고 전송 금지 기준은 수신자에게 도달하는 시각을 기준으로 하며, 국외에서 발송되는 광고 문자도 동일 적용됩니다.
+                    광고 문자 수신동의를 받았어도 야간 시간에 광고 문자를 발송하려면 별도의 수신동의를 받아야 합니다.</span>
+                    <div class="mt10"><img src="/images/img_ad03.png"></div>
+                </div>
+                <div class="popup_close"><a href="javascript:void(0);" class="close_button"></a></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

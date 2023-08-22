@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" href="/favicon.svg">
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="/js/openPopup.js"></script>
+    <script src="/js/ajax.js"></script>
+</head>
+<body>
+<div id="nav">
+    <div id="nav_inner">
+        <h1 id="logo">
+            <a href="/">TSIT</a>
+        </h1>
+        <div id="nav_menu">
+            <div id="nav_menu_left">
+                <div id="menu_send">문자 보내기</div>
+                <div id="menu_result">전송 결과</div>
+                <div id="menu_fee">메시지 이용요금</div>
+                <div id="menu_book">주소록</div>
+                <div id="menu_mypage">마이페이지</div>
+            </div>
+            <div id="nav_menu_right">
+                <div id="signin"><a href="signin">로그인</a></div>
+                <div id="signup"><a href="signup">회원가입</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block layout:fragment="content"></th:block>
+<footer>
+    <div class="inner">
+        <ul class="footer_info clear">
+            <li><a href="javascript:void(0);" onclick="fnLayerPopup('service');">서비스이용약관</a></li>
+            <li><a href="javascript:void(0);" onclick="fnLayerPopup('info');">개인정보처리방침</a></li>
+            <li><a href="">고객센터</a></li>
+        </ul>
+        <div class="address">
+            ㈜티에스아이티  |  대표이사 박용수 <br>
+            사업자등록번호 106-81-78902  |  통신판매업 신고번호 : 0000-서울00-0000  | 대표번호 : 02-792-2211  | 이메일 : yspark11@tsinfotech.co.kr  |  fax : 02-797-9400 <br>
+            주소 : 서울시 영등포구 당산로 171, 502호(당산동 4가, 금강페테리움IT타워) <br>
+        </div>
+        <p class="copyright">TSIT Corporation. All rights reserved.</p>
+    </div>
+</footer>
+<div class="dimmed_black" id="service">
+    <div class="popupBox left">
+        <h3 class="popup_title txt-l">서비스이용약관</h3>
+        <div class="popup_message">
+            서비스이용약관입니다.
+        </div>
+        <div class="popup_close"><a href="javascript:" class="close_button" onclick="fnLayerPopupClose('service')"></a></div>
+    </div>
+</div>
+<div class="dimmed_black" id="info">
+    <div class="popupBox left">
+        <h3 class="popup_title txt-l">개인정보처리방침</h3>
+        <div class="popup_message">
+            서비스이용약관입니다.
+        </div>
+        <div class="popup_close"><a href="javascript:" class="close_button" onclick="fnLayerPopupClose('info')"></a></div>
+    </div>
+</div>
+</body>
+</html>

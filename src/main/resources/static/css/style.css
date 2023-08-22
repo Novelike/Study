@@ -457,6 +457,7 @@ img {
     letter-spacing: -1.5px;
 }
 .content4 .box_area li h3 {
+    font-family: 'Pretendard-SemiBold', sans-serif;
     position: relative;
     font-size: 22px;
     font-weight: 600;
@@ -626,6 +627,7 @@ footer {
     align-items: center;
     padding-top: 50px;
     padding-left: 0;
+    margin: 0;
 }
 .clear:before, .clear:after {
     clear: both;

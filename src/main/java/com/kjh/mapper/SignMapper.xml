@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mybatis/mapper/SignMapper">
+    <select id="signin" parameterType="hashmap" resultMap="signResult">
+<!--        UserMapper.selectUser-->
+        SELECT seq
+        , user_id
+        , user_pw
+        , user_name
+        , user_mobile
+        , user_email
+        , user_status
+        , user_ci
+        , user_di
+        , is_self_auth
+        , self_auth_date
+        , is_marketing
+        , last_login_date
+        , reg_date
+        , reg_user_seq
+        , mod_date
+        , mod_user_seq
+        FROM   t_user
+        <where>
+            <if test='seq != null and seq != "" '>
+                AND    seq = #{seq}
+            </if>
+            <if test='userId != null and userId != "" '>
+                AND   user_id = #{userId}
+            </if>
+            <if test='userMobile != null and userMobile != ""  '>
+                AND   user_mobile = #{userMobile}
+            </if>
+            <if test='userStatus != null and userStatus != ""  '>
+                AND   user_status = #{userStatus}
+            </if>
+            <if test='userCi != null and userCi != "" '>
+                AND   user_ci = #{userCi}
+            </if>
+        </where>
+    </select>
+    <resultMap type="userVO" id="signResult">
+        <result property="seq" column="seq"/>
+        <result property="userId" column="user_id"/>
+        <result property="userPw" column="user_pw"/>
+        <result property="userName" column="user_name"/>
+        <result property="userMobile" column="user_mobile"/>
+        <result property="userEmail" column="user_email"/>
+        <result property="userStatus" column="user_status"/>
+        <result property="userCI" column="user_ci"/>
+        <result property="userDI" column="user_di"/>
+        <result property="isSelfAuth" column="is_self_auth"/>
+        <result property="selfAuthDate" column="self_auth_date"/>
+        <result property="isMarketing" column="is_marketing"/>
+        <result property="lastLoginDate" column="last_login_date"/>
+        <result property="regDate" column="reg_date"/>
+        <result property="regUserSeq" column="reg_user_seq"/>
+        <result property="modDate" column="mod_date"/>
+        <result property="modUserSeq" column="mod_user_seq"/>
+    </resultMap>
+</mapper>

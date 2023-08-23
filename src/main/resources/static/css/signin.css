@@ -10,6 +10,13 @@
     font-weight: 500;
     font-style: normal;
 }
+label {
+    font-family: 'Pretendard-Regular', sans-serif;
+    font-size: 16px;
+}
+input::placeholder {
+    color:#aaa;
+}
 h3 {
     margin: 0;
 }
@@ -39,4 +46,95 @@ h3 {
     font-weight: 500;
     text-align: center;
     color: #322cbd;
+}
+form {
+    margin-top: 40px;
+}
+input[type="text"], input[type="password"] {
+    font-family: 'Pretendard-Regular', sans-serif;
+    padding: 0 0 0 20px;
+    font-size: 18px;
+    width: 100%;
+    height: 68px;
+    box-sizing: border-box;
+    border: 1px solid #dbdbdb;
+}
+input[type="text"]:focus, input[type="password"]:focus {
+    border:2px solid #332dbd; outline:none
+}
+input[type="password"] {
+    margin-top: 10px;
+}
+.addon {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.checkbox {
+    position: relative;
+}
+input[type="checkbox"] {
+    display: none;
+}
+.checkbox input + label {
+    position: relative;
+    display: inline-block;
+    padding-left: 35px;
+    height: 24px;
+    line-height: 1.5;
+    cursor: pointer;
+    font-weight: 300;
+}
+.checkbox input + label::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 24px;
+    height: 24px;
+    background: url(../images/content/icon_rdo.png) no-repeat 0 0;
+    background-size: 100% auto;
+}
+.checkbox input:checked + label::after {
+    background-image: url(../images/content/icon_rdo_chk.png);
+}
+.arrow {
+    padding-right: 25px;
+    background: transparent url(../images/content/icon_btn_r.png) no-repeat calc(100% - 10px) 50%;
+    background-size: 9px auto;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+    box-sizing: border-box;
+}
+.arrow span {
+    font-size: 16px;
+    color: #332dbd;
+    border-bottom: 1px solid #332dbd;
+}
+.find_reg {
+    font-size: 16px;
+}
+.sign {
+    margin-top: 20px;
+}
+#signin_btn, #signup_btn {
+    display: block;
+    width: 100%;
+    padding: 20px 72px;
+    font-size: 22px;
+    border-radius: 40px;
+    text-align: center;
+    cursor: pointer
+}
+#signin_btn {
+    font-family: 'Pretendard-Regular', sans-serif;
+    border: 0px;
+    color: #555;
+    background-color: #e2e2e2;
+}
+#signup_btn {
+    margin-top: 30px;
+    border: 1px solid #555;
 }

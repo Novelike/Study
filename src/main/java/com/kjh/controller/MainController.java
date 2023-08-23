@@ -44,3 +44,16 @@ class SignController {
         return "sign/signup";
     }
 }
+@Slf4j
+@Controller
+@RequestMapping(value = "/user")
+class UserController {
+    @RequestMapping(value = "/signin")
+    public String signin(Model model, HttpServletRequest request) {
+        return "sign/signin";
+    }
+    @RequestMapping(value ="/signup")
+    public String signup(Model model, HttpServletRequest request) {
+        return "sign/signup";
+    }
+}

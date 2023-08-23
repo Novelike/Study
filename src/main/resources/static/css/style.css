@@ -19,6 +19,15 @@
     font-weight: 500;
     font-style: normal;
 }
+/*html, body, div, p, ul, ol, li, dl, dt, dd, table, tr, th, td, caption, form, fieldset, legend, address, header, aside, nav, main, section, article, footer, figure, figcaption, h1, h2, h3, h4, h5, h6, blockquote, button, input, label, select, textarea, pre {*/
+/*    word-break: keep-all;*/
+/*    font-family: 'Pretendard',sans-serif;*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*    font-size: 16px;*/
+/*    font-weight: 400;*/
+/*    color: #111;*/
+/*}*/
 body {
     font-family: 'Pretendard', sans-serif;
     font-weight: 400;
@@ -38,7 +47,7 @@ h2, h3, th {
 span, p {
     font-family: 'Pretendard', sans-serif;
 }
-strong {
+strong, .inner .img1_text_area h2, .inner .box_area h3 {
     font-family: 'Pretendard-SemiBold', sans-serif;
 }
 a {

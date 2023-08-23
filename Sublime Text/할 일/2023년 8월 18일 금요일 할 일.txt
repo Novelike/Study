@@ -4,26 +4,182 @@
 ★노션★					(완료)
 ★git에 대한 것★			()
 fork, 소스트리 << 툴
----------------------------------------
 다 하고 피드백★
+---------------------------------------
 
 패치, 풀, 푸쉬, 머지, 체크아웃, 깃 플로우 << git 용어 정리
 깃 용어 정리.
+
+Git 영역
+
+ (1) Working Directory (Local)
+    : 개인 코드 작성
+
+ (2) Staging 영역
+    : git add 를 통해서 수정된 코드를 올리는 영역
+
+ (3) Repository
+    : git commit 을 통해서 최종 수정본을 제출
+
 브랜치(branch)
+
  - main 브랜치 : 깃 리포지토리를 하나 만들고 나면 main이라는 브랜치가 하나 생성이 된다. main 브랜치는 기존 기능의 유지/보수만 하면서 새로운 기능을 추가하려 하면 새로운 브랜치를 하나 만드는 것이 시작.
+
  - 브랜치 헤드 : 코드를 수정하고 커밋을 하게 되면 현재 사용중인 브랜치의 제일 앞에 들어가는데, 이 브랜치의 제일 앞쪽 끝을 브랜치 헤드라고 부른다. 브랜치 헤드가 이동하는 방향을 포워드(forward)라고 한다.
+
  - 현재 내가 작업하고 있는 워킹트리는 단 하나의 브랜치에 속해있고, 현재 사용중인 브랜치라는 의미로 커런트 브랜치라고도 한다. 가장 최근 체크아웃을 한 브랜치라서 체크아웃(checkout) 브랜치라고도 한다.
 
+1. Branch 개념
+
+ 1) Branch란?
+  - 협업 시, 각자 맡은 것을 작업
+  - 브랜치를 나누지 않으면, 여러 사람이 commit 할 경우에 충돌이 날 수 있다. 또한 서로 작업한 commit 내역을 내 로컬 repo에도 반영해줘야 하는 번거로움 발생
+
+ 2) Branch 나누기
+  - main 브랜치가 있다면, 본인의 branch를 파서 내 작업만 진행하고, 나중에 main에 합쳐주면 된다!
+
+
+2. Branch 생성
+
+ 1) 브랜치 생성
+  - git branch : 현재 등록된 브랜치 확인
+  - git branch -v : 등록된 브랜치의 상세한 정보 확인
+  git branch <branch 이름>
+  git branch -v 
+
+ 2) 브랜치 리스트 확인
+  - 리스트 확인하고 q 눌러서 빠져나오기
+  git branch
+
+ 3) 브랜치로 이동
+  - checkout : 작업할 브랜치로 바꾸는 것, 체크아웃된 브랜치에만 커밋이 반영된다.
+  git checkout <branch 이름>
+
+5. Merge
+
+ 1) Merge(병합)란?
+  - 작업 내용 합치기
+  - 서로 다른 브랜치에서 작업을 했거나, 작업 내용을 합쳐야 하는 경우 merge를 해주면 됨
+
+ 2) 브랜치 상태 확인
+  - Checkout한 브랜치를 기준으로 —merged, —no-merged 옵션을 사용하여 merge가 된 브랜치인지 아닌지 필터링할 수 있다.
+  git branch --merged 
+  git branch --no-merged 
+
+ 3) Merge 하기
+  - ‘현재' 브랜치에서 [브랜치 명]의 변경사항을 병합
+  예를 들어 master브랜치와 test 브랜치가 있다고 했을 경우, **git merge test**를 하게되면 test브랜치에만 있던 코드가 master브랜치에 병합된다. 
+
+  // master에 체크아웃 
+  git checkout master 
+  // test브랜치의 코드를 master에 합침
+  git merge test
+  git merge [브랜치명]
+
 체크아웃(checkout)
- -현재 작업중인 워킹 트리의 일부 혹은 전체를 업데이트 하는 것을 말한다. 업데이트할 데이터는 깃 로컬 데이터베이스로부터 트리(폴더)나 블롭(파일)을 불러오게 되는데, 현재 사용중인 브랜치에서 파일이나 폴더의 일부를 혹은 전체 내용을 데이터베이스에 있는 내용으로 업데이트 할 수 있다.
+ 	git checkout은 크게 두 가지 기능을 한다.
+
+    	- Branch 혹은 Commit 전환 (switch)
+
+    	- 내용 되돌리기 (restore)
+
+	특정 Branch로 이동하기
+
+		git checkout {Branch Name}
+ 
+
+	특정 Branch 생성 후 해당 Branch로 이동
+
+		git checkout -b {New Branch Name}
+ 
+
+	특정 branch 에서 파생 branch로 만들어서 해당 branch로 이동
+
+		$ git checkout -b {Branch Name} {Base Branch Name}
+ 
+
+	모든 변경 사항을 취소
+
+		git checkout .
+
+		- 대상: 아직 add / commit 되지 않은 내용 (Working Directory에 있는 변경 내용)
+		- 되돌리고 싶은 파일은 추적 되고 있어야 한다.
+		- checkout으로 지워버린 내용은, commit하지 않고 지운 내용이기 때문에 다시 복구할 수 없다.
+
+ 
+
+	특정 파일에서 작업한 내용 삭제 
+
+		git checkout -- {File Name}
+
+		- 대상: 아직 add / commit 되지 않은 소스 (Working Directory에 있는 변경 내용)
+		- 추적되고 있는 파일명이어야 한다.
+
+ 
+
+	특정 Commit 버전으로 전환
+
+		git checkout {Commit Hash}
+
+		- 아직 Commit 하지 않은 내용이 있다면 전환되지 않는다.
 
 1. git fetch란?
  - 페치(fetch)는 원격 저장소의 커밋들을 로컬 저장소로 가져온다. 그리고 자동으로 
- 병합(Merge)를 해주지 않기 때문에 본인이 직접 확인을 한 후에 병합(Merge)하는 과정을 거쳐야한다.
+ 병합(Merge)를 해주지 않기 때문에 본인이 직접 확인을 한 후에 병합(Merge)하는 과정을 거쳐야한다. 한마디로 원격저장소에 있는 변경내역들을 로컬저장소로 pull 하기 전에 변경된 내역들만 가져와서 확인시켜주는 기능이다.
  - 로컬 저장소와 원격 저장소의 변경 사항이 다를 때 이를 비교 대조하고 git merge 명령어와 함께 최신 데이터를 반영하거나 충돌 문제 등을 해결한다. 
 
 2. git pull이란?
  - git pull이란 원격 저장소의 정보를 가져오면서 자동으로 로컬 브랜치에 병합(Merge)까지 수행해주는 명령어이다.
  - git remote 명령을 통해 서로 연결된 원격 저장소의 최신 내용을 로컬 저장소로 가져오면서 병합한다.
  - 하지만 pull을 이용해서 원격 저장소의 커밋을 가져오게 되면 자동으로 병합되기 때문에 어떤 내용이 병합되면서 바뀌는지 알기가 힘들다는 단점이 있다.
- 
+
+원격 저장소에 push, 업데이트 된 내용은 pull
+ - 내 local 디렉토리로 부터 원격저장소(Remote repository)로 보내기 위해서는 push 명령어를 사용합니다. 그 전에 원격 저장소와 내 로컬을 연결해야 합니다.
+ - 원격 저장소 연결 (github) : $ git remote add origin (원격 저장소 github URL)
+ origin은 remote repository의 이름이며, 다른 이름으로 설정해도 무방합니다.
+ - push : $ git push origin main
+ origin이라는 원격저장소의 main 브랜치에 푸쉬합니다.
+
+
+[Gitflow] 깃플로우 브랜치 전략
+
+ - git flow 란 무엇인가?
+  Vincent Driessen 란 분이 2010년에 블로그에 올린 글에 의해 널리 퍼지기 시작한 git branch 관리 방법입니다. 특별한 기술은 아니고, 협업하는 사람들끼리 브랜치 관리에 대해 "우리 이렇게 브랜치 전략 짜자" 와 같은 방법론(Model)일 뿐입니다.
+
+ - git flow 브랜치와 그 의미
+  master : 소프트웨어 제품을 배포하는 용도로 쓰는 브랜치
+  develop : 개발용 default 브랜치로, 이 브랜치를 기준으로 feature 브랜치를 따고, 각 feature를 합치는 브랜치
+  feature: 단위 기능 개발용 브랜치
+  release: 다음배포를 위해 기능에 문제가 없는지 품질체크(QA) 용도의 브랜치
+  hotfix: 배포가 되고 나서(master에 배포 코드가 합쳐진 후) 버그 발생 시 긴급 수정하는 브랜치
+  support: 버전 호환성을 위한 브랜치
+
+ - git flow 흐름 간략한 설명
+
+    1. master 에서 시작
+
+    2. master가 base인 develop 브랜치 생성
+
+    3. 개발자1 : develop이 base인 feature 브랜치를 생성하여 개발 진행
+
+     3-1. 개발자2 : develop이 base인 feature 브랜치를 생성하여 개발 진행
+
+     ...
+
+    4. 개발 완료된 feature 브랜치는 develop으로 merge
+
+    5. release 나갈 브랜치를 develop base 에서 생성
+
+ 	6. release branch에 있는 코드에 대해 QA를 진행하면서 버그를 고쳐나감.
+
+ 	7. QA 통과한 release branch는 이제 배포 준비 완료된 상태
+
+ 	8. 배포를 위해 release branch -> develop, master로 합침
+
+ 	9. master 브랜치에서도 각 코드 버전에 대한 기록을 남기기 위해 태그도 추가로 생성
+
+ 	10. 보통은 이렇게 생성된 태그로 배포
+
+ 	11. 만약 배포 나간 건에 대해서 긴급히 버그 처리해야할 경우 master base 기반으로 hotfix 브랜치 생성
+
+ 	12. hotfix 브랜치를 master, develop에 머지

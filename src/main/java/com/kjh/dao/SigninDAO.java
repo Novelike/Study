@@ -5,15 +5,20 @@ import com.kjh.mapper.SignMapper;
 import com.kjh.util.AesCoderUtil;
 import com.kjh.util.StringUtil;
 import com.kjh.vo.UserVO;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.ZonedDateTime;
 import java.util.HashMap;
+@Slf4j
 @Service
 public class SigninDAO {
+    @Autowired
     SignMapper signMapper;
+    @Autowired
     private PasswordEncoder passwordEncoder;
     public ResultDTO loginCheck(HttpServletRequest request, String loginId, String loginPw) throws Exception {
         ResultDTO resultDTO = new ResultDTO();
@@ -32,7 +37,9 @@ public class SigninDAO {
 
         HashMap<String, Object> paramMap = new HashMap<>();
         paramMap.put("userId", loginId);
+        log.info("log1 = {} ", loginId);
         UserVO signMap = signMapper.selectUser(paramMap);
+        log.info("log2 = {} ", loginPw);
 
         if (signMap == null) {
             resultDTO.setCode("003");

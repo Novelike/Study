@@ -3,8 +3,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.kjh.mapper.SignMapper">
-    <select id="signin" parameterType="hashmap" resultMap="signResult">
-<!--        UserMapper.selectUser-->
+    <select id="selectUser" parameterType="hashmap" resultMap="signResult">
+<!--        SignMapper.selectUser-->
         SELECT seq
         , user_id
         , user_pw
@@ -24,11 +24,113 @@
         , mod_user_seq
         FROM   t_user
         <where>
+            <if test='seq != null and seq != "" '>
+                AND    seq = #{seq}
+            </if>
             <if test='userId != null and userId != "" '>
-                AND   user_id = #{id}
+                AND   user_id = #{userId}
+            </if>
+            <if test='userMobile != null and userMobile != ""  '>
+                AND   user_mobile = #{userMobile}
+            </if>
+            <if test='userStatus != null and userStatus != ""  '>
+                AND   user_status = #{userStatus}
+            </if>
+            <if test='userCi != null and userCi != "" '>
+                AND   user_ci = #{userCi}
             </if>
         </where>
     </select>
+    <insert id="insertUser" parameterType="userVO">
+        /* UserMapper.insertUser */
+        INSERT INTO t_user (
+        user_id
+        , user_pw
+        , user_name
+        , user_mobile
+        , user_email
+        , user_status
+        , user_ci
+        , user_di
+        , is_self_auth
+        , self_auth_date
+        , is_marketing
+        , reg_date
+        , reg_user_seq
+        ) VALUES (
+        #{userId}
+        , #{userPw}
+        , #{userName}
+        , #{userMobile}
+        , #{userEmail}
+        , #{userStatus}
+        , #{userCI}
+        , #{userDI}
+        , #{isSelfAuth}
+        , #{selfAuthDate}
+        , #{isMarketing}
+        , #{regDate}
+        , #{regUserSeq}
+        )
+        <selectKey resultType="int" keyProperty="seq" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    <update id="updateUser" parameterType="userVO">
+        UPDATE t_user
+        <set>
+            <if test=' userPw != null and userPw != ""' >
+                user_pw = #{userPw},
+            </if>
+            <if test=' userName != null and userName != ""' >
+                user_name = #{userName},
+            </if>
+            <if test=' userMobile != null and userMobile != ""' >
+                user_mobile = #{userMobile},
+            </if>
+            <if test=' userEmail != null and userEmail != ""' >
+                user_email = #{userEmail},
+            </if>
+            <if test=' userStatus != null and userStatus != ""' >
+                user_status = #{userStatus},
+            </if>
+            <if test=' userCI != null and userCI != ""' >
+                user_ci = #{userCI},
+            </if>
+            <if test=' userDI != null and userDI != ""' >
+                user_di = #{userDI},
+            </if>
+            <if test=' isSelfAuth != null' >
+                is_self_auth = #{isSelfAuth},
+            </if>
+            <if test=' selfAuthDate != null' >
+                self_auth_date = #{selfAuthDate},
+            </if>
+            <if test=' isMarketing != null' >
+                is_marketing = #{isMarketing},
+            </if>
+            <if test=' lastLoginDate != null' >
+                last_login_date = #{lastLoginDate},
+            </if>
+            mod_date = #{modDate},
+            mod_user_seq = #{modUserSeq}
+        </set>
+        WHERE seq = #{seq}
+    </update>
+    <insert id="insertLoginHistory" parameterType="hashmap">
+        /* UserMapper.insertLoginHistory */
+        INSERT INTO t_user_login_history (
+                                           user_seq
+                                         , user_agent
+                                         , login_ip
+                                         , login_date
+        ) VALUES (
+                     #{userSeq}
+                 , #{userAgent}
+                 , #{loginIp}
+                 , #{loginDate}
+                 )
+    </insert>
     <resultMap type="userVO" id="signResult">
         <result property="seq" column="seq"/>
         <result property="userId" column="user_id"/>

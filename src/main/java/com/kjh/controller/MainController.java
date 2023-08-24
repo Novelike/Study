@@ -1,9 +1,7 @@
 package com.kjh.controller;
 
-import com.kjh.dao.MainService;
 import com.kjh.dao.SigninDAO;
 import com.kjh.dto.ResultDTO;
-import com.kjh.util.Token;
 import com.kjh.vo.UserVO;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.extern.slf4j.Slf4j;
@@ -63,11 +61,6 @@ class UserController {
     @Autowired
     private SigninDAO signinDAO;
 
-    @Autowired
-    MainService mainService;
-
-    @Autowired
-    private Token token;
     @PostMapping(value = "/signin", produces = {"application/json"})
     public ResponseEntity<ResultDTO> userLogin(
             @Parameter(name = "loginId", description = "아이디", example = "test", required = true) @RequestParam(value = "loginId", required = false) String loginId,
@@ -75,22 +68,23 @@ class UserController {
             HttpServletRequest request
     ) throws Exception {
         ResultDTO resultDTO = new ResultDTO();
-
         try {
             resultDTO = signinDAO.loginCheck(request, loginId, loginPw);
 
             if ("000".equals(resultDTO.getCode())) {
                 UserVO userDTO = (UserVO)resultDTO.getData();
 
-                Map<String, Object> tokenMap = new LinkedHashMap<>();
-                tokenMap.put("userSeq", userDTO.getSeq());
-                tokenMap.put("userId", userDTO.getUserId());
-                tokenMap.put("userName", userDTO.getUserName());
-                tokenMap.put("userStatus", userDTO.getUserStatus());
+                Map<String, Object> map = new LinkedHashMap<>();
+                map.put("userSeq", userDTO.getSeq());
+                map.put("userId", userDTO.getUserId());
+                map.put("userName", userDTO.getUserName());
+                map.put("userStatus", userDTO.getUserStatus());
 
-                mainService.setSession(request, userDTO, token.tokenEncode(tokenMap));
+                request.getSession().setAttribute("isSignin", true);
+                request.getSession().setAttribute("signInfo", map);
             }
         } catch (Exception e) {
+            log.error(e.getMessage());
             resultDTO.setCode("999");
             resultDTO.setMessage("오류가 발생했습니다.(" + e.toString() + ")");
         }

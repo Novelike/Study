@@ -1,6 +1,6 @@
 function check() {
-    let id = document.getElementById('id');
-    let pw = document.getElementById('pw');
+    let id = document.getElementById('loginId');
+    let pw = document.getElementById('loginPw');
     if(id.value === "") {
         alert('아이디를 입력하세요.')
         id.focus();
@@ -18,4 +18,71 @@ function check() {
         return false;
     }
     document.sign_form.submit();
+}
+
+window.onload = function() {
+    document.querySelector("#loginId").addEventListener("keyup", async (event) => {
+        let loginId = $("#loginId").val();
+        let loginPw = $("#loginPw").val();
+
+        if (isEmptyString(loginId)) {
+            setBtnLogin(false);
+            return false;
+        }
+
+        if (!strCheck(loginId, "id")) {
+            setBtnLogin(false);
+            return false;
+        }
+
+        if (isEmptyString(loginPw)) {
+            setBtnLogin(false);
+            return false;
+        }
+
+        if (!strCheck(loginPw, "pwd")) {
+            setBtnLogin(false);
+            return false;
+        }
+
+        setBtnLogin(true);
+
+    });
+
+    document.querySelector("#loginPw").addEventListener("keyup", async (event) => {
+        let loginPw = $("#loginPw").val();
+        let loginId = $("#loginId").val();
+
+        if (isEmptyString(loginId)) {
+            setBtnLogin(false);
+            return false;
+        }
+
+        if (!strCheck(loginId, "id")) {
+            setBtnLogin(false);
+            return false;
+        }
+
+        if (isEmptyString(loginPw)) {
+            setBtnLogin(false);
+            return false;
+        }
+
+        if (!strCheck(loginPw, "pwd")) {
+            setBtnLogin(false);
+            return false;
+        }
+
+        setBtnLogin(true);
+    });
+
+    function setBtnLogin(chkDisabled) {
+        const $loginBtn = $("#signin_btn");
+        $loginBtn.removeClass();
+        if (chkDisabled) {
+            $loginBtn.addClass("btn_primary");
+        } else {
+            $loginBtn.removeClass("btn_primary");
+        }
+    }
 }

@@ -30,7 +30,7 @@
                         </div>
                     </div>
                     <div class="sign">
-                        <input type="button" value="로그인" id="signin_btn" onclick="check();">
+                        <input type="button" value="로그인" id="signin_btn">
                         <a href="/user/signup" id="signup_btn">회원가입</a>
                     </div>
                 </form>
@@ -38,5 +38,133 @@
         </div>
     </div>
 </div>
+
+<script layout:fragment="includeScript">
+    $(function () {
+        const loginId = $('#loginId');
+        const loginPw = $('#loginPw');
+        function loginAction() {
+            const param = {loginId: loginId.val(), loginPw: loginPw.val()}
+            if (loginId.val() === "") {
+                alert('아이디를 입력하세요.')
+                loginId.focus();
+                return false;
+            }
+            if (loginPw.val() === "") {
+                alert('비밀번호를 입력하세요.');
+                loginPw.focus();
+                return false;
+            }
+            let pwCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$/;
+            if (!pwCheck.test(loginPw.val())) {
+                alert('영문 + 숫자 + 특수문자의 조합으로 8자~20자의 비밀번호를 입력하세요.' + loginPw.val());
+                loginPw.focus();
+                return false;
+            }
+            $.ajax({
+                url: "/user/signin",
+                type: "POST",
+                data: param,
+                success: function (data) {
+                    const code = data.code;
+                    const message = data.message;
+                    if (code === "000") {
+                        location.href = "/";
+                    } else if (code === "003" || code === "103") {
+                        $("#alertType").val("error");
+                        $("#popup_msg").html(message);
+                        fnLayerPopup('alertP01');
+                    } else {
+                        $("#alertType").val("error");
+                        $("#popup_msg").html(message);
+                        fnLayerPopup('alertP01');
+                    }
+                },
+                error: function (e) {
+                    alert("서버 오류 :" + e.status)
+                }
+            });
+        }
+
+        $('#signin_btn').click(function () {
+            loginAction();
+        });
+
+        loginPw.keyup(function (e) {
+            if (e.keyCode === 13) {
+                loginAction();
+            }
+        });
+    });
+
+    window.onload = function () {
+        document.querySelector("#loginId").addEventListener("keyup", async (event) => {
+            let loginId = $("#loginId").val();
+            let loginPw = $("#loginPw").val();
+
+            if (isEmptyString(loginId)) {
+                setBtnLogin(false);
+                return false;
+            }
+
+            if (!strCheck(loginId, "id")) {
+                setBtnLogin(false);
+                return false;
+            }
+
+            if (isEmptyString(loginPw)) {
+                setBtnLogin(false);
+                return false;
+            }
+
+            if (!strCheck(loginPw, "pwd")) {
+                setBtnLogin(false);
+                return false;
+            }
+
+            setBtnLogin(true);
+        });
+
+        document.querySelector("#loginPw").addEventListener("keyup", async (event) => {
+            let loginPw = $("#loginPw").val();
+            let loginId = $("#loginId").val();
+
+            if (isEmptyString(loginId)) {
+                setBtnLogin(false);
+                return false;
+            }
+
+            if (!strCheck(loginId, "id")) {
+                setBtnLogin(false);
+                return false;
+            }
+
+            if (isEmptyString(loginPw)) {
+                setBtnLogin(false);
+                return false;
+            }
+
+            if (!strCheck(loginPw, "pwd")) {
+                setBtnLogin(false);
+                return false;
+            }
+
+            setBtnLogin(true);
+        });
+
+        function setBtnLogin(chkDisabled) {
+            const $loginBtn = $("#signin_btn");
+            $loginBtn.removeClass();
+            if (chkDisabled) {
+                $loginBtn.addClass("btn_primary");
+                $loginBtn.attr("disabled", true);
+            } else {
+                $loginBtn.removeClass("btn_primary");
+                $loginBtn.attr("disabled", false);
+            }
+        }
+    }
+</script>
+
 </body>
 </html>

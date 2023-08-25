@@ -664,9 +664,6 @@ footer {
     display: inline-block;
     margin-right: 4px;
 }
-#signin {
-    cursor: pointer;
-}
-#signup {
+#signin, #signup, #signout {
     cursor: pointer;
 }

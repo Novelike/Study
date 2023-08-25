@@ -1,4 +1,4 @@
-package com.kjh.dao;
+package com.kjh.service;
 
 import com.kjh.dto.ResultDTO;
 import com.kjh.mapper.SignMapper;
@@ -15,11 +15,13 @@ import java.time.ZonedDateTime;
 import java.util.HashMap;
 @Slf4j
 @Service
-public class SigninDAO {
+public class SigninService {
     @Autowired
     SignMapper signMapper;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
+
     public ResultDTO loginCheck(HttpServletRequest request, String loginId, String loginPw) throws Exception {
         ResultDTO resultDTO = new ResultDTO();
 

@@ -13,7 +13,7 @@
     <link rel="icon" href="/favicon.svg">
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script src="/js/openPopup.js"></script>
-    <script src="/js/ajax.js"></script>
+    <script src="/js/function.js"></script>
     <script src="/js/util.js"></script>
 </head>
 <body>
@@ -33,11 +33,13 @@
             <div id="nav_menu_right">
                 <div id="signin"><a href="signin">로그인</a></div>
                 <div id="signup"><a href="signup">회원가입</a></div>
+                <div id="signout"><a href="signout">로그아웃</a></div>
             </div>
         </div>
     </div>
 </div>
 <th:block layout:fragment="content"></th:block>
+<th:block layout:fragment="includeScript"></th:block>
 <footer>
     <div class="inner">
         <ul class="footer_info clear">
@@ -71,5 +73,21 @@
         <div class="popup_close"><a href="javascript:" class="close_button" onclick="fnLayerPopupClose('info')"></a></div>
     </div>
 </div>
+
+<script>
+    $(function () {
+        const isSignin = '[[${session.isSignin}]]';
+        const signup = $('#signup');
+        const signin = $('#signin');
+        const signout = $('#signout');
+        if(isSignin) {
+            signup.css('display', 'none');
+            signin.css('display', 'none');
+        } else {
+            signout.css('display', 'none');
+        }
+    });
+</script>
+
 </body>
 </html>

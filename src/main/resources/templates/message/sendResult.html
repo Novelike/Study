@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>전송 결과</title>
+    <link rel="stylesheet" href="/css/sendResult.css">
+    <link rel="stylesheet" href="/css/datatables.css"/>
+    <script src="/js/lib/datatables.min.js"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="sect">
+        <div class="inner" style="height: 850px">
+            <h3 class="title">전송결과</h3>
+            <div class="send_result">
+                <table class="send_table send_type">
+                    <colgroup>
+                        <col style="width: 10%">
+                        <col style="width: 40%">
+                        <col style="width: 10%">
+                        <col style="width: 40%">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <td class="tdBc">조회기간</td>
+                            <td>
+                                <span class="nowrap">
+                                    <input type="text" class="input_text w100px" id="startDate" value="" />
+                                    ~
+                                    <input type="text" class="input_text w100px" id="endDate" value=""/>
+                                </span>
+                            </td>
+                            <td class="tdBc">유형</td>
+                            <td>
+                                <span class="chkBox">
+                                    <input type="checkbox" name="messageType" id="type1" value="B0401">
+                                    <label for="type1">SMS</label>
+                                </span>
+                                <span class="chkBox">
+                                    <input type="checkbox" name="messageType" id="type2" value="B0402">
+                                    <label for="type2">LMS</label>
+                                </span>
+                                <span class="chkBox">
+                                    <input type="checkbox" name="messageType" id="type3" value="B0403">
+                                    <label for="type3">MMS</label>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdBc">수신자번호</td>
+                            <td>
+                                <input type="text" class="input_text" name="receiverMobile" id="receiverMobile" style="width: 290px;" maxlength="20"/>
+                            </td>
+                            <td class="tdBc">결과</td>
+                            <td>
+                                <span class="rdoBtn">
+                                    <input type="radio" name="resultStatus" id="all" value="" checked/><label
+                                        for="all">전체</label>
+                                </span>
+                                <span class="rdoBtn">
+                                    <input type="radio" name="resultStatus" id="success" value="success"/><label
+                                        for="success">성공</label>
+                                </span>
+                                <span class="rdoBtn">
+                                    <input type="radio" name="resultStatus" id="fail" value="fail"/><label
+                                        for="fail">실패</label>
+                                </span>
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+                <ul class="panelBar">
+                    <li class="center">
+                        <button type="button" id="btnSearchStatus" class="btn btn_primary btn_s">조회</button>
+                    </li>
+                </ul>
+                <table id="sendStatusTable" class="cell-border w100per">
+                    <thead>
+                    <tr>
+                        <th>수신자번호</th>
+                        <th>제목</th>
+                        <th>발송일시</th>
+                        <th>유형</th>
+                        <th>결과</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script layout:fragment="includeScript">
+    let sendStatusTable;
+
+    $('#receiverMobile').keyup(function () {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+    $('#btnSearchStatus').click(function () {
+        searchSendStatus();
+    });
+
+    function searchSendStatus() {
+        const startDate = $('#startDate').value;
+        const endDate = $('#endDate').value;
+        const messageType = JSON.stringify($('input[type=checkbox][name="messageType"]:checked').map(function () {
+            return this.value;
+        }));
+
+        const resultStatus = $('input[type=radio][name="resultStatus"]:checked').value;
+        const receiverMobile = $('#receiverMobile').value;
+        const param = {'startDate': startDate, 'endDate': endDate, 'messageType': messageType, 'resultStatus': resultStatus, 'receiverMobile': receiverMobile};
+        // console.log(param);
+
+        $.ajax({
+            url: '/message/sendResult', // REST API
+            type: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify(param),
+            success: function (data) {
+                console.log(data);
+                const sendResultData = sendResultToTable(data);
+                console.log(sendResultData);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    }
+
+    function sendResultToTable(data) {
+        const table = [];
+        $.each(data, function (index, el) {
+            console.log(index, el);
+        })
+        return table;
+    }
+
+    function getData(data) {
+        switch (data) {
+            case 'B0401': return 'SMS';
+            case 'B0402': return 'LMS';
+            case 'B0403': return 'MMS';
+            case '10000': return '발송성공';
+            default: return '발송실패';
+        }
+    }
+
+    function initializeDatepiker() {
+        $.datepicker.setDefaults({
+            dateFormat: 'yy-mm-dd',
+            prevText: '<',
+            nextText: '>',
+            monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+            dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+            dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+            showMonthAfterYear: true,
+            yearSuffix: '년',
+            showOn: 'both',
+            buttonImage: '/images/ico_calendar_01.png'
+        });
+
+        let $startDate = $("#startDate");
+        $startDate.datepicker({
+            beforeShow: function (input, inst) {
+                inst.dpDiv.css({marginTop: '-0px', marginLeft: 10 + 'px'});
+            }
+        });
+
+        let $endDate = $('#endDate');
+        $endDate.datepicker({
+            beforeShow: function (input, inst) {
+                inst.dpDiv.css({marginTop: '-0px', marginLeft: 10 + 'px'});
+            }
+        });
+
+        let sevenDayAgoDate = toStringByFormatting(new Date(new Date().getTime() - (7 * 24 * 60 * 60 * 1000)));
+        let nowDate = toStringByFormatting(new Date());
+
+        $startDate.val(sevenDayAgoDate);
+        $endDate.val(nowDate);
+    }
+
+    function toStringByFormatting(source, delimiter = '-') {
+        const year = source.getFullYear();
+        const month = leftPad(source.getMonth() + 1);
+        const day = leftPad(source.getDate());
+        return [year, month, day].join(delimiter);
+    }
+
+    function leftPad(value) {
+        if (value >= 10) {
+            return value;
+        }
+        return `0${value}`;
+    }
+
+    function initializeDataTable() {
+        sendStatusTable = $('#sendStatusTable').DataTable({
+            columnDefs: [
+                {
+                    targets: 0,
+                    className: 'dt-center'
+                }
+                , {
+                    targets: 1,
+                    className: 'dt-center'
+                }
+                , {
+                    targets: 2,
+                    className: 'dt-center'
+                }
+                , {
+                    targets: 3,
+                    className: 'dt-center'
+                },
+                {
+                    targets: -1,
+                    className: 'dt-center'
+                }
+            ],
+            columns: [
+                {
+                    title: '수신자번호', data: 'receiverMobile', width: 100, render: function (data, type, row) {
+                        return data.replace(/(\d{3})(\d{3,4})(\d{4})/, '$1-$2-$3');
+                    }
+                }
+                , {title: '제목', data: 'messageTitle', width: 80}
+                , {title: '발송일시', data: 'sendDate', width: 120}
+                , {title: '유형', data: 'messageType', width: 30}
+                , {title: '결과', data: 'resultCode', width: 80}
+            ]
+            , language: {
+                emptyTable: '조회된 결과가 없습니다.'
+                , zeroRecords: '조회된 결과가 없습니다.'
+                , sInfoEmpty: ''
+                , info: ''
+                , paginate: {previous: '&lt;', next: '&gt;'}
+            }
+            , pageLength: 15
+            , displayLength: 15
+            , scrollY: true
+            , scrollX: '100%'
+            , sScrollXInner: '2000px'
+            , scrollCollapse: true
+            , searching: false
+            , ordering: false
+            , lengthChange: false
+            , autoFill: {
+                vertical: true
+                , horizontal: true
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        initializeDatepiker();
+        initializeDataTable();
+    });
+
+</script>
+</body>
+</html>

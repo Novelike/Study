@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="com.kjh.mapper.MessageMapper">
+
+	<insert id="insertMessageLog" parameterType="messageLogVO" >
+		/* MessageMapper.insertMessageLog */
+		INSERT INTO t_message_log (
+		       message_id
+		     , message_key
+		     , message_type
+		     , sender_mobile
+		     , send_date
+		     , receiver_mobile
+		     , message_title
+		     , message_content
+		     , attachment
+		     , result_code
+		     , result_desc
+		     , reg_date
+		     , reg_user_seq
+		) VALUES (
+		       #{messageId}
+		     , #{messageKey}
+		     , #{messageType}
+		     , #{senderMobile}
+		     , #{sendDate}
+		     , #{receiverMobile}
+		     , #{messageTitle}
+		     , #{messageContent}
+		     , #{attachment}
+		     , #{resultCode}
+		     , #{resultDesc}
+		     , #{regDate}
+		     , #{regUserSeq}
+		)
+
+		<selectKey resultType="int" keyProperty="seq" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+
+	</insert>
+
+	<update id="updateMessageLog" parameterType="messageLogVO">
+		/* MessageMapper.updateMessageLog */
+		UPDATE t_message_log
+		<set>
+		    <if test=' messageId != null and messageId != ""' >
+		        message_id = #{messageId}
+		    </if>
+		    <if test=' messageKey != null and messageKey != ""' >
+		      , message_key = #{messageKey}
+		    </if>
+		    <if test=' messageType != null and messageType != ""' >
+		      , message_type = #{messageType}
+		    </if>
+		    <if test=' senderMobile != null and senderMobile != ""' >
+		       , sender_mobile = #{senderMobile}
+		    </if>
+		    <if test=' sendDate != null' >
+		       , send_date = #{sendDate}
+		    </if>
+		    <if test=' receiverMobile != null and receiverMobile != ""' >
+		       , receiver_mobile = #{receiverMobile}
+		    </if>
+		    <if test=' messageTitle != null and messageTitle != ""' >
+		       , message_title = #{messageTitle}
+		    </if>
+		    <if test=' messageContent != null and messageContent != ""' >
+		       , message_content = #{messageContent}
+		    </if>
+		    <if test=' attachment != null and attachment != ""' >
+		       , attachment = #{attachment}
+		    </if>
+		    <if test=' resultCode != null and resultCode != ""' >
+		       , result_code = #{resultCode}
+		    </if>
+		    <if test=' resultDesc != null and resultDesc != ""' >
+		       , result_desc = #{resultDesc}
+		    </if>
+		</set>
+		WHERE seq = #{seq}
+	</update>
+
+	<select id="selectMessageLog" parameterType="messageLogVO" resultMap="messageLogResult" >
+		/* MessageMapper.selectMessageLog */
+		SELECT seq
+		     , message_id
+		     , message_key
+		     , message_type
+		     , sender_mobile
+		     , send_date
+		     , receiver_mobile
+		     , message_title
+		     , message_content
+		     , attachment
+		     , result_code
+		     , result_desc
+		     , reg_date
+		     , reg_user_seq
+		FROM   t_message_log
+		<where>
+		    <if test='seq != null and seq != "" '>
+		AND    seq = #{seq}
+		    </if>
+		    <if test='messageId != null and messageId != "" '>
+		 AND   message_id = #{messageId}
+		    </if>
+		</where>
+	</select>
+
+	<insert id="insertSaveMessageBox" parameterType="saveMessageBoxVO" >
+		/* MessageMapper.insertSaveMessageBox */
+		INSERT INTO t_save_message_box (
+		       user_seq
+		     , message_type
+		     , message_title
+		     , message_content
+		     , reg_date
+		     , reg_user_seq
+		) VALUES (
+		       #{userSeq}
+		     , #{messageType}
+		     , #{messageTitle}
+		     , #{messageContent}
+		     , #{regDate}
+		     , #{regUserSeq}
+		)
+	</insert>
+
+	<select id="selectSaveMessageBoxList" parameterType="searchVO" resultMap="saveMessageBoxResult">
+		/* MessageMapper.selectSaveMessageBoxList */
+		SELECT seq
+		     , user_seq
+		     , message_type
+		     , message_title
+		     , message_content
+		     , reg_date
+		     , date_format(reg_date, '%Y.%m.%d') AS mod_date
+		     , reg_user_seq
+		FROM   t_save_message_box
+		<where>
+		    <if test="keyword != '' and keyfield == 'userSeq' ">
+		AND    user_seq = #{keyword}
+		    </if>
+		    <if test='selectValue1 != null and selectValue1 != "" '>
+		AND    message_type = #{selectValue1}
+		    </if>
+		</where>
+		ORDER BY seq DESC
+		LIMIT #{startRecord}, #{size}
+	</select>
+
+	<select id="selectSaveMessageBoxListCnt" parameterType="hashmap" resultType="Integer">
+		/* MessageMapper.selectSaveMessageBoxListCnt */
+		SELECT count(*)
+		FROM   t_save_message_box
+		<where>
+		    <if test='seq != null and seq != "" '>
+		AND    seq = #{seq}
+		    </if>
+		    <if test='userSeq != null and userSeq != "" '>
+		AND    user_seq = #{userSeq}
+		    </if>
+		    <if test='messageType != null and messageType != "" '>
+		AND    message_type = #{messageType}
+		    </if>
+		</where>
+	</select>
+
+	<!-- TODO: 동적 쿼리 -> 정적 쿼리 변경하기 -->
+	<delete id="deleteSaveMessageBox" parameterType="saveMessageBoxVO">
+		/* MessageMapper.deleteSaveMessageBox */
+		DELETE
+		FROM t_save_message_box
+		<where>
+		    <if test='seq != null and seq != "" '>
+		AND  seq = #{seq}
+		    </if>
+		    <if test='userSeq != null and userSeq != "" '>
+		AND  user_seq = #{userSeq}
+		    </if>
+		    <if test='messageType != null and messageType != "" '>
+		AND  message_type = #{messageType}
+		</if>
+		</where>
+	</delete>
+
+	<select id="countSendSms" parameterType="hashmap" resultType="Integer">
+		/* MessageMapper.countSendSms */
+		SELECT count(*)
+		FROM   t_message_log
+		<where>
+		    <if test='userSeq != null'>
+		AND    reg_user_seq = #{userSeq}
+		    </if>
+		    <if test='startDate != null'>
+		AND    send_date between #{startDate} and #{endDate}
+		</if>
+		</where>
+	</select>
+
+	<select id="selectMessageLogList" parameterType="messageRequestDto" resultMap="messageLogResult">
+		/* MessageMapper.selectMessageLogList */
+		SELECT seq
+		     , message_id
+		     , message_key
+		     , message_type
+		     , sender_mobile
+		     , send_date
+		     , receiver_mobile
+		     , message_title
+		     , message_content
+		     , attachment
+		     , result_code
+		     , result_desc
+		     , send_date
+		FROM   t_message_log
+		WHERE  send_date BETWEEN #{startDate} AND #{endDate}
+		AND    reg_user_seq = #{userSeq}
+		<if test='receiverMobile != null and receiverMobile != ""'>
+		AND    receiver_mobile = #{receiverMobile}
+		</if>
+		<if test="resultStatus == 'success'">
+		AND    result_code = '10000'
+		</if>
+		<if test="resultStatus == 'fail'">
+		AND    result_code != '10000' OR result_code IS NULL
+		</if>
+		<if test='messageTypeArray != null and messageType != ""'>
+		AND    message_type IN
+		       <foreach  item="value" index="index" collection="messageTypeArray" open="(" close=")" separator=",">
+		           #{value}
+		       </foreach >
+		</if>
+		ORDER BY seq DESC
+	</select>
+
+	<insert id="receiverAdd" parameterType="hashmap">
+		INSERT INTO t_receiver_list (
+		       user_seq
+		     , receiver_number
+		     , receiver_name
+		     , receiver_group
+		     , reg_date
+		     , reg_user_seq
+		) VALUES (
+		       #{userSeq}
+		     , #{receiverNumber}
+		     , #{receiverName}
+		     , #{receiverGroup}
+		     , #{regDate}
+		     , #{regUserSeq}
+		)
+	</insert>
+
+	<select id="receiverListCnt" parameterType="hashmap" resultType="Integer">
+		/* MessageMapper.receiverListCnt */
+		SELECT count(*)
+		FROM   t_receiver_list
+		<where>
+		    <if test='userSeq != null and userSeq != 0 '>
+		AND    user_seq = #{userSeq}
+		    </if>
+		    <if test='receiverNumber != null and receiverNumber != "" '>
+		AND    receiver_number = #{receiverNumber}
+		    </if>
+		</where>
+
+	</select>
+
+	<select id="receiverList" parameterType="searchVO" resultMap="receiverListResult">
+		/* MessageMapper.receiverList */
+		SELECT seq
+		     , receiver_number
+		     , receiver_name
+		     , receiver_group
+		FROM   t_receiver_list
+		<where>
+		    <if test="keyword != '' and keyfield == 'userSeq' ">
+		AND    user_seq = #{keyword}
+		    </if>
+		</where>
+		ORDER BY seq DESC
+		LIMIT #{startRecord}, #{size}
+	</select>
+
+	<delete id="receiverDelete" parameterType="hashmap">
+		/* MessageMapper.receiverDelete */
+		DELETE
+		FROM  t_receiver_list
+		WHERE user_seq = #{userSeq}
+		<if test='arrReceiverNumberSeq != null'>
+		AND   seq in
+		    <foreach  item="value" index="index" collection="arrReceiverNumberSeq" open="(" close=")" separator=",">
+		        #{value}
+		    </foreach >
+		</if>
+	</delete>
+
+	<select id="recvInfoLst" parameterType="hashmap" resultType="hashmap">
+		/* MessageMapper.recvInfoLst */
+		SELECT group_concat(receiver_number separator ',') AS receiver_numbers
+		FROM   t_receiver_list
+		<where>
+		    <if test='userSeq != null and userSeq != 0 '>
+		AND    user_seq = #{userSeq}
+		    </if>
+		    <if test='receiverNumber != null and receiverNumber != "" '>
+		AND    receiver_number = #{receiverNumber}
+		    </if>
+		</where>
+	</select>
+
+	<insert id="contactReceiverAdd" parameterType="hashmap" >
+		/* MessageMapper.contactReceiverAdd */
+		INSERT INTO t_receiver_list (
+		       user_seq
+		     , receiver_number
+		     , receiver_name
+		     , receiver_group
+		     , reg_date
+		     , reg_user_seq
+		)
+		SELECT user_seq
+		     , contact_mobile
+		     , contact_name
+		     , '' AS receiver_group
+		     , #{regDate} AS reg_date
+		     , #{regUserSeq} AS reg_user_seq
+		FROM   t_contact
+		WHERE  user_seq = #{userSeq}
+		AND    seq = #{contactSeq}
+	</insert>
+
+	<select id="selectMessagePricingList" parameterType="messagePricingRequestDto" resultMap="messagePricingResult">
+		/* MessageMapper.selectMessagePricingList */
+		SELECT seq
+		     , message_type
+		     , price
+		     , start_date
+		     , end_date
+		     , is_use
+		     , reg_date
+		     , reg_user_seq
+		FROM   t_message_pricing
+		WHERE  is_use = #{isUse}
+		AND    start_date <![CDATA[<=]]>  #{startDate}
+		AND    end_date >= #{endDate}
+		ORDER BY message_type
+	</select>
+
+	<select id="selectCountGroupByMessageType" parameterType="messageRequestDto" resultMap="messageLogResult">
+		/* MessageMapper.selectCountGroupByMessageType */
+		SELECT count(*) AS count
+		     , message_type
+		FROM   t_message_log
+		WHERE  reg_user_seq = #{userSeq}
+		AND    send_date >= #{startDate}
+		AND    send_date <![CDATA[<=]]> #{endDate}
+		GROUP BY message_type
+		ORDER BY message_type
+	</select>
+
+	<select id="selectUserPricePolicy" parameterType="messagePricingRequestDto" resultMap="userPricePolicy">
+		/* MessageMapper.selectUserPricePolicy */
+		SELECT seq
+		     , user_seq
+		     , message_type
+		     , pricing_seq
+		     , start_date
+		     , end_date
+		     , is_use
+		     , reg_date
+		     , reg_user_seq
+		FROM   t_user_price_policy
+		WHERE  user_seq = #{userSeq}
+		AND    message_type = #{messageType}
+		AND    is_use = #{isUse}
+		AND    start_date <![CDATA[<=]]> #{startDate}
+		AND    end_date >= #{endDate}
+	</select>
+
+	<!-- 쿼리 결과에 대한 맵핑 변수명 vs 컬럼명 - -->
+	<resultMap type="messageLogVO" id="messageLogResult">
+		<result property="seq" column="seq"/>
+		<result property="userId" column="user_id"/>
+		<result property="userPw" column="user_pw"/>
+		<result property="userName" column="user_name"/>
+		<result property="userMobile" column="user_mobile"/>
+		<result property="userEmail" column="user_email"/>
+		<result property="userStatus" column="user_status"/>
+		<result property="userCI" column="user_ci"/>
+		<result property="userDI" column="user_di"/>
+		<result property="isSelfAuth" column="is_self_auth"/>
+		<result property="selfAuthDate" column="self_auth_date"/>
+		<result property="lastLoginDate" column="last_login_date"/>
+		<result property="regDate" column="reg_date"/>
+		<result property="regUserSeq" column="reg_user_seq"/>
+		<result property="modDate" column="mod_date"/>
+		<result property="modUserSeq" column="mod_user_seq"/>
+		<result property="count" column="count"/>
+		<result property="messageType" column="message_type"/>
+	</resultMap>
+
+	<resultMap type="saveMessageBoxVO" id="saveMessageBoxResult">
+		<result property="seq" column="seq"/>
+		<result property="userSeq" column="user_seq"/>
+		<result property="messageType" column="message_type"/>
+		<result property="messageTitle" column="message_title"/>
+		<result property="messageContent" column="message_content"/>
+		<result property="regDate" column="reg_date"/>
+		<result property="modDate" column="mod_date"/>
+		<result property="regUserSeq" column="reg_user_seq"/>
+	</resultMap>
+
+	<resultMap type="receiverListVO" id="receiverListResult">
+		<result property="receiverSeq" column="seq"/>
+		<result property="receiverNumber" column="receiver_number"/>
+		<result property="receiverName" column="receiver_name"/>
+		<result property="receiverGroup" column="receiver_group"/>
+	</resultMap>
+
+	<resultMap type="messagePricingVO" id="messagePricingResult">
+		<result property="seq" column="seq"/>
+		<result property="messageType" column="message_type"/>
+		<result property="price" column="price"/>
+		<result property="startDate" column="start_date"/>
+		<result property="endDate" column="end_date"/>
+		<result property="isUse" column="is_use"/>
+		<result property="regDate" column="reg_date"/>
+		<result property="regUserSeq" column="reg_user_seq"/>
+	</resultMap>
+
+	<resultMap type="userPricePolicyVO" id="userPricePolicy">
+		<result property="seq" column="seq"/>
+		<result property="userSeq" column="user_seq"/>
+		<result property="messageType" column="message_type"/>
+		<result property="pricingSeq" column="pricing_seq"/>
+		<result property="startDate" column="start_date"/>
+		<result property="endDate" column="end_date"/>
+		<result property="isUse" column="is_use"/>
+		<result property="regDate" column="reg_date"/>
+		<result property="regUserSeq" column="reg_user_seq"/>
+	</resultMap>
+
+</mapper>

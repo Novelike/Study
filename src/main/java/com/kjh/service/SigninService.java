@@ -4,6 +4,7 @@ import com.kjh.dto.ResultDTO;
 import com.kjh.mapper.SignMapper;
 import com.kjh.util.AesCoderUtil;
 import com.kjh.util.StringUtil;
+import com.kjh.vo.SessionVO;
 import com.kjh.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +40,7 @@ public class SigninService {
 
         HashMap<String, Object> paramMap = new HashMap<>();
         paramMap.put("userId", loginId);
-        log.info("log1 = {} ", loginId);
         UserVO signMap = signMapper.selectUser(paramMap);
-        log.info("log2 = {} ", loginPw);
 
         if (signMap == null) {
             resultDTO.setCode("003");
@@ -90,4 +89,13 @@ public class SigninService {
 
         return resultDTO;
     }
+
+    public void setSession(HttpServletRequest request, UserVO userVO) {
+        SessionVO sessionVO = new SessionVO();
+        sessionVO.setUser(userVO);
+        request.getSession().setAttribute("sessionVO", sessionVO);
+        log.debug("sessionVO ==> {}", sessionVO);
+        log.debug("sessionVO.getUser() ==> {}", sessionVO.getUser());
+    }
+
 }

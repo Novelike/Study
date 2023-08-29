@@ -1,0 +1,185 @@
+.title {
+    font-size: 34px;
+    font-weight: 500;
+    color: #111;
+    margin-bottom: 30px;
+    margin-top: 0;
+}
+.send_result {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    background-color: #fff;
+    border-radius: 16px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+.w100px {
+    width: 100px;
+}
+.w100per {
+    width: 100% !important;
+}
+.send_table {
+    width: 100%;
+    font-size: 16px;
+    border-collapse: collapse;
+}
+.send_table.send_type td {
+    min-width: 100px;
+    text-align: left;
+    padding: 0 10px 0 10px;
+    line-height: 36px;
+    position: relative;
+    border-top: 1px solid #eee;
+    border-right: 1px solid #eee;
+}
+.send_table td {
+    padding: 8px 20px;
+    color: #555;
+    text-align: center;
+    height: 50px;
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ccc;
+    box-sizing: border-box;
+}
+.tdBc {
+    background-color: #f6f6f6;
+}
+.nowrap {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    white-space: nowrap;
+}
+select, input[type=text], input[type=file], input[type=date], input[type=password], textarea {
+    border: 1px solid #dbdbdb;
+}
+.input_text {
+    padding: 4px 3px 4px 5px;
+    color: inherit;
+    border-radius: 1px;
+    vertical-align: middle;
+    margin: 1px 3px 2px 0;
+    border: 1px solid #dbdbdb;
+}
+.ui-datepicker-trigger {
+    margin: 0;
+    -webkit-appearance: button;
+    border-radius: 0;
+    cursor: pointer;
+    background-color: transparent;
+    border-color: transparent;
+    padding: 0;
+    font-size: 16px;
+}
+button {
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+}
+img {
+    vertical-align: middle;
+    border-style: none;
+}
+.chkBox, .rdoBtn {
+    display: inline-block;
+    position: relative;
+    margin-right: 20px;
+    line-height: 18px;
+    white-space: nowrap;
+}
+.chkBox input, .rdoBtn input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border: 0;
+    visibility: hidden;
+}
+.chkBox label, .rdoBtn label {
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    padding-left: 25px;
+    cursor: pointer;
+    vertical-align: middle;
+}
+.chkBox input + label:before {
+    content: ' ';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    z-index: 0;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #dbdbdb;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-position: 0 50%;
+}
+input {
+    word-break: keep-all;
+    font-family: 'Pretendard',sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+}
+.rdoBtn input:checked + label:before {
+    border: 1px solid #676a6c;
+    background-color: #676a6c;
+    background-image: url(../images/icon_rdobtn_y.png);
+}
+.rdoBtn input + label:before {
+    content: ' ';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    z-index: 0;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #dbdbdb;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-position: 0 50%;
+    border-radius: 100%;
+}
+.panelBar {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: table;
+    width: 100%;
+}
+.panelBar > .center {
+    text-align: center;
+}
+.panelBar > li {
+    display: table-cell;
+}
+.btn {
+    display: inline-block;
+    border-radius: 40px;
+    text-align: center;
+    cursor: pointer;
+    padding: 10px 20px;
+}
+.btn_primary {
+    color: #fff;
+    background-color: #322cbd;
+}
+.btn_s {
+    font-size: 16px;
+    padding: 10px 30px;
+}
+button {
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+}
+.chkBox input:checked + label:before {
+    border: 1px solid #676a6c;
+    background-color: #676a6c;
+    background-image: url(../images/icon_chkbox_y.png);
+}

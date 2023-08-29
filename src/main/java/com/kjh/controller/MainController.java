@@ -3,6 +3,7 @@ package com.kjh.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +22,7 @@ public class MainController {
         return "main/index";
     }
 
-    @RequestMapping(value = "/signin")
+    @GetMapping(value = "/signin")
     public String goSignin(Model model, HttpServletRequest request) {
         return "redirect:/sign/signin";
     }
@@ -29,6 +30,11 @@ public class MainController {
     @RequestMapping(value = "/signup")
     public String goSignup(Model model, HttpServletRequest request) {
         return "redirect:/sign/signup";
+    }
+
+    @GetMapping(value = "/sendResult")
+    public String goSendResult() {
+        return "/message/sendResult";
     }
 }
 

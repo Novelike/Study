@@ -9,9 +9,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/fonts.css">
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/jquery-ui.min.css">
     <link rel="icon" href="/favicon.svg">
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="/js/openPopup.js"></script>
     <script src="/js/function.js"></script>
     <script src="/js/util.js"></script>
@@ -25,7 +28,7 @@
         <div id="nav_menu">
             <div id="nav_menu_left">
                 <div id="menu_send">문자 보내기</div>
-                <div id="menu_result">전송 결과</div>
+                <div id="menu_result"><a href="sendResult">전송 결과</a></div>
                 <div id="menu_fee">메시지 이용요금</div>
                 <div id="menu_book">주소록</div>
                 <div id="menu_mypage">마이페이지</div>
@@ -33,7 +36,7 @@
             <div id="nav_menu_right">
                 <div id="signin"><a href="signin">로그인</a></div>
                 <div id="signup"><a href="signup">회원가입</a></div>
-                <div id="signout"><a href="signout">로그아웃</a></div>
+                <div id="signout"><a href="/user/signout">로그아웃</a></div>
             </div>
         </div>
     </div>
@@ -74,17 +77,25 @@
     </div>
 </div>
 
-<script>
+<script th:inline="javascript">
     $(function () {
-        const isSignin = '[[${session.isSignin}]]';
+        const user = [[${session.sessionVO}]];
+        console.log(user);
+        if (user != null && user.hasOwnProperty('user')) {
+            console.log(user.user);
+        }
+        // console.log(JSON.stringify(user));
+        // let test = JSON.stringify(user);
+        // console.log('test : ' + test);
+        // console.log('test.user : ' + JSON.stringify(test.user));
         const signup = $('#signup');
         const signin = $('#signin');
         const signout = $('#signout');
-        if(isSignin) {
+        if(isEmptyString(user)) {
+            signout.css('display', 'none');
+        } else {
             signup.css('display', 'none');
             signin.css('display', 'none');
-        } else {
-            signout.css('display', 'none');
         }
     });
 </script>

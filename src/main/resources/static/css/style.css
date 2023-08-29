@@ -1,54 +1,19 @@
-@font-face {
-    font-family: 'Montserrat', sans-serif;
-}
-@font-face {
-    font-family: 'Pretendard';
-    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-    font-weight: 500;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Pretendard-Medium';
-    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Medium.woff') format('woff');
-    font-weight: 500;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Pretendard-SemiBold';
-    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-SemiBold.woff') format('woff');
-    font-weight: 500;
-    font-style: normal;
-}
-/*html, body, div, p, ul, ol, li, dl, dt, dd, table, tr, th, td, caption, form, fieldset, legend, address, header, aside, nav, main, section, article, footer, figure, figcaption, h1, h2, h3, h4, h5, h6, blockquote, button, input, label, select, textarea, pre {*/
-/*    word-break: keep-all;*/
-/*    font-family: 'Pretendard',sans-serif;*/
-/*    margin: 0;*/
-/*    padding: 0;*/
-/*    font-size: 16px;*/
-/*    font-weight: 400;*/
-/*    color: #111;*/
-/*}*/
-body {
-    font-family: 'Pretendard', sans-serif;
-    font-weight: 400;
-    color: #111111;
+@charset "utf-8";
+
+html, body, div, p, ul, ol, li, dl, dt, dd, table, tr, th, td, caption, form, fieldset, legend, address, header, aside, nav, main, section, article, footer, figure, figcaption, h1, h2, h3, h4, h5, h6, blockquote, button, input, label, select, textarea, pre {
     word-break: keep-all;
+    font-family: 'Pretendard', sans-serif;
     margin: 0;
+    padding: 0;
+    font-size: 16px;
+    font-weight: 400;
+    color: #111;
 }
 li {
     list-style: none;
 }
 h2 {
     margin: 0;
-}
-h2, h3, th {
-    font-family: 'Pretendard-Medium', sans-serif;
-}
-span, p {
-    font-family: 'Pretendard', sans-serif;
-}
-strong, .inner .img1_text_area h2, .inner .box_area h3 {
-    font-family: 'Pretendard-SemiBold', sans-serif;
 }
 a {
     text-decoration: none;
@@ -664,6 +629,12 @@ footer {
     display: inline-block;
     margin-right: 4px;
 }
-#signin, #signup, #signout {
+#signin, #signup, #signout, #menu_send, #menu_result, #menu_fee, #menu_book, #menu_mypage {
     cursor: pointer;
+}
+.sect {
+    margin-top: 100px;
+    padding-top: 50px;
+    background-color: #f7f7f7;
+    position: relative;
 }

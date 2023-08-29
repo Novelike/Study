@@ -37,22 +37,9 @@ class UserController {
             resultDTO = signinService.loginCheck(request, loginId, loginPw);
 
             if ("000".equals(resultDTO.getCode())) {
-                UserVO userDTO = (UserVO)resultDTO.getData();
+                UserVO userVO = (UserVO)resultDTO.getData();
 
-                Map<String, Object> map = new HashMap<>();
-                map.put("userSeq", userDTO.getSeq());
-                map.put("userId", userDTO.getUserId());
-                map.put("userName", userDTO.getUserName());
-                map.put("userStatus", userDTO.getUserStatus());
-
-                request.getSession().setAttribute("isSignin", true);
-                request.getSession().setAttribute("signInfo", map);
-                HttpSession sessionMap = request.getSession();
-                log.info("session: signInfo의 값 ==> {}", sessionMap);
-                log.info("session: isSignin의 값 ==> {}", sessionMap.getAttribute("isSignin"));
-                log.info("session: signInfo의 값 ==> {}", sessionMap.getAttribute("signInfo"));
-                Map<String, Object> a = (Map<String, Object>) sessionMap.getAttribute("signInfo");
-                log.info("session: signInfo의 값 ==> {}", a.get("userName"));
+                signinService.setSession(request, userVO);
             }
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -65,5 +52,11 @@ class UserController {
     @RequestMapping(value ="/signup")
     public String signup(Model model, HttpServletRequest request) {
         return "sign/signup";
+    }
+
+    @RequestMapping(value = "/signout")
+    public String signout(HttpServletRequest request, HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
     }
 }

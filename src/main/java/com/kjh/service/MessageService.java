@@ -19,6 +19,11 @@ public class MessageService {
 
     public List<MessageResponseDto> selectMessageLogList(MessageRequestDto requestDto) throws Exception {
         List<MessageLogVO> list = messageMapper.selectMessageLogList(requestDto);
+        log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        log.info("{}", requestDto.getMessageType());
+        log.info("{}", requestDto.getEndDate());
+        log.info("{}", requestDto.getStartDate());
+        log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         return MessageResponseDto.fromList(list);
     }
 

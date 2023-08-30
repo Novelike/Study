@@ -19,9 +19,9 @@ public class BaseController {
         return "reservation/index";
     }
 
-    @RequestMapping(value = {"", "/"})
+    @RequestMapping(value = {"/"})
     public String mainView() {
-        return "redirect:/main/";
+        return "redirect:/main/index";
     }
 
     @RequestMapping(value = {"/redirectUrl"})

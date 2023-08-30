@@ -98,4 +98,9 @@ public class SigninService {
         log.debug("sessionVO.getUser() ==> {}", sessionVO.getUser());
     }
 
+    public boolean isLogin(HttpServletRequest request) {
+        SessionVO sessionVO = (SessionVO) request.getSession().getAttribute("sessionVO");
+        return sessionVO == null;
+    }
+
 }

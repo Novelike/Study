@@ -30,7 +30,7 @@
                         </div>
                     </div>
                     <div class="sign">
-                        <input type="button" value="로그인" id="signin_btn">
+                        <button type="button" id="signin_btn">로그인</button>
                         <a href="/user/signup" id="signup_btn">회원가입</a>
                     </div>
                 </form>
@@ -40,6 +40,12 @@
 </div>
 
 <script layout:fragment="includeScript">
+    $(function () {
+        const msg = '[[${msg}]]';
+        if(msg) {
+            alert(msg);
+        }
+    })
     $(function () {
         const loginId = $('#loginId');
         const loginPw = $('#loginPw');
@@ -157,10 +163,11 @@
             $loginBtn.removeClass();
             if (chkDisabled) {
                 $loginBtn.addClass("btn_primary");
-                $loginBtn.attr("disabled", true);
+                $loginBtn.attr("disabled", false);
             } else {
                 $loginBtn.removeClass("btn_primary");
-                $loginBtn.attr("disabled", false);
+
+                $loginBtn.attr("disabled", true);
             }
         }
     }

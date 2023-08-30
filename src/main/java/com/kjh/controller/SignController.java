@@ -14,12 +14,17 @@ class SignController {
 
     @RequestMapping(value = "/signin")
     public String goSignin(Model model, HttpServletRequest request) {
-        return "sign/signin";
+        return "/sign/signin";
     }
 
     @RequestMapping(value = "/signup")
     public String goSignup(Model model, HttpServletRequest request) {
-        return "sign/signup";
+        return "/sign/signup";
+    }
+
+    @RequestMapping("/signout")
+    public String goSignout(Model model, HttpServletRequest request) {
+        return "redirect:/user/signout";
     }
 
 }

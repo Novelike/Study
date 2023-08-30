@@ -104,16 +104,16 @@
     });
 
     function searchSendStatus() {
-        const startDate = $('#startDate').value;
-        const endDate = $('#endDate').value;
-        const messageType = JSON.stringify($('input[type=checkbox][name="messageType"]:checked').map(function () {
+        const startDate = $('#startDate').val();
+        const endDate = $('#endDate').val();
+        const messageType = $('input[type=checkbox][name="messageType"]:checked').map(function () {
             return this.value;
-        }));
+        }).get().join(',');
 
-        const resultStatus = $('input[type=radio][name="resultStatus"]:checked').value;
-        const receiverMobile = $('#receiverMobile').value;
-        const param = {'startDate': startDate, 'endDate': endDate, 'messageType': messageType, 'resultStatus': resultStatus, 'receiverMobile': receiverMobile};
-        // console.log(param);
+        const resultStatus = $('input[type=radio][name="resultStatus"]:checked').val();
+        const receiverMobile = $('#receiverMobile').val();
+        const param = {inputStartDate: startDate, inputEndDate: endDate, messageType: messageType, resultStatus: resultStatus, receiverMobile: receiverMobile};
+        console.log(param);
 
         $.ajax({
             url: '/message/sendResult', // REST API
@@ -125,6 +125,11 @@
                 console.log(data);
                 const sendResultData = sendResultToTable(data);
                 console.log(sendResultData);
+                sendStatusTable.clear();
+                sendResultData.forEach(function (sendStatus) {
+                    sendStatusTable.row.add(sendStatus);
+                });
+                sendStatusTable.draw();
             },
             error: function (error) {
                 console.log(error);
@@ -133,11 +138,18 @@
     }
 
     function sendResultToTable(data) {
-        const table = [];
-        $.each(data, function (index, el) {
-            console.log(index, el);
-        })
-        return table;
+        const tableData = [];
+        data.forEach(function (sendStatus) {
+            const rowData = {
+                'receiverMobile': sendStatus.receiverMobile === null ? '' : sendStatus.receiverMobile
+                , 'messageTitle': sendStatus.messageTitle === null ? '' : sendStatus.messageTitle
+                , 'sendDate': sendStatus.sendDateStr === null ? '' : sendStatus.sendDateStr
+                , 'messageType': sendStatus.messageType === null ? '' : getData(sendStatus.messageType)
+                , 'resultCode': sendStatus.resultCode === null ? '' : getData(sendStatus.resultCode)
+            };
+            tableData.push(rowData);
+        });
+        return tableData;
     }
 
     function getData(data) {

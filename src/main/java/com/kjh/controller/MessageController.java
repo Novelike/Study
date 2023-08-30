@@ -28,11 +28,10 @@ public class MessageController {
     @PostMapping("/sendResult")
     public List<MessageResponseDto> sendResultList(@RequestBody MessageRequestDto requestDto, HttpServletRequest request) throws Exception {
         SessionVO sessionVo = (SessionVO)request.getSession().getAttribute("sessionVO");
-        log.info("requestDto ==> {}", requestDto);
         UserVO userVo = sessionVo.getUser();
         requestDto.setUserSeq(userVo.getSeq());
+        log.info("requestDto.getUserSeq ==> {}", requestDto.getUserSeq());
         requestDto.search();
-        log.info("messageService.selectMessageLogList(requestDto) ==> {}", messageService.selectMessageLogList(requestDto));
         return messageService.selectMessageLogList(requestDto);
     }
 

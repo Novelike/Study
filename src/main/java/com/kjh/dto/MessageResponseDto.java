@@ -55,8 +55,10 @@ public class MessageResponseDto {
 			.receiverMobile(convertStringDesAes(messageLogVO.getReceiverMobile()))
 			.resultCode(messageLogVO.getResultCode())
 			.resultMessage(messageLogVO.getResultDesc())
-			.sendDate(messageLogVO.getSendDate())
-			.sendDateStr(messageLogVO.getSendDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+				.sendDate(messageLogVO.getSendDate())
+				.sendDateStr(messageLogVO.getSendDate()
+						.format(DateTimeFormatter
+								.ofPattern("yyyy-MM-dd HH:mm:ss")))
 			.build();
 	}
 

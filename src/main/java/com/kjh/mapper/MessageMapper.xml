@@ -83,7 +83,7 @@
 		WHERE seq = #{seq}
 	</update>
 
-	<select id="selectMessageLog" parameterType="messageLogVO" resultMap="messageLogResult" >
+	<select id="selectMessageLog" parameterType="messageLogVO" resultMap="messageLogResult">
 		/* MessageMapper.selectMessageLog */
 		SELECT seq
 		     , message_id

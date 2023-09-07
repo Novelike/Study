@@ -31,6 +31,9 @@ h3 {
 .inner {
     padding-bottom: 100px;
 }
+footer .inner {
+    padding-bottom: 0;
+}
 .login .inner .login_box {
     overflow: hidden;
     background-color: #fff;

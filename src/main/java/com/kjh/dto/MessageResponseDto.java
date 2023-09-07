@@ -5,6 +5,7 @@ import com.kjh.util.AesCoderUtil;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class MessageResponseDto {
 	private String messageTitle;
@@ -23,10 +25,13 @@ public class MessageResponseDto {
 	private String resultMessage;
 	private ZonedDateTime sendDate;
 	private String sendDateStr;
+	private int recordsTotal;
+	private int recordsFiltered;
 
 	@Builder
 	public MessageResponseDto(String messageTitle, String messageContent, String messageType
-		, String senderMobile, String receiverMobile, String resultCode, String resultMessage, ZonedDateTime sendDate, String sendDateStr) {
+		, String senderMobile, String receiverMobile, String resultCode, String resultMessage
+		, ZonedDateTime sendDate, String sendDateStr, int recordsTotal, int recordsFiltered) {
 		this.messageTitle = messageTitle;
 		this.messageContent = messageContent;
 		this.messageType = messageType;
@@ -36,6 +41,8 @@ public class MessageResponseDto {
 		this.resultMessage = resultMessage;
 		this.sendDate = sendDate;
 		this.sendDateStr = sendDateStr;
+		this.recordsTotal = recordsTotal;
+		this.recordsFiltered = recordsFiltered;
 	}
 
 	public static List<MessageResponseDto> fromList(List<MessageLogVO> list) {
@@ -55,10 +62,8 @@ public class MessageResponseDto {
 			.receiverMobile(convertStringDesAes(messageLogVO.getReceiverMobile()))
 			.resultCode(messageLogVO.getResultCode())
 			.resultMessage(messageLogVO.getResultDesc())
-				.sendDate(messageLogVO.getSendDate())
-				.sendDateStr(messageLogVO.getSendDate()
-						.format(DateTimeFormatter
-								.ofPattern("yyyy-MM-dd HH:mm:ss")))
+			.sendDate(messageLogVO.getSendDate())
+			.sendDateStr(messageLogVO.getSendDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
 			.build();
 	}
 

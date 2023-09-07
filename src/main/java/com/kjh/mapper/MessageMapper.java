@@ -57,6 +57,11 @@ public interface MessageMapper {
 	// 메시지 발송이력 조회
 	List<MessageLogVO> selectMessageLogList(MessageRequestDto requestDto) throws Exception;
 
+	// 메시지 발송이력 개수 조회
+	Integer selectMessageLogCount(MessageRequestDto requestDto) throws Exception;
+
+	Integer selectMessageLogCountAll(MessageRequestDto requestDto) throws Exception;
+
 	// 메시지 타입별 이용요금 조회
 	List<MessagePricingVO> selectMessagePricingList(MessagePricingRequestDto requestDto) throws Exception;
 

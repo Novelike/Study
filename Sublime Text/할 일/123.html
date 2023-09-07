@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Include necessary CSS and JavaScript libraries -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+</head>
+<body>
+    <div>
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate" name="startDate">
+        <label for="endDate">End Date:</label>
+        <input type="date" id="endDate" name="endDate">
+        <label for="messageType">Message Type:</label>
+        <input type="checkbox" id="messageType1" name="messageType" value="type1"> Type 1
+        <input type="checkbox" id="messageType2" name="messageType" value="type2"> Type 2
+        <!-- Add more checkboxes for other message types if needed -->
+        <br>
+        <label for="resultStatus">Result Status:</label>
+        <input type="radio" id="resultStatusSuccess" name="resultStatus" value="success"> Success
+        <input type="radio" id="resultStatusFailed" name="resultStatus" value="failed"> Failed
+        <!-- Add more radio buttons for other result statuses if needed -->
+        <br>
+        <label for="receiverMobile">Receiver Mobile:</label>
+        <input type="text" id="receiverMobile" name="receiverMobile">
+        <button id="searchBtn">Search</button>
+    </div>
+
+    <table id="data-table" class="display" style="width:100%">
+        <thead>
+            <!-- Define table headers -->
+        </thead>
+    </table>
+
+    <script>
+        $(document).ready(function() {
+            var dataTable = $('#data-table').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": "/data/fetch",
+                    "type": "POST", // Change the request type to POST
+                    "contentType": "application/json", // Set content type to JSON
+                    "data": function(d) {
+                        return JSON.stringify({
+                            startDate: $('#startDate').val(),
+                            endDate: $('#endDate').val(),
+                            messageType: $('input[type=checkbox][name="messageType"]:checked').map(function () {
+                                return this.value;
+                            }).get().join(','),
+                            resultStatus: $('input[type=radio][name="resultStatus"]:checked').val(),
+                            receiverMobile: $('#receiverMobile').val(),
+                            draw: d.draw,
+                            start: d.start,
+                            length: d.length
+                        });
+                    }
+                },
+                "columns": [
+                    // Define your table columns
+                ]
+            });
+
+            $('#searchBtn').click(function() {
+                dataTable.draw(); // Refresh DataTables with new search criteria
+            });
+        });
+    </script>
+</body>
+</html>

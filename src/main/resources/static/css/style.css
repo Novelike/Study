@@ -477,6 +477,7 @@ img {
 button {
     border: 0;
     outline: 0;
+    cursor: pointer;
 }
 .bl01::before {background: url(../images/bl01.png) no-repeat center/contain;}
 .bl02::before {background: url(../images/bl02.png) no-repeat center/contain;}
@@ -637,4 +638,17 @@ footer {
     padding-top: 50px;
     background-color: #f7f7f7;
     position: relative;
+}
+.title {
+    font-size: 34px;
+    font-weight: 500;
+    color: #111;
+    margin-bottom: 30px;
+    margin-top: 0;
+}
+.panelBar {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: table;
+    width: 100%;
 }

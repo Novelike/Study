@@ -201,6 +201,28 @@
 		</where>
 	</select>
 
+	<select id="selectMessageLogCount"  parameterType="messageRequestDto" resultType="Integer">
+		SELECT COUNT(*)
+		FROM   t_message_log
+		WHERE  send_date BETWEEN #{startDate} AND #{endDate}
+		AND    reg_user_seq = #{userSeq}
+		<if test='receiverMobile != null and receiverMobile != ""'>
+			AND    receiver_mobile = #{receiverMobile}
+		</if>
+		<if test="resultStatus == 'success'">
+			AND    result_code = '10000'
+		</if>
+		<if test="resultStatus == 'fail'">
+			AND    result_code != '10000' OR result_code IS NULL
+		</if>
+		<if test='messageTypeArray != null and messageType != ""'>
+			AND    message_type IN
+			<foreach  item="value" index="index" collection="messageTypeArray" open="(" close=")" separator=",">
+				#{value}
+			</foreach >
+		</if>
+	</select>
+
 	<select id="selectMessageLogList" parameterType="messageRequestDto" resultMap="messageLogResult">
 		/* MessageMapper.selectMessageLogList */
 		SELECT seq
@@ -235,6 +257,10 @@
 		       </foreach >
 		</if>
 		ORDER BY seq DESC
+		LIMIT #{length}
+		<if test="start != 0">
+		    OFFSET #{start}
+		</if>
 	</select>
 
 	<insert id="receiverAdd" parameterType="hashmap">

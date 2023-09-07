@@ -8,8 +8,6 @@
     <meta charset="UTF-8">
     <title>전송 결과</title>
     <link rel="stylesheet" href="/css/sendResult.css">
-    <link rel="stylesheet" href="/css/datatables.css"/>
-    <script src="/js/lib/datatables.min.js"></script>
 </head>
 <body>
 <div layout:fragment="content">
@@ -24,7 +22,7 @@
                         <col style="width: 10%">
                         <col style="width: 40%">
                     </colgroup>
-                    <thead>
+                    <thead class="send_filter">
                         <tr>
                             <td class="tdBc">조회기간</td>
                             <td>
@@ -99,43 +97,6 @@
     $('#receiverMobile').keyup(function () {
         this.value = this.value.replace(/[^0-9]/g, '');
     });
-    $('#btnSearchStatus').click(function () {
-        searchSendStatus();
-    });
-
-    function searchSendStatus() {
-        const startDate = $('#startDate').val();
-        const endDate = $('#endDate').val();
-        const messageType = $('input[type=checkbox][name="messageType"]:checked').map(function () {
-            return this.value;
-        }).get().join(',');
-
-        const resultStatus = $('input[type=radio][name="resultStatus"]:checked').val();
-        const receiverMobile = $('#receiverMobile').val();
-        const param = {inputStartDate: startDate, inputEndDate: endDate, messageType: messageType, resultStatus: resultStatus, receiverMobile: receiverMobile};
-        console.log(param);
-
-        $.ajax({
-            url: '/message/sendResult', // REST API
-            type: 'POST',
-            contentType: 'application/json',
-            dataType: 'json',
-            data: JSON.stringify(param),
-            success: function (data) {
-                console.log(data);
-                const sendResultData = sendResultToTable(data);
-                console.log(sendResultData);
-                sendStatusTable.clear();
-                sendResultData.forEach(function (sendStatus) {
-                    sendStatusTable.row.add(sendStatus);
-                });
-                sendStatusTable.draw();
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        })
-    }
 
     function sendResultToTable(data) {
         const tableData = [];
@@ -213,8 +174,54 @@
         return `0${value}`;
     }
 
-    function initializeDataTable() {
+    $(document).ready(function() {
+        dataTable();
+        initializeDatepiker();
+        $('#btnSearchStatus').click(function () {
+            sendStatusTable.ajax.reload();
+        });
+    });
+    function dataTable() {
         sendStatusTable = $('#sendStatusTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: '/message/sendResult', // REST API
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'JSON',
+                data: function (d) {
+                    d.inputStartDate = $('#startDate').val();
+                    d.inputEndDate = $('#endDate').val();
+                    d.messageType = $('input[type=checkbox][name="messageType"]:checked').map(function () {
+                        return this.value;
+                    }).get().join(',');
+                    d.resultStatus = $('input[type=radio][name="resultStatus"]:checked').val();
+                    d.receiverMobile = $('#receiverMobile').val();
+                    console.log(d);
+                    return JSON.stringify(d);
+                },
+                dataSrc: function (data) {
+                    const tableData = [];
+                    console.log(data);
+                    data.data.forEach(function (sendStatus) {
+                        const rowData = {
+                            'receiverMobile': sendStatus.receiverMobile === null ? '' : sendStatus.receiverMobile
+                            , 'messageTitle': sendStatus.messageTitle === null ? '' : sendStatus.messageTitle
+                            , 'sendDate': sendStatus.sendDateStr === null ? '' : sendStatus.sendDateStr
+                            , 'messageType': sendStatus.messageType === null ? '' : getData(sendStatus.messageType)
+                            , 'resultCode': sendStatus.resultCode === null ? '' : getData(sendStatus.resultCode)
+                        };
+                        tableData.push(rowData);
+                    });
+                    return tableData;
+                },
+                beforeSend: function (xhr) {
+                    // console.log(xhr);
+                    // console.log(this.data);
+                },
+            },
+            pageLength: 15,
             columnDefs: [
                 {
                     targets: 0,
@@ -249,14 +256,18 @@
                 , {title: '결과', data: 'resultCode', width: 80}
             ]
             , language: {
-                emptyTable: '조회된 결과가 없습니다.'
-                , zeroRecords: '조회된 결과가 없습니다.'
-                , sInfoEmpty: ''
+                decimal : ""
+                , emptyTable: '조회된 결과가 없습니다.'
                 , info: ''
-                , paginate: {previous: '&lt;', next: '&gt;'}
+                , infoEmpty : ""
+                , infoFiltered : ""
+                , zeroRecords: '조회된 결과가 없습니다.'
+                , paginate: {previous: '&lt;', next: '&gt;', first: '첫 페이지', last: '마지막 페이지'}
             }
-            , pageLength: 15
             , displayLength: 15
+            , pagingType: "full_numbers"
+            , paging: true
+            , destroy : true
             , scrollY: true
             , scrollX: '100%'
             , sScrollXInner: '2000px'
@@ -267,14 +278,9 @@
             , autoFill: {
                 vertical: true
                 , horizontal: true
-            }
+            },
         });
     }
-
-    $(document).ready(function () {
-        initializeDatepiker();
-        initializeDataTable();
-    });
 
 </script>
 </body>

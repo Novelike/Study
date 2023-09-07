@@ -19,12 +19,19 @@ public class MessageService {
 
     public List<MessageResponseDto> selectMessageLogList(MessageRequestDto requestDto) throws Exception {
         List<MessageLogVO> list = messageMapper.selectMessageLogList(requestDto);
-        log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        log.info("{}", requestDto.getMessageType());
-        log.info("{}", requestDto.getEndDate());
-        log.info("{}", requestDto.getStartDate());
-        log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+
+        for(int i=0; i<list.size(); i++) {
+            log.info(String.valueOf(list.get(i).getSendDate()));
+        }
         return MessageResponseDto.fromList(list);
+    }
+
+    public int selectMessageLogCount(MessageRequestDto requestDto) throws Exception {
+        return messageMapper.selectMessageLogCount(requestDto);
+    }
+
+    public int selectMessageLogCountAll(MessageRequestDto requestDto) throws Exception {
+        return messageMapper.selectMessageLogCountAll(requestDto);
     }
 
 }

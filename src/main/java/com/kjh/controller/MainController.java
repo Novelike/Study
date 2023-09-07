@@ -33,5 +33,10 @@ public class MainController {
     public String goSendResult(HttpServletRequest request, Model model) {
         return "/message/sendResult";
     }
+
+    @GetMapping("/mypage")
+    public String goMyPage(HttpServletRequest request, Model model) {
+        return "/mypage/mypage";
+    }
 }
 

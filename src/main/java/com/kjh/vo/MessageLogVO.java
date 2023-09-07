@@ -52,4 +52,10 @@ public class MessageLogVO {
 
 	@Schema(description = "발송건수")
 	private int count;
+
+	@Schema
+	private int recordsTotal;
+
+	@Schema
+	private int recordsFiltered;
 }

@@ -26,8 +26,8 @@ public class MessageRequestDto {
 	private String inputEndDate;
 	private ZonedDateTime startDate;
 	private ZonedDateTime endDate;
-
 	private String resultStatus;
+
 	private String[] messageTypeArray = null;
 
 	private int page = 1;
@@ -35,11 +35,18 @@ public class MessageRequestDto {
 	private int totalCnt;
 	private int startRecord;
 
+	private int draw;
+	private int start;
+	private int length;
+
+	private int recordsTotal;
+	private int recordsFiltered;
+
 	@Builder
 	public MessageRequestDto(String messageTitle, String messageContent, String messageType, String receiverMobile
 		, String resultCode, String sendDate, Integer userSeq, String inputStartDate, String inputEndDate
-		, ZonedDateTime startDate, ZonedDateTime endDate, String resultStatus, String[] messageTypeArray, int page, int size
-		, int totalCnt, int startRecord) {
+		, ZonedDateTime startDate, ZonedDateTime endDate, String[] messageTypeArray, int page, int size
+		, int totalCnt, int startRecord, int draw, int start, int length) {
 		this.messageTitle = messageTitle;
 		this.messageContent = messageContent;
 		this.messageType = messageType;
@@ -47,7 +54,6 @@ public class MessageRequestDto {
 		this.resultCode = resultCode;
 		this.sendDate = sendDate;
 		this.userSeq = userSeq;
-		this.resultStatus = resultStatus;
 		this.messageTypeArray = messageTypeArray;
 		this.inputStartDate = inputStartDate;
 		this.inputEndDate = inputEndDate;
@@ -57,6 +63,9 @@ public class MessageRequestDto {
 		this.size = size;
 		this.totalCnt = totalCnt;
 		this.startRecord = startRecord;
+		this.draw = draw;
+		this.start = start;
+		this.length = length;
 	}
 
 	public void search() {

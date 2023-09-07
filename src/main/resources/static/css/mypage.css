@@ -1,0 +1,52 @@
+.menu {
+    flex: 1;
+    padding: 15px 0;
+    color: #333;
+    font-size: 20px;
+    text-align: center;
+    background-color: transparent;
+    border-bottom: 2px solid #ddd;
+    transition: color .4s ease;
+    cursor: pointer;
+}
+.menu_clicked {
+    color: #322cbd;
+    border-bottom: 2px solid #322cbd;
+}
+.menu:hover {
+    color: #322cbd;
+}
+.inner_box {
+    min-height: 500px;
+    text-align: center;
+}
+.menu_box {
+    display: flex;
+}
+.menu_content {
+    margin-top: 50px;
+}
+.my_inquiry {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    background-color: #fff;
+    border-radius: 16px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+.my_button {
+    font-size: 16px;
+    padding: 10px 30px;
+    color: #ffffff;
+    background-color: #322cbd;
+    border-radius: 40px;
+}
+.panel_left {
+    float: left;
+    margin: 10px 0 10px 10px;
+}
+.panel_right {
+    margin-bottom: 10px;
+    float: right;
+}

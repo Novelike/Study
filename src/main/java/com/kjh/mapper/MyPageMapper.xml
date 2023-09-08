@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kjh.mapper.MyPageMapper">
+
+    <select id="getInquiryCount" parameterType="inquiryRequestDto" resultType="Integer">
+        /* SupportMapper.getInquiryCount */
+        SELECT seq
+             , user_seq
+             , inquiry_type
+             , inquiry_title
+             , inquiry_content
+             , inquiry_date
+             , inquiry_status
+             , reply_content
+             , reply_email
+             , reply_phone
+             , reply_notice
+             , reply_date
+             , reply_reg_user_seq
+        FROM   t_inquiry
+        WHERE  user_seq = #{userSeq}
+        ORDER BY seq DESC
+    </select>
+
+    <select id="getInquiryList" parameterType="inquiryRequestDto" resultMap="inquiryResult">
+        /* SupportMapper.getInquiryList */
+        SELECT seq
+             , user_seq
+             , inquiry_type
+             , inquiry_title
+             , inquiry_content
+             , inquiry_date
+             , inquiry_status
+             , reply_content
+             , reply_email
+             , reply_phone
+             , reply_notice
+             , reply_date
+             , reply_reg_user_seq
+        FROM   t_inquiry
+        WHERE  user_seq = #{userSeq}
+        ORDER BY seq DESC
+    </select>
+
+    <select id="getInquiryInfo" parameterType="inquiryRequestDto" resultMap="inquiryResult">
+        /* SupportMapper.getInquiryInfo */
+        SELECT seq
+             , user_seq
+             , inquiry_type
+             , inquiry_title
+             , inquiry_content
+             , inquiry_date
+             , inquiry_status
+             , reply_content
+             , reply_email
+             , reply_phone
+             , reply_notice
+             , reply_date
+             , reply_reg_user_seq
+        FROM   t_inquiry
+        WHERE  seq = #{seq}
+          AND    user_seq = #{userSeq}
+    </select>
+
+    <insert id="createInquiry" parameterType="inquiryRequestDto">
+        /* SupportMapper.createInquiry */
+        INSERT INTO t_inquiry (
+                                user_seq
+                              , inquiry_type
+                              , inquiry_title
+                              , inquiry_content
+                              , inquiry_date
+                              , inquiry_status
+                              , reply_content
+                              , reply_email
+                              , reply_phone
+                              , reply_notice
+        ) VALUES (
+                     #{userSeq}
+                 , #{inquiryType}
+                 , #{inquiryTitle}
+                 , #{inquiryContent}
+                 , NOW()
+                 , #{inquiryStatus}
+                 , ''
+                 , #{replyEmail}
+                 , #{replyPhone}
+                 , #{replyNotice}
+                 )
+    </insert>
+
+    <!-- 쿼리 결과에 대한 맵핑 변수명 vs 컬럼명 - -->
+    <resultMap type="inquiryVo" id="inquiryResult">
+        <result property="seq" column="seq"/>
+        <result property="userSeq" column="user_seq"/>
+        <result property="inquiryType" column="inquiry_type"/>
+        <result property="inquiryTitle" column="inquiry_title"/>
+        <result property="inquiryContent" column="inquiry_content"/>
+        <result property="inquiryDate" column="inquiry_date"/>
+        <result property="replyContent" column="reply_content"/>
+        <result property="replyEmail" column="reply_email"/>
+        <result property="replyPhone" column="reply_phone"/>
+        <result property="replyNotice" column="reply_notice"/>
+        <result property="replyDate" column="reply_date"/>
+        <result property="replyRegUserSeq" column="reply_reg_user_seq"/>
+    </resultMap>
+
+</mapper>

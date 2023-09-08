@@ -31,10 +31,14 @@ public class InquiryResponseDto {
     private String resultCode;
     private String resultMessage;
 
+    private int recordsTotal;
+    private int recordsFiltered;
+
     @Builder
     public InquiryResponseDto(Integer seq, Integer userSeq, String inquiryType, String inquiryTitle, String inquiryContent,
-                              ZonedDateTime inquiryDate, String inquiryDateStr, String inquiryStatus, String replyContent, String replyEmail, String replyPhone,
-                              String replyNotice, ZonedDateTime replyDate, String replyDateStr, Integer replyRegUserSeq, String resultCode, String resultMessage) {
+                              ZonedDateTime inquiryDate, String inquiryDateStr, String inquiryStatus, String replyContent,
+                              String replyEmail, String replyPhone, String replyNotice, ZonedDateTime replyDate, String replyDateStr,
+                              Integer replyRegUserSeq, String resultCode, String resultMessage, int recordsTotal, int recordsFiltered) {
         this.seq = seq;
         this.userSeq = userSeq;
         this.inquiryType = inquiryType;
@@ -52,6 +56,8 @@ public class InquiryResponseDto {
         this.replyRegUserSeq = replyRegUserSeq;
         this.resultCode = resultCode;
         this.resultMessage = resultMessage;
+        this.recordsTotal = recordsTotal;
+        this.recordsFiltered = recordsFiltered;
     }
 
     public static List<InquiryResponseDto> fromList(List<InquiryVo> list) {

@@ -18,6 +18,13 @@ public class InquiryRequestDto {
     private String replyPhone;
     private String replyNotice;
 
+    private int draw;
+    private int start;
+    private int length;
+
+    private int recordsTotal;
+    private int recordsFiltered;
+
     @Builder
     public InquiryRequestDto(Integer seq, Integer userSeq, String inquiryType, String inquiryTitle
             , String inquiryContent, String inquiryStatus, String replyEmail, String replyPhone, String replyNotice) {

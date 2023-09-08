@@ -13,7 +13,7 @@ function fnLayerPopupClose(id) {
 
 function lockScroll() {
     this.scrollTopPosition = $(window).scrollTop();
-    $("#wrap").css({top: -(this.scrollTopPosition)});
+    $("#wrapper").css({top: -(this.scrollTopPosition)});
     $("body").addClass('noScroll');
 }
 

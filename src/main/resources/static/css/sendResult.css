@@ -10,9 +10,6 @@
 .w100px {
     width: 100px;
 }
-.w100per {
-    width: 100% !important;
-}
 .send_table {
     width: 100%;
     font-size: 16px;
@@ -45,9 +42,7 @@
     box-sizing: border-box;
     white-space: nowrap;
 }
-select, input[type=text], input[type=file], input[type=date], input[type=password], textarea {
-    border: 1px solid #dbdbdb;
-}
+
 .input_text {
     padding: 4px 3px 4px 5px;
     color: inherit;

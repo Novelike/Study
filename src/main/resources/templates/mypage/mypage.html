@@ -12,7 +12,7 @@
 <body>
 <div layout:fragment="content">
     <div class="sect">
-        <div class="inner" style="height: 850px">
+        <div class="inner">
             <h3 class="title">마이페이지</h3>
             <div class="inner_box">
                 <div class="menu_box">
@@ -25,7 +25,11 @@
                     <div class="my_inquiry">
                         <div class="panelBar">
                             <div class="panel_left">
-                                <span>답변완료 상태 일때 제목을 클릭하시면 답변을 보실 수 있습니다.</span>
+                                <span style="text-align: left; float: left;">
+                                    답변완료 상태 일때 제목을 클릭하시면 답변을 보실 수 있습니다.<br>
+                                    답변대기 상태 일때 제목을 클릭하시면 내용을 수정하실 수 있습니다.
+                                </span>
+
                             </div>
                             <div class="panel_right">
                                 <button role="button" class="my_button" id="inquiry_insert">등록</button>
@@ -51,23 +55,229 @@
         </div>
     </div>
 </div>
+<div layout:fragment="popupContents">
+    <div class="dimmed_black" id="addInquiry">
+        <div class="popupBox">
+            <h3 class="popup_title txt-l">1:1문의</h3>
+            <form name="inquiryForm" id="inquiryForm" action="" method="POST">
+                <table class="table1 type">
+                    <colgroup>
+                        <col style="width: 20%"/>
+                        <col style="width: 70%"/>
+                        <col style="width: 10%"/>
+                    </colgroup>
+                    <tr>
+                        <th>이름</th>
+                        <td colspan="3">
+                            <span th:text="${userName}"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>제목</th>
+                        <td colspan="2">
+                            <input type="text" name="title" id="title" class="input_txt inp_l.w100 type1" placeholder="제목을 입력하세요"/>
+                        </td>
+                        <td>
+                            <select name="inquiryType" id="inquiryType">
+                                <option value="">분류선택</option>
+                                <option value="B0601">가입/해지</option>
+                                <option value="B0602">요금/결제</option>
+                                <option value="B0603">메시지전송</option>
+                                <option value="B0604">메시지수신</option>
+                                <option value="B0605">주소록</option>
+                                <option value="B0606">기타문의</option>
+                            </select>
+                        </td>
+                    <tr>
+                    <tr>
+                        <th>내용</th>
+                        <td colspan="3">
+                            <textarea name="content" id="content" class="input_txt inp_l.w100 type1" rows="5" cols="50" style="height: 300px;"
+                                      placeholder="내용을 입력해주세요"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>이메일</th>
+                        <td colspan="3">
+                            <span th:text="${userEmail}"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>연락처</th>
+                        <td colspan="3">
+                            <span th:text="${userMobileStr}"></span>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <button type="button" id="btnInquirySave" class="my_button" style="margin-top: 10px">저장</button>
+            <div class="popup_close"><a href="javascript:void(0);" class="close_button"></a></div>
+        </div>
+    </div>
+    <div class="dimmed_black" id="detailInquiry">
+        <div class="popupBox">
+            <h3 class="popup_title txt-l">1:1문의</h3>
+            <table class="table1 type">
+                <colgroup>
+                    <col style="width: 10%"/>
+                    <col style="width: 60%"/>
+                    <col style="width: 10%"/>
+                    <col style="width: 10%"/>
+                    <col style="width: 10%"/>
+                </colgroup>
+                <tr>
+                    <th>제목</th>
+                    <td colspan="2">
+                        <span id="detailTitle"></span>
+                    </td>
+                    <td colspan="3">
+                        <span id="detailInquiryType"></span>
+                    </td>
+                <tr>
+                <tr>
+                    <th>내용</th>
+                    <td colspan="5">
+                        <span id="detailContent"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>답변</th>
+                    <td colspan="5">
+                        <span id="detailReplyContent"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>등록일시</th>
+                    <td colspan="5">
+                        <span id="detailReplyDate"></span>
+                    </td>
+                </tr>
+            </table>
+            <button type="button" id="btnInquiryConfirm" class="btn btn_primary btn_s mt10" >확인</button>
+            <div class="popup_close"><a href="javascript:void(0);" class="close_button"></a></div>
+        </div>
+    </div>
+</div>
 <script layout:fragment="includeScript">
     let myInquiriesTable;
 
     $(document).ready(function() {
         dataTable();
+        $('#inquiry_select').click(function () {
+            myInquiriesTable.ajax.reload();
+        });
+        $('#inquiry_insert').click(function () {
+            fnLayerPopup('addInquiry');
+        });
     });
 
-    $('#inquiry_select').click(function () {
-        myInquiriesTable.ajax.reload();
-    });
+
+
+    function getInquiryData(data) {
+        switch (data) {
+            case 'B0501':
+                return '답변대기';
+            case 'B0502':
+                return '답변완료';
+            case 'B0601':
+                return '가입/해지';
+            case 'B0602':
+                return '요금/결제';
+            case 'B0603':
+                return '메시지전송';
+            case 'B0604':
+                return '메시지수신';
+            case 'B0605':
+                return '주소록';
+            case 'B0606':
+                return '기타문의';
+        }
+    }
 
     function dataTable() {
         myInquiriesTable = $('#myInquiriesTable').DataTable({
             processing: true,
             serverSide: true,
             ajax: {
-
+                url: '/mypage/inquiry/select',
+                type: 'post',
+                contentType: 'application/json',
+                data: function (data) {
+                    return JSON.stringify(data);
+                },
+                dataSrc: function (data) {
+                    const tableData = [];
+                    console.log(data);
+                    data.data.forEach(function (inquiry) {
+                        const rowData = {
+                            'seq': inquiry.seq === null ? '' : inquiry.seq
+                            , 'inquiryType': inquiry.inquiryType === null ? '' : getInquiryData(inquiry.inquiryType)
+                            , 'inquiryTitle': inquiry.inquiryTitle === null ? '' : inquiry.inquiryTitle
+                            , 'inquiryStatus': inquiry.inquiryStatus === null ? '' : getInquiryData(inquiry.inquiryStatus)
+                            , 'inquiryDateStr': inquiry.hasOwnProperty('inquiryDateStr') ? inquiry.inquiryDateStr : ''
+                        };
+                        tableData.push(rowData);
+                    });
+                    return tableData;
+                }
+            },
+            columnDefs: [
+                {
+                    targets: 0,
+                    className: 'dt-center'
+                }
+                , {
+                    targets: 1,
+                    className: 'dt-center'
+                }
+                , {
+                    targets: 2,
+                    className: 'dt-center'
+                }
+                , {
+                    targets: 3,
+                    className: 'dt-center'
+                },
+                {
+                    targets: -1,
+                    className: 'dt-center'
+                }
+            ],
+            columns: [
+                {title: '번호', data: 'seq', width: 80}
+                , {title: '분류', data: 'inquiryType', width: 80}
+                , {
+                    title: '제목', data: 'inquiryTitle', width: 120
+                    , render: function (data, type, row) {
+                        if (row.inquiryStatus === '답변완료') {
+                            return '<a href="javascript:void(0);" onclick="getInquiryInfo(' + row.seq + ');">' + data + '</a>';
+                        }
+                        return data;
+                    }
+                }
+                , {title: '답변상태', data: 'inquiryStatus', width: 50}
+                , {title: '등록일', data: 'inquiryDateStr', width: 120}
+            ]
+            , language: {
+                emptyTable: '조회된 결과가 없습니다.'
+                , zeroRecords: '조회된 결과가 없습니다.'
+                , info: ''
+                , infoEmpty : ""
+                , infoFiltered : ""
+                , paginate: {previous: '&lt;', next: '&gt;'}
+            }
+            , pageLength: 15
+            , displayLength: 15
+            , scrollY: true
+            , scrollX: '100%'
+            , sScrollXInner: '2000px'
+            , scrollCollapse: true
+            , searching: false
+            , ordering: false
+            , lengthChange: false
+            , autoFill: {
+                vertical: true
+                , horizontal: true
             }
         })
     }

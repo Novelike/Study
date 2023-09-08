@@ -36,7 +36,7 @@ public class MainController {
 
     @GetMapping("/mypage")
     public String goMyPage(HttpServletRequest request, Model model) {
-        return "/mypage/mypage";
+        return "redirect:/mypage/inquiry";
     }
 }
 

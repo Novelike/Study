@@ -23,7 +23,7 @@ public class MessageController {
     private MessageService messageService;
 
     @ResponseBody
-    @PostMapping("/sendResult")
+    @PostMapping("/send/result")
     public DataTableResponseDto<MessageResponseDto> sendResultList(@RequestBody MessageRequestDto requestDto, HttpServletRequest request) throws Exception {
         SessionVO sessionVo = (SessionVO)request.getSession().getAttribute("sessionVO");
         UserVO userVo = sessionVo.getUser();

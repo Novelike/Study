@@ -360,7 +360,7 @@ div .inner h2 span {
 .bl02::before {background: url(../images/bl02.png) no-repeat center/contain;}
 .bl03::before {background: url(../images/bl03.png) no-repeat center/contain;}
 .bl04::before {background: url(../images/bl04.png) no-repeat center/contain;}
-.status {
+.now_status {
     margin-top: 100px;
 }
 .box_area2 {

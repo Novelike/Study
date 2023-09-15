@@ -59,7 +59,7 @@
     <div class="dimmed_black" id="addInquiry">
         <div class="popupBox">
             <h3 class="popup_title txt-l">1:1문의</h3>
-            <form name="inquiryForm" id="inquiryForm" action="" method="POST">
+            <form name="inquiryForm" id="inquiryForm" action="/mypage/inquiry/insert" method="POST">
                 <table class="table1 type">
                     <colgroup>
                         <col style="width: 20%"/>
@@ -69,7 +69,7 @@
                     <tr>
                         <th>이름</th>
                         <td colspan="3">
-                            <span th:text="${userName}"></span>
+                            <span th:text="${session.sessionVO.user.userName}"></span>
                         </td>
                     </tr>
                     <tr>
@@ -92,20 +92,20 @@
                     <tr>
                         <th>내용</th>
                         <td colspan="3">
-                            <textarea name="content" id="content" class="input_txt inp_l.w100 type1" rows="5" cols="50" style="height: 300px;"
+                            <textarea name="content" id="content" class="input_txt inp_l.w100 type1" rows="5" cols="50" style="height: 300px;padding-top: 10px"
                                       placeholder="내용을 입력해주세요"></textarea>
                         </td>
                     </tr>
                     <tr>
                         <th>이메일</th>
                         <td colspan="3">
-                            <span th:text="${userEmail}"></span>
+                            <input class="input_txt inp_l.w100 type1" type="email" id ="userEmail" name="userEmail" th:value="${session.sessionVO.user.userEmail}"></input>
                         </td>
                     </tr>
                     <tr>
                         <th>연락처</th>
                         <td colspan="3">
-                            <span th:text="${userMobileStr}"></span>
+                            <input class="input_txt inp_l.w100 type1" type="number" id ="userMobile" name="userMobile" th:value="${session.sessionVO.user.userMobile}"></input>
                         </td>
                     </tr>
                 </table>
@@ -169,9 +169,33 @@
         $('#inquiry_insert').click(function () {
             fnLayerPopup('addInquiry');
         });
+        $('#btnInquirySave').click(function () {
+            saveInquiry();
+        })
     });
+    
+    function saveInquiry() {
+        const inquiryTitle = $('#title').val();
+        const inquiryContent = $('#content').val();
+        const inquiryType = $('#inquiryType').val();
+        const replyEmail = $('#userEmail').val();
+        const replyMobile = $('#userMobile').val();
+        const param = {inquiryTitle:inquiryTitle, inquiryContent:inquiryContent, inquiryType:inquiryType, replyEmail:replyEmail, replyPhone:replyMobile}
+        console.log(param);
+        $.ajax({
+            url: '/mypage/inquiry/insert',
+            type: 'POST',
+            contentType: 'application/json',
+            dataType: 'JSON',
+            data: JSON.stringify(param),
+            success: function (data) {
 
+            },
+            error : function (e) {
 
+            }
+        })
+    }
 
     function getInquiryData(data) {
         switch (data) {

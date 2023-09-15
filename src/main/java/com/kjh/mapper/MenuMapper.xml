@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kjh.mapper.MenuMapper">
+
+    <select id="selectUserMenuList" parameterType="hashmap" resultMap="userMenuResult">
+        /* MenuMapper.selectUserMenuList */
+        SELECT tum.seq
+        , tum.user_seq
+        , tum.menu_seq
+        , tmi.main_code
+        , tmi.sub1_code
+        , tmi.sub2_code
+        , tmi.menu_name
+        , tmi.menu_url
+        , tmi.menu_sort
+        , tum.reg_date
+        , tum.reg_user_seq
+        , '' AS class_name
+        FROM   t_user_menu tum
+        INNER JOIN t_menu_info2 tmi
+        ON     tum.menu_seq = tmi.seq
+        <where>
+            <if test='userSeq != null and userSeq != 0 '>
+                AND tum.user_seq = #{userSeq}
+            </if>
+            <if test='mainCode != null'>
+                AND tmi.main_code = #{mainCode}
+            </if>
+            <if test='isUse != null'>
+                AND tmi.is_use = #{isUse}
+            </if>
+        </where>
+        ORDER BY tmi.main_code, tmi.sub1_code, tmi.sub2_code
+    </select>
+
+    <insert id="insertUserMenu" parameterType="hashmap">
+        /* MenuMapper.insertUserMenu */
+        INSERT INTO t_user_menu (
+                                  user_seq
+                                , menu_seq
+                                , reg_date
+                                , reg_user_seq
+        )
+        SELECT #{userSeq} AS user_seq
+             , seq AS menu_seq
+             , #{regDate} AS reg_date
+             , #{regUserSeq} AS reg_user_seq
+        FROM   t_menu_info2
+        WHERE  is_use = true
+    </insert>
+
+    <select id="selectMenuList" parameterType="hashmap" resultMap="userMenuResult">
+        /* MenuMapper.selectMenuList */
+        SELECT seq
+        , 0 AS user_seq
+        , 0 AS menu_seq
+        , main_code
+        , sub1_code
+        , sub2_code
+        , menu_name
+        , menu_url
+        , menu_sort
+        , reg_date
+        , reg_user_seq
+        , '' AS class_name
+        FROM   t_menu_info2
+        <where>
+            <if test='seq != null'>
+                AND seq = #{seq}
+            </if>
+            <if test='isUse != null'>
+                AND is_use = #{isUse}
+            </if>
+        </where>
+        ORDER BY main_code, sub1_code, sub2_code
+    </select>
+
+    <!-- 쿼리 결과에 대한 맵핑 변수명 vs 컬럼명 - -->
+    <resultMap type="userMenuVO" id="userMenuResult">
+        <result property="seq" column="seq"/>
+        <result property="userSeq" column="user_seq"/>
+        <result property="menuSeq" column="menu_seq"/>
+        <result property="mainCode" column="main_code"/>
+        <result property="sub1Code" column="sub1_code"/>
+        <result property="sub2Code" column="sub2_code"/>
+        <result property="menuName" column="menu_name"/>
+        <result property="menuUrl" column="menu_url"/>
+        <result property="menuSort" column="menu_sort"/>
+        <result property="regDate" column="reg_date"/>
+        <result property="regUserSeq" column="reg_user_seq"/>
+        <result property="className" column="class_name"/>
+    </resultMap>
+
+</mapper>

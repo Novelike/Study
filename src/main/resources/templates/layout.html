@@ -29,11 +29,18 @@
         </h1>
         <div id="nav_menu">
             <div id="nav_menu_left">
-                <div id="menu_send">문자 보내기</div>
+                <th:block th:each="menu, index:${menuList}">
+                    <th:block th:if="${menu.sub1Code} == 0">
+                        <div th:class="${menu.className}">
+                            <a th:href="${menu.menuUrl}">[[${menu.menuName}]]</a>
+                        </div>
+                    </th:block>
+                </th:block>
+                <!--<div id="menu_send">문자 보내기</div>
                 <div id="menu_result"><a href="/main/sendResult">전송 결과</a></div>
                 <div id="menu_fee">메시지 이용요금</div>
                 <div id="menu_book">주소록</div>
-                <div id="menu_mypage"><a href="/main/mypage">마이페이지</a></div>
+                <div id="menu_mypage"><a href="/main/mypage">마이페이지</a></div>-->
             </div>
             <div id="nav_menu_right">
                 <div id="signin"><a href="/sign/signin">로그인</a></div>

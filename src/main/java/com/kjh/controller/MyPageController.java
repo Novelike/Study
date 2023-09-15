@@ -47,10 +47,11 @@ public class MyPageController {
         );
     }
 
+    @ResponseBody
     @PostMapping("/inquiry/insert")
-    public DataTableResponseDto<InquiryResponseDto> insertInquiry (@RequestBody InquiryRequestDto requestDto,
-                                                                   HttpServletRequest request) {
-        return null;
+    public void insertInquiry (@RequestBody InquiryRequestDto requestDto, HttpServletRequest request) {
+        SessionVO sessionVO = (SessionVO) request.getSession().getAttribute("sessionVO");
+        requestDto.setUserSeq(sessionVO.getUser().getSeq());
     }
 
 }

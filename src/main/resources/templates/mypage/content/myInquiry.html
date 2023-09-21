@@ -1,0 +1,280 @@
+<div class="my_inquiry">
+    <div class="panelBar">
+        <div class="panel_left">
+            <span style="text-align: left; float: left;">
+                답변완료 상태 일때 제목을 클릭하시면 답변을 보실 수 있습니다.<br>
+                답변대기 상태 일때 제목을 클릭하시면 내용을 수정하실 수 있습니다.
+            </span>
+
+        </div>
+        <div class="panel_right">
+            <button role="button" class="my_button" id="inquiry_insert">등록</button>
+            <button role="button" class="my_button" id="inquiry_select">조회</button>
+        </div>
+    </div>
+    <table id="myInquiriesTable" class="cell-border w100per">
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>분류</th>
+            <th>제목</th>
+            <th>답변</th>
+            <th>등록일</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <script>
+        let myInquiriesTable;
+        let myInquiriesData;
+
+        $(document).ready(function () {
+            dataTable();
+            $('#inquiry_select').click(function () {
+                myInquiriesTable.ajax.reload();
+            });
+            $('#inquiry_insert').click(function () {
+                fnLayerPopup('addInquiry');
+                $('#title').val('');
+                $('#content').val('');
+                $('#inquiryType').val('');
+                $('#btnInquirySave').show();
+                $('#btnInquiryUpdate').hide();
+            });
+            $('#btnInquirySave').off().click(function () {
+                saveInquiry();
+            });
+            $('#btnInquiryConfirm').click(function () {
+                fnLayerPopupClose('detailInquiry');
+            });
+        });
+
+        function saveInquiry() {
+            const inquiryTitle = $('#title').val();
+            const inquiryContent = $('#content').val();
+            const inquiryType = $('#inquiryType').val();
+            const replyEmail = $('#userEmail').val();
+            const replyMobile = $('#userMobile').val();
+            const param = {
+                inquiryTitle: inquiryTitle,
+                inquiryContent: inquiryContent,
+                inquiryType: inquiryType,
+                replyEmail: replyEmail,
+                replyPhone: replyMobile
+            }
+            console.log(param);
+            $.ajax({
+                url: '/mypage/inquiry/insert',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(param),
+                success: function (data) {
+                    $('#title').val('');
+                    $('#content').val('');
+                    $('#inquiryType').val('');
+                    let thisId = $('#btnInquirySave').parents(".dimmed_black").attr("id");
+                    $("#" + thisId).hide();
+                    console.log("#" + thisId);
+                    unLockScroll();
+                    myInquiriesTable.clear();
+                    myInquiriesTable.draw();
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            })
+        }
+
+        function updateInquiry(seq) {
+            const inquiryTitle = $('#title').val();
+            const inquiryContent = $('#content').val();
+            const inquiryType = $('#inquiryType').val();
+            const param = {
+                seq: seq,
+                inquiryTitle: inquiryTitle,
+                inquiryContent: inquiryContent,
+                inquiryType: inquiryType
+            }
+            console.log(param);
+            $.ajax({
+                url: '/mypage/inquiry/update',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(param),
+                success: function () {
+                    $('#title').val('');
+                    $('#content').val('');
+                    $('#inquiryType').val('');
+                    let thisId = $('#btnInquirySave').parents(".dimmed_black").attr("id");
+                    $("#" + thisId).hide();
+                    console.log("#" + thisId);
+                    unLockScroll();
+                    myInquiriesTable.clear();
+                    myInquiriesTable.draw();
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            })
+        }
+
+        function openInquiryInfo(seq) {
+            $.ajax({
+                url: '/mypage/inquiry/info',
+                type: 'GET',
+                dataType: 'JSON',
+                data: {seq: seq},
+                success: function (data) {
+                    setDetailInquiry(data);
+                    fnLayerPopup('detailInquiry');
+                }
+            })
+        }
+
+        function setDetailInquiry(data) {
+            $('#detailTitle').text(data.inquiryTitle);
+            $('#detailInquiryType').text(getInquiryData(data.inquiryType));
+            $('#detailContent').text(data.inquiryContent);
+            $('#detailReplyContent').text(data.replyContent);
+            $('#detailReplyDate').text(data.replyDateStr);
+        }
+
+        function updateInquiryInfo(seq) {
+            let myData = myInquiriesData.filter(function (e) {
+                return e.seq === seq && e.userSeq === [[${session.sessionVO.user.seq}]];
+            });
+            fnLayerPopup('addInquiry');
+            $('#title').val(myData[0].inquiryTitle);
+            $('#content').val(myData[0].inquiryContent);
+            $('#inquiryType').val(myData[0].inquiryType).prop("selected", true);
+            $('#btnInquirySave').hide();
+            $('#btnInquiryUpdate').show();
+            $('#btnInquiryUpdate').off().click(function () {
+                updateInquiry(seq);
+            });
+        }
+
+        function getInquiryData(data) {
+            switch (data) {
+                case 'B0501':
+                    return '답변대기';
+                case 'B0502':
+                    return '답변완료';
+                case 'B0601':
+                    return '가입/해지';
+                case 'B0602':
+                    return '요금/결제';
+                case 'B0603':
+                    return '메시지전송';
+                case 'B0604':
+                    return '메시지수신';
+                case 'B0605':
+                    return '주소록';
+                case 'B0606':
+                    return '기타문의';
+            }
+        }
+
+
+        function dataTable() {
+            myInquiriesTable = $('#myInquiriesTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '/mypage/inquiry/select',
+                    type: 'post',
+                    contentType: 'application/json',
+                    data: function (data) {
+                        return JSON.stringify(data);
+                    },
+                    dataSrc: function (data) {
+                        const tableData = [];
+                        console.log(data);
+                        myInquiriesData = data.data;
+                        data.data.forEach(function (inquiry) {
+                            const rowData = {
+                                'seq': inquiry.seq === null ? '' : inquiry.seq
+                                ,
+                                'inquiryType': inquiry.inquiryType === null ? '' : getInquiryData(inquiry.inquiryType)
+                                ,
+                                'inquiryTitle': inquiry.inquiryTitle === null ? '' : inquiry.inquiryTitle
+                                ,
+                                'inquiryStatus': inquiry.inquiryStatus === null ? '' : getInquiryData(inquiry.inquiryStatus)
+                                ,
+                                'inquiryDateStr': inquiry.hasOwnProperty('inquiryDateStr') ? inquiry.inquiryDateStr : ''
+                                ,
+                                'inquiryContent': inquiry.inquiryContent === null ? '' : inquiry.inquiryContent
+                                ,
+                                'userSeq': inquiry.userSeq === null ? '' : inquiry.userSeq
+                            };
+                            tableData.push(rowData);
+                        });
+                        return tableData;
+                    }
+                },
+                columnDefs: [
+                    {
+                        targets: 0,
+                        className: 'dt-center'
+                    }
+                    , {
+                        targets: 1,
+                        className: 'dt-center'
+                    }
+                    , {
+                        targets: 2,
+                        className: 'dt-center'
+                    }
+                    , {
+                        targets: 3,
+                        className: 'dt-center'
+                    },
+                    {
+                        targets: -1,
+                        className: 'dt-center'
+                    }
+                ],
+                columns: [
+                    {title: '번호', data: 'seq', width: 80}
+                    , {title: '분류', data: 'inquiryType', width: 80}
+                    , {
+                        title: '제목', data: 'inquiryTitle', width: 120
+                        , render: function (data, type, row) {
+                            if (row.inquiryStatus === '답변완료') {
+                                return '<a class="inquiryTitle" href="javascript:void(0);" onclick="openInquiryInfo(' + row.seq + ');">' + data + '</a>';
+                            } else if (row.inquiryStatus === '답변대기') {
+                                return '<a class="inquiryTitle" href="javascript:void(0);" onclick="updateInquiryInfo(' + row.seq + ');">' + data + '</a>';
+                            }
+                            return data;
+                        }
+                    }
+                    , {title: '답변상태', data: 'inquiryStatus', width: 50}
+                    , {title: '등록일', data: 'inquiryDateStr', width: 120}
+                ]
+                , language: {
+                    emptyTable: '조회된 결과가 없습니다.'
+                    , zeroRecords: '조회된 결과가 없습니다.'
+                    , info: ''
+                    , infoEmpty: ""
+                    , infoFiltered: ""
+                    , paginate: {previous: '&lt;', next: '&gt;'}
+                }
+                , pageLength: 15
+                , displayLength: 15
+                , scrollY: true
+                , scrollX: '100%'
+                , sScrollXInner: '2000px'
+                , scrollCollapse: true
+                , searching: false
+                , ordering: false
+                , lengthChange: false
+                , autoFill: {
+                    vertical: true
+                    , horizontal: true
+                }
+            })
+        }
+
+    </script>
+</div>

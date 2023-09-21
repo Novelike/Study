@@ -15,4 +15,6 @@ public interface MyPageMapper {
     void createInquiry(InquiryRequestDto requestDto) throws Exception;
 
     InquiryVo getInquiryInfo(InquiryRequestDto requestDto) throws Exception;
+
+    void updateInquiry(InquiryRequestDto requestDto) throws Exception;
 }

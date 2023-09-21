@@ -52,7 +52,6 @@
 </div>
 <th:block layout:fragment="content"></th:block>
 <th:block layout:fragment="popupContents"></th:block>
-<th:block layout:fragment="includeScript"></th:block>
 <footer>
     <div class="inner">
         <ul class="footer_info clear">
@@ -87,17 +86,11 @@
     </div>
 </div>
 
+<th:block layout:fragment="includeScript"></th:block>
+<th:block layout:fragment="changeScript"></th:block>
 <script th:inline="javascript">
     $(function () {
         const user = [[${session.sessionVO}]];
-        console.log(user);
-        if (user != null && user.hasOwnProperty('user')) {
-            console.log(user.user);
-        }
-        // console.log(JSON.stringify(user));
-        // let test = JSON.stringify(user);
-        // console.log('test : ' + test);
-        // console.log('test.user : ' + JSON.stringify(test.user));
         const signup = $('#signup');
         const signin = $('#signin');
         const signout = $('#signout');

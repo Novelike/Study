@@ -5,27 +5,15 @@
 <mapper namespace="com.kjh.mapper.MyPageMapper">
 
     <select id="getInquiryCount" parameterType="inquiryRequestDto" resultType="Integer">
-        /* SupportMapper.getInquiryCount */
-        SELECT seq
-             , user_seq
-             , inquiry_type
-             , inquiry_title
-             , inquiry_content
-             , inquiry_date
-             , inquiry_status
-             , reply_content
-             , reply_email
-             , reply_phone
-             , reply_notice
-             , reply_date
-             , reply_reg_user_seq
+        /* MyPageMapper.getInquiryCount */
+        SELECT COUNT(*)
         FROM   t_inquiry
         WHERE  user_seq = #{userSeq}
         ORDER BY seq DESC
     </select>
 
     <select id="getInquiryList" parameterType="inquiryRequestDto" resultMap="inquiryResult">
-        /* SupportMapper.getInquiryList */
+        /* MyPageMapper.getInquiryList */
         SELECT seq
              , user_seq
              , inquiry_type
@@ -42,10 +30,14 @@
         FROM   t_inquiry
         WHERE  user_seq = #{userSeq}
         ORDER BY seq DESC
+        LIMIT #{length}
+        <if test="start != 0">
+            OFFSET #{start}
+        </if>
     </select>
 
     <select id="getInquiryInfo" parameterType="inquiryRequestDto" resultMap="inquiryResult">
-        /* SupportMapper.getInquiryInfo */
+        /* MyPageMapper.getInquiryInfo */
         SELECT seq
              , user_seq
              , inquiry_type
@@ -65,7 +57,7 @@
     </select>
 
     <insert id="createInquiry" parameterType="inquiryRequestDto">
-        /* SupportMapper.createInquiry */
+        /* MyPageMapper.createInquiry */
         INSERT INTO t_inquiry (
                                 user_seq
                               , inquiry_type
@@ -90,6 +82,15 @@
                  , #{replyNotice}
                  )
     </insert>
+    
+    <update id="updateInquiry" parameterType="inquiryRequestDto">
+        /* MyPageMapper.updateInquiry */
+        UPDATE t_inquiry
+        set inquiry_title = #{inquiryTitle},
+            inquiry_content = #{inquiryContent},
+            inquiry_type = #{inquiryType}
+        where seq = #{seq};
+    </update>
 
     <!-- 쿼리 결과에 대한 맵핑 변수명 vs 컬럼명 - -->
     <resultMap type="inquiryVo" id="inquiryResult">

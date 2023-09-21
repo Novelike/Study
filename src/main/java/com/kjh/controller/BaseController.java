@@ -42,4 +42,9 @@ public class BaseController {
         session.invalidate();
         return "redirect:/redirectUrl?m=logout";
     }
+
+    @RequestMapping("/signin")
+    public String signin() {
+        return "sign/signin";
+    }
 }

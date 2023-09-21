@@ -1,0 +1,81 @@
+<div id="tab-1" class="on">
+    <p class="message">
+        <strong>[[${session.sessionVO.user.userName}]]님, 반갑습니다.</strong>
+        고객님의 개인정보 보호를 위해 <span class="red">비밀번호</span>를 한번 더 입력해 주세요.
+    </p>
+    <table class="table1 type">
+        <colgroup>
+            <col style="width: 20%">
+            <col style="width: 80%">
+        </colgroup>
+        <tbody>
+        <tr>
+            <td>아이디</td>
+            <td>
+                <span id="pwUserId"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                비밀번호 <span class="red">*</span>
+            </td>
+            <td>
+                <input type="password" id="confirmUserPw" class="input_txt inp_m type1" placeholder="비밀번호를 입력해 주세요.">
+                <span id="pwUserPwMsg" class="condition"></span>
+                <p class="tb_txt_S"><span class="red">*</span> 영문, 숫자 모두 포함 최소 8자~16자</p>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="bottom_btn_wrap txt-c">
+        <a href="javascript:void(0);" id="btnPasswordConfirm" class="my_button xl_button">확인</a>
+    </div>
+</div>
+<script>
+    function transformUserId() {
+        let userId = '[[${session.sessionVO.user.userId}]]';
+        let pwUserId = '';
+        for (let i = 0; i < userId.length; i++) {
+            if (i === 0 || i === 1 || i === 2) {
+                pwUserId += userId.charAt(i);
+            } else {
+                pwUserId += '*';
+            }
+        }
+        $('#pwUserId').text(pwUserId);
+    }
+
+    $('#btnPasswordConfirm').click(function () {
+        const userPw = $('#confirmUserPw').val();
+        const param = {userPw: userPw};
+        if (isEmptyString(userPw)) {
+            $('#pwUserPwMsg').html('비밀번호를 입력해 주세요.');
+        }
+        $.ajax({
+            url: '/mypage/checkPw',
+            type: 'GET',
+            data: param,
+            success: function (data) {
+                if (data) {
+                    myInfoUpdate();
+                }
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        })
+    })
+
+    function myInfoUpdate() {
+        $.ajax({
+            url: '/mypage/myInfoUpdate',
+            type: 'GET'
+        }).done(function (fragment) {
+            $('.menu_content').empty().append(fragment);
+        });
+    }
+
+    $(document).ready(function () {
+        transformUserId();
+    });
+</script>

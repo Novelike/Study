@@ -6,6 +6,8 @@ import com.kjh.mapper.MyPageMapper;
 import com.kjh.vo.InquiryVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +18,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MyPageService {
 
+    @Autowired
     private final MyPageMapper myPageMapper;
+
+    @Autowired
+    private final PasswordEncoder passwordEncoder;
 
     public int getInquiryCount(InquiryRequestDto requestDto) throws Exception {
         return myPageMapper.getInquiryCount(requestDto);
@@ -37,6 +43,16 @@ public class MyPageService {
     public InquiryResponseDto getInquiryInfo(InquiryRequestDto requestDto) throws Exception {
         InquiryVo inquiryVo = myPageMapper.getInquiryInfo(requestDto);
         return InquiryResponseDto.convertDto(inquiryVo);
+    }
+
+    public void updateInquiry(InquiryRequestDto requestDto) throws Exception {
+        myPageMapper.updateInquiry(requestDto);
+    }
+
+    public boolean checkPw(String userPw, String myPw) {
+        log.info(userPw);
+        log.info(myPw);
+        return passwordEncoder.matches(userPw, myPw);
     }
 
 }

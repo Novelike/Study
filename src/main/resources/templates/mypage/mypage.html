@@ -21,36 +21,7 @@
                     <div class="menu" id="menu3">발신번호 관리</div>
                     <div class="menu" id="menu4">기업회원 전환</div>
                 </div>
-                <div class="menu_content">
-                    <div class="my_inquiry">
-                        <div class="panelBar">
-                            <div class="panel_left">
-                                <span style="text-align: left; float: left;">
-                                    답변완료 상태 일때 제목을 클릭하시면 답변을 보실 수 있습니다.<br>
-                                    답변대기 상태 일때 제목을 클릭하시면 내용을 수정하실 수 있습니다.
-                                </span>
-
-                            </div>
-                            <div class="panel_right">
-                                <button role="button" class="my_button" id="inquiry_insert">등록</button>
-                                <button role="button" class="my_button" id="inquiry_select">조회</button>
-                            </div>
-                        </div>
-                        <table id="myInquiriesTable" class="cell-border w100per">
-                            <thead>
-                            <tr>
-                                <th>번호</th>
-                                <th>분류</th>
-                                <th>제목</th>
-                                <th>답변</th>
-                                <th>등록일</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                <div class="menu_content"></div>
             </div>
         </div>
     </div>
@@ -75,7 +46,7 @@
                     <tr>
                         <th>제목</th>
                         <td colspan="2">
-                            <input type="text" name="title" id="title" class="input_txt inp_l.w100 type1" placeholder="제목을 입력하세요"/>
+                            <input value="" type="text" name="title" id="title" class="input_txt inp_l.w100 type1" placeholder="제목을 입력하세요"/>
                         </td>
                         <td>
                             <select name="inquiryType" id="inquiryType">
@@ -92,7 +63,7 @@
                     <tr>
                         <th>내용</th>
                         <td colspan="3">
-                            <textarea name="content" id="content" class="input_txt inp_l.w100 type1" rows="5" cols="50" style="height: 300px;padding-top: 10px"
+                            <textarea content="" name="content" id="content" class="input_txt inp_l.w100 type1" rows="5" cols="50" style="height: 300px;padding-top: 10px"
                                       placeholder="내용을 입력해주세요"></textarea>
                         </td>
                     </tr>
@@ -111,6 +82,7 @@
                 </table>
             </form>
             <button type="button" id="btnInquirySave" class="my_button" style="margin-top: 10px">저장</button>
+            <button type="button" id="btnInquiryUpdate" class="my_button" style="margin-top: 10px">수정</button>
             <div class="popup_close"><a href="javascript:void(0);" class="close_button"></a></div>
         </div>
     </div>
@@ -153,165 +125,58 @@
                     </td>
                 </tr>
             </table>
-            <button type="button" id="btnInquiryConfirm" class="btn btn_primary btn_s mt10" >확인</button>
+            <button type="button" id="btnInquiryConfirm" class="my_button" style="margin-top: 10px;">확인</button>
             <div class="popup_close"><a href="javascript:void(0);" class="close_button"></a></div>
         </div>
     </div>
 </div>
-<script layout:fragment="includeScript">
-    let myInquiriesTable;
-
-    $(document).ready(function() {
-        dataTable();
-        $('#inquiry_select').click(function () {
-            myInquiriesTable.ajax.reload();
+<script id="includeScript" layout:fragment="includeScript" th:inline="javascript">
+    $(document).ready(function () {
+        mySwitch([[${default}]]);
+        $('.menu').click(function () {
+            mySwitch($(this).attr('id'));
         });
-        $('#inquiry_insert').click(function () {
-            fnLayerPopup('addInquiry');
-        });
-        $('#btnInquirySave').click(function () {
-            saveInquiry();
-        })
     });
-    
-    function saveInquiry() {
-        const inquiryTitle = $('#title').val();
-        const inquiryContent = $('#content').val();
-        const inquiryType = $('#inquiryType').val();
-        const replyEmail = $('#userEmail').val();
-        const replyMobile = $('#userMobile').val();
-        const param = {inquiryTitle:inquiryTitle, inquiryContent:inquiryContent, inquiryType:inquiryType, replyEmail:replyEmail, replyPhone:replyMobile}
-        console.log(param);
-        $.ajax({
-            url: '/mypage/inquiry/insert',
-            type: 'POST',
-            contentType: 'application/json',
-            dataType: 'JSON',
-            data: JSON.stringify(param),
-            success: function (data) {
 
-            },
-            error : function (e) {
+    function mySwitch(id) {
+        $('.menu').removeClass('menu_clicked');
+        $('#'+id).addClass('menu_clicked');
 
-            }
-        })
-    }
-
-    function getInquiryData(data) {
-        switch (data) {
-            case 'B0501':
-                return '답변대기';
-            case 'B0502':
-                return '답변완료';
-            case 'B0601':
-                return '가입/해지';
-            case 'B0602':
-                return '요금/결제';
-            case 'B0603':
-                return '메시지전송';
-            case 'B0604':
-                return '메시지수신';
-            case 'B0605':
-                return '주소록';
-            case 'B0606':
-                return '기타문의';
+        switch (id) {
+            case 'menu1':
+                replaceHtml('/mypage/my_inquiry');
+                break;
+            case 'menu2':
+                replaceHtml('/mypage/myInfo');
+                break;
+            case 'menu3':
+                replaceHtml('/mypage/content3');
+                break;
+            case 'menu4':
+                replaceHtml('/mypage/content4');
+                break;
         }
     }
 
-    function dataTable() {
-        myInquiriesTable = $('#myInquiriesTable').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: {
-                url: '/mypage/inquiry/select',
-                type: 'post',
-                contentType: 'application/json',
-                data: function (data) {
-                    return JSON.stringify(data);
-                },
-                dataSrc: function (data) {
-                    const tableData = [];
-                    console.log(data);
-                    data.data.forEach(function (inquiry) {
-                        const rowData = {
-                            'seq': inquiry.seq === null ? '' : inquiry.seq
-                            , 'inquiryType': inquiry.inquiryType === null ? '' : getInquiryData(inquiry.inquiryType)
-                            , 'inquiryTitle': inquiry.inquiryTitle === null ? '' : inquiry.inquiryTitle
-                            , 'inquiryStatus': inquiry.inquiryStatus === null ? '' : getInquiryData(inquiry.inquiryStatus)
-                            , 'inquiryDateStr': inquiry.hasOwnProperty('inquiryDateStr') ? inquiry.inquiryDateStr : ''
-                        };
-                        tableData.push(rowData);
-                    });
-                    return tableData;
-                }
+    function replaceHtml(url) {
+        $.ajax({
+            url: url,
+            type: 'GET',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('ajax', true);
             },
-            columnDefs: [
-                {
-                    targets: 0,
-                    className: 'dt-center'
+            success: function (data, response, jqXHR) {
+                $('.menu_content').empty().append(data);
+            },
+            error: function (e) {
+                if(e.status === 403) {
+                    alert('')
+                    location.href='/sign/signin?';
                 }
-                , {
-                    targets: 1,
-                    className: 'dt-center'
-                }
-                , {
-                    targets: 2,
-                    className: 'dt-center'
-                }
-                , {
-                    targets: 3,
-                    className: 'dt-center'
-                },
-                {
-                    targets: -1,
-                    className: 'dt-center'
-                }
-            ],
-            columns: [
-                {title: '번호', data: 'seq', width: 80}
-                , {title: '분류', data: 'inquiryType', width: 80}
-                , {
-                    title: '제목', data: 'inquiryTitle', width: 120
-                    , render: function (data, type, row) {
-                        if (row.inquiryStatus === '답변완료') {
-                            return '<a href="javascript:void(0);" onclick="getInquiryInfo(' + row.seq + ');">' + data + '</a>';
-                        }
-                        return data;
-                    }
-                }
-                , {title: '답변상태', data: 'inquiryStatus', width: 50}
-                , {title: '등록일', data: 'inquiryDateStr', width: 120}
-            ]
-            , language: {
-                emptyTable: '조회된 결과가 없습니다.'
-                , zeroRecords: '조회된 결과가 없습니다.'
-                , info: ''
-                , infoEmpty : ""
-                , infoFiltered : ""
-                , paginate: {previous: '&lt;', next: '&gt;'}
             }
-            , pageLength: 15
-            , displayLength: 15
-            , scrollY: true
-            , scrollX: '100%'
-            , sScrollXInner: '2000px'
-            , scrollCollapse: true
-            , searching: false
-            , ordering: false
-            , lengthChange: false
-            , autoFill: {
-                vertical: true
-                , horizontal: true
-            }
-        })
+        });
     }
 
-    $('.menu').click(function () {
-        $(this).siblings().each(function () {
-            $(this).removeClass('menu_clicked');
-        });
-        $(this).addClass('menu_clicked');
-    });
 </script>
 </body>
 </html>

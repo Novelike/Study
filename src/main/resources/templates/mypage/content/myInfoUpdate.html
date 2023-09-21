@@ -1,0 +1,97 @@
+<div id="tab-2">
+    <p class="message">
+        <strong id="topName"></strong>
+    </p>
+    <h4 class="sub_page_stit">개인정보 변경</h4>
+    <table class="table1 type">
+        <colgroup>
+            <col style="width: 20%">
+            <col style="width: 80%">
+        </colgroup>
+        <tr>
+            <td>
+                아이디<span class="red">*</span>
+            </td>
+            <td>
+                <span id="userId"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                이름 <span class="red">*</span>
+            </td>
+            <td>
+                <span id="userName"></span>
+                <button type="button" id="mobileAuthorization1" class="my_button ml5">
+                    휴대폰 인증
+                </button>
+            </td>
+        </tr>
+        <tr style="display:none">
+            <td>현재 비밀번호</td>
+            <td>
+                <input id="userPw" type="password" class="input_txt inp_m type1"
+                       placeholder="비밀번호를 입력해 주세요.">
+            </td>
+        </tr>
+        <tr>
+            <td>새 비밀번호</td>
+            <td>
+                <input type="password" id="newUserPw" class="input_txt inp_m type1"
+                       placeholder="비밀번호를 입력해 주세요.">
+                <input type="hidden" name="isPw" id="isPw" value="N"/>
+                <span id="userPwMsg" class="condition"></span>
+                <p class="tb_txt_S"><span class="red">*</span> 영문, 숫자 모두 포함 최소 8자~16자</p>
+            </td>
+        </tr>
+        <tr>
+            <td>새 비밀번호 확인</td>
+            <td>
+                <input type="password" id="userPwConfirm" class="input_txt inp_m type1"
+                       placeholder="비밀번호를 다시 입력해 주세요.">
+                <span id="userPwConfirmMsg" class="condition"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>휴대폰 번호<span class="red">*</span></td>
+            <td>
+                <input type="text" id="userMobile1" class="input_txt inp_m type2" placeholder=""
+                       readonly="readonly">
+                <input type="text" id="userMobile2" class="input_txt inp_m type2" placeholder=""
+                       readonly="readonly">
+                <input type="text" id="userMobile3" class="input_txt inp_m type2" placeholder=""
+                       readonly="readonly">
+                <input type="hidden" name="userMobile" id="userMobile"/>
+                <input type="hidden" name="userCI" id="userCI"/>
+                <input type="hidden" name="userDI" id="userDI"/>
+                <button type="button" id="mobileAuthorization2" class="my_button ml5">
+                    휴대폰 인증
+                </button>
+            </td>
+        </tr>
+        <tr>
+            <td>이메일 주소</td>
+            <td>
+                <input type="text" id="userEmail1" class="input_txt inp_m type1"
+                       placeholder="E-mail"> @ <input type="text" id="userEmail2"
+                                                      class="input_txt inp_m type1"
+                                                      placeholder="입력해주세요.">
+            </td>
+        </tr>
+    </table>
+    <div class="bottom_btn_wrap txt-c">
+        <a href="javascript:void(0);" id="btnUserModify" class="my_button xl_button">확인</a>
+        <div class="mt40"><a href="javascript:void(0);" id="btnUserWithdrawal" class="btn_normal">회원탈퇴</a>
+        </div>
+    </div>
+</div>
+<script>
+    function setMyInfo() {
+        $('#topName').html('[[${session.sessionVO.user.userName}]]님, 반갑습니다.');
+        $('#userId').html('[[${session.sessionVO.user.userId}]]');
+        $('#userName').html('[[${session.sessionVO.user.userName}]]');
+    }
+    $(document).ready(function() {
+        setMyInfo();
+    })
+</script>

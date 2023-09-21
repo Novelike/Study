@@ -57,3 +57,77 @@
     border: 1px solid #ccc;
     box-sizing: border-box;
 }
+.inquiryTitle:hover {
+    transition: color .4s ease;
+    color: #322cbd;
+}
+.bottom_btn_wrap {
+    padding: 30px 0 100px;
+}
+.inner_box .menu_content {margin-top:50px;}
+.inner_box .menu_content li{display: none;}
+.inner_box .menu_content .cont_not {padding:30px; text-align:center;}
+.inner_box .menu_content div.on{display: inherit;}
+.slide_layer {display: none;}
+.slide_layer .inputArea {width:450px;} /* 220116 추가 */
+.slide_layer .inputArea input + input {margin-top:10px;}  /* 220116 추가 */
+
+/* 마이페이지 */
+.on .message {font-size: 18px; text-align: center; padding-bottom: 20px;}
+.on .message strong {display: block; font-size: 20px; font-weight: 500; padding-bottom: 10px;}
+
+.h2000 {height: 2000px;}
+.h1000 {height: 1000px;}
+.h50per {height: 50% !important;}
+.h80per {height: 80% !important;}
+.h100per {height: 100% !important;}
+.w20per {width: 20% !important;}
+.w100per {width: 100% !important;}
+.w100px {width: 100px;}
+
+.red {color:#d90000;}
+
+.xl_button {
+    font-size: 22px;
+    padding: 20px 72px;
+    display: inline-block;
+}
+.inp_m.type1 {
+    width: 254px;
+}
+.input_txt.inp_m {
+    height: 40px;
+}
+.inp_m.type2 {
+    width: 100px;
+}
+.input_txt.inp_m {
+    height: 40px;
+}
+p.message {
+    padding-bottom: 20px;
+}
+#topName {
+    display: block;
+    font-size: 20px;
+    font-weight: 500;
+    padding-bottom: 10px;
+}
+.sub_page_stit {
+    font-size: 18px;
+    font-weight: 500;
+    color: #111;
+    margin-bottom: 20px;
+    float: left;
+}
+.ml5 {
+    margin-left: 5px;
+}
+a#btnUserWithdrawal {
+    font-size: 16px;
+    color: #555;
+    border-bottom: 1px solid #555;
+}
+.mt40 {
+    margin-top: 40px;
+}

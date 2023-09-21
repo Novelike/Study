@@ -44,7 +44,7 @@ public class MainController {
     public String goFee() { return "/main/fee"; }
 
     @GetMapping("/mypage")
-    public String goMyPage(HttpServletRequest request, Model model) { return "redirect:/mypage/inquiry"; }
+    public String goMyPage(HttpServletRequest request, Model model) { return "redirect:/mypage/mypage"; }
 
     @GetMapping("/addressbook")
     public String goAddressBook() { return "/main/addressbook"; }

@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kjh.mapper.SendNumberMapper">
+
+    <insert id="insertSendNumber" parameterType="sendNumberVO">
+		/* SendNumberMapper.insertSendNumber */
+		INSERT INTO t_send_number (
+		       user_seq
+		     , send_number
+		     , reg_reason
+		     , certification_type
+		     , certification_status
+		     , reg_date
+		     , reg_user_seq
+		) VALUES (
+		       #{userSeq}
+		     , #{sendNumber}
+		     , #{regReason}
+		     , #{certificationType}
+		     , #{certificationStatus}
+		     , #{regDate}
+		     , #{regUserSeq}
+		)
+
+		<selectKey resultType="int" keyProperty="seq" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+
+	</insert>
+
+	<update id="updateSendNumber" parameterType="sendNumberVO">
+		/* SendNumberMapper.updateSendNumber */
+		UPDATE t_send_number
+		<set>
+		    <if test=' userSeq != null' >
+		        user_seq = #{userSeq},
+		    </if>
+		    <if test=' sendNumber != null and sendNumber != ""' >
+		        send_number = #{sendNumber},
+		    </if>
+		    <if test=' regReason != null and regReason != ""' >
+		        reg_reason = #{regReason},
+		    </if>
+		    <if test=' certificationType != null and certificationType != ""' >
+		        certification_type = #{certificationType},
+		    </if>
+		    <if test=' certificationStatus != null and certificationStatus != ""' >
+		        certification_status = #{certificationStatus},
+		    </if>
+		    <if test=' certificationRejectReason != null and certificationRejectReason != ""' >
+		        certification_reject_reason = #{certificationRejectReason},
+		    </if>
+		    <if test=' certificationDate != null' >
+		        certification_date = #{certificationDate},
+		    </if>
+		    <if test=' isBaseSelect != null' >
+		        is_base_select = #{isBaseSelect},
+		    </if>
+		    <if test=' modDate != null' >
+		        mod_date = #{modDate},
+		    </if>
+		    <if test=' modUserSeq != null' >
+		        mod_user_seq = #{modUserSeq}
+		    </if>
+		</set>
+		<where>
+		    <if test='seq != null and seq != 0 '>
+		AND     seq = #{seq}
+		    </if>
+		    <if test='userSeq != null and userSeq != 0 '>
+		AND     user_seq = #{userSeq}
+		    </if>
+		    <if test='sendNumber != null and sendNumber != ""  '>
+		AND     send_number = #{sendNumber}
+		    </if>
+		</where>
+	</update>
+
+	<delete id="deleteSendNumber" parameterType="sendNumberVO">
+		/* SendNumberMapper.deleteSendNumber */
+		DELETE
+		FROM  t_send_number
+		WHERE seq in
+		<foreach item="value" index="index" collection="arrSendNumberSeq" open="(" close=")" separator=",">
+		      #{value}
+		</foreach >
+		AND   user_seq = #{userSeq}
+	</delete>
+	
+	<select id="selectSendNumber" parameterType="hashmap" resultMap="sendNumberResult" >
+		/* SendNumberMapper.selectSendNumber */
+		SELECT seq
+		     , user_seq
+		     , send_number
+		     , reg_reason
+		     , certification_type
+		     , certification_status
+		     , certification_reject_reason
+		     , certification_date
+		     , is_base_select
+		     , reg_date
+		     , reg_user_seq
+		     , mod_date
+		     , mod_user_seq
+		FROM   t_send_number
+		<where>
+		    <if test='seq != null and seq != 0 '>
+		AND    seq = #{seq}
+		    </if>
+		    <if test='userSeq != null and userSeq != 0 '>
+		AND    user_seq = #{userSeq}
+		    </if>
+		    <if test='sendNumber != null and sendNumber != ""  '>
+		AND    send_number = #{sendNumber}
+		    </if>
+		</where>
+	</select>
+
+	<insert id="insertSendNumberFile" parameterType="hashmap">
+		/* SendNumberMapper.insertSendNumberFile */
+		INSERT INTO t_send_number_file (
+		       send_number_seq
+		     , file_path
+		     , file_name
+		     , reg_date
+		     , reg_user_seq
+		) VALUES (
+		       #{sendNumberSeq}
+		     , #{filePath}
+		     , #{fileName}
+		     , #{regDate}
+		     , #{regUserSeq}
+		)
+	</insert>
+
+	<delete id="deleteSendNumberFile" parameterType="hashmap" >
+		/* SendNumberMapper.deleteSendNumberFile */
+		DELETE
+		FROM  t_send_number_file
+		WHERE send_number_seq = #{sendNumberSeq}
+	</delete>
+
+	<select id="selectSendNumberListCnt" parameterType="hashmap" resultType="Integer">
+		/* SendNumberMapper.selectSendNumberListCnt */
+		SELECT count(*)
+		FROM   t_send_number
+		<where>
+		    <if test='seq != null and seq != 0 '>
+		AND    seq = #{seq}
+		    </if>
+		    <if test='userSeq != null and userSeq != 0 '>
+		AND    user_seq = #{userSeq}
+		    </if>
+		    <if test='sendNumber != null and sendNumber != ""  '>
+		AND    send_number = #{sendNumber}
+		    </if>
+		    <if test='certificationStatus != null and certificationStatus != ""  '>
+		AND    certification_status = #{certificationStatus}
+		    </if>
+		</where>
+
+	</select>
+
+	<select id="selectSendNumberList" parameterType="hashmap" resultMap="sendNumberResult">
+		/* SendNumberMapper.selectSendNumberList */
+		SELECT seq
+		     , user_seq
+		     , send_number
+		     , reg_reason
+		     , certification_type
+		     , certification_status
+		     , certification_reject_reason
+		     , certification_date
+		     , is_base_select
+		     , reg_date
+		     , reg_user_seq
+		     , mod_date
+		     , mod_user_seq
+		FROM   t_send_number
+		<where>
+		    <if test='seq != null and seq != 0 '>
+		AND    seq = #{seq}
+		    </if>
+		    <if test='userSeq != null and userSeq != 0 '>
+		AND    user_seq = #{userSeq}
+		    </if>
+		    <if test='sendNumber != null and sendNumber != ""  '>
+		AND    send_number = #{sendNumber}
+		    </if>
+		    <if test='certificationStatus != null and certificationStatus != ""  '>
+		AND    certification_status = #{certificationStatus}
+		    </if>
+		</where>
+		ORDER BY seq DESC
+	</select>
+
+	<select id="searchSendNumberList" parameterType="searchVO" resultMap="sendNumberListResult">
+		/* SendNumberMapper.searchSendNumberList */
+		SELECT tsn.seq
+		     , tsn.send_number
+		     , tsn.reg_reason
+		     , tsn.certification_type
+		     , tsn.certification_status
+		     , tsn.certification_reject_reason
+		     , date_format(tsn.certification_date, '%Y-%m-%d %H:%i:%s') AS certification_date
+		     , tsn.is_base_select
+		     , date_format(tsn.reg_date, '%Y-%m-%d %H:%i:%s') AS reg_date
+		     , (SELECT tc.name FROM t_code tc WHERE tc.P_code = 'A0002' AND tsn.certification_type = tc.code) AS certification_type_name
+		     , (SELECT tc.name FROM t_code tc WHERE tc.P_code = 'A0003' AND tsn.certification_status = tc.code) AS certification_status_name
+		FROM   t_send_number tsn
+		<where>
+		    <if test="keyword != '' and keyfield == 'userSeq' ">
+		AND    tsn.user_seq = #{keyword}
+		    </if>
+		</where>
+		ORDER BY tsn.seq DESC
+		LIMIT #{startRecord}, #{size}
+	</select>
+
+	<!-- 쿼리 결과에 대한 맵핑 변수명 vs 컬럼명 - -->
+	<resultMap type="sendNumberVO" id="sendNumberResult">
+		<result property="seq" column="seq"/>
+		<result property="userSeq" column="user_seq"/>
+		<result property="sendNumber" column="send_number"/>
+		<result property="regReason" column="reg_reason"/>
+		<result property="certificationType" column="certification_type"/>
+		<result property="certificationStatus" column="certification_status"/>
+		<result property="certificationRejectReason" column="certification_reject_reason"/>
+		<result property="certificationDate" column="certification_date"/>
+		<result property="isBaseSelect" column="is_base_select"/>
+		<result property="regDate" column="reg_date"/>
+		<result property="regUserSeq" column="reg_user_seq"/>
+		<result property="modDate" column="mod_date"/>
+		<result property="modUserSeq" column="mod_user_seq"/>
+	</resultMap>
+
+	<resultMap type="sendNumberListVO" id="sendNumberListResult">
+		<result property="sendNumberSeq" column="seq"/>
+		<result property="sendNumber" column="send_number"/>
+		<result property="regReason" column="reg_reason"/>
+		<result property="certificationType" column="certification_type"/>
+		<result property="certificationStatus" column="certification_status"/>
+		<result property="certificationRejectReason" column="certification_reject_reason"/>
+		<result property="certificationDate" column="certification_date"/>
+		<result property="isBaseSelect" column="is_base_select"/>
+		<result property="regDate" column="reg_date"/>
+		<result property="certificationTypeName" column="certification_type_name"/>
+		<result property="certificationStatusName" column="certification_status_name"/>
+	</resultMap>
+
+</mapper>

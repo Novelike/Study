@@ -672,3 +672,5 @@ select {
 .table1.type td {
     text-align: left;
 }
+.input_txt::placeholder, .textarea::placeholder {color:#aaa;}
+/*[contenteditable=true]:empty:before{content:attr(placeholder); color:#aaa;}*/

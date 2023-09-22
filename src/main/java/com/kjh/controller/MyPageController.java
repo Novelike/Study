@@ -3,11 +3,16 @@ package com.kjh.controller;
 import com.kjh.dto.DataTableResponseDto;
 import com.kjh.dto.InquiryRequestDto;
 import com.kjh.dto.InquiryResponseDto;
+import com.kjh.dto.ResultDTO;
 import com.kjh.service.MyPageService;
+import com.kjh.service.SendNumberService;
+import com.kjh.vo.SearchVO;
+import com.kjh.vo.SendNumberVO;
 import com.kjh.vo.SessionVO;
 import com.kjh.vo.UserVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +26,11 @@ import java.util.List;
 @RequestMapping("/mypage")
 public class MyPageController {
 
+    @Autowired
     private final MyPageService myPageService;
+
+    @Autowired
+    private final SendNumberService sendNumberService;
 
     @RequestMapping("/mypage")
     public String goInquiry(HttpServletRequest request, Model model) {
@@ -85,7 +94,17 @@ public class MyPageController {
     public String myInfoUpdate() { return "/mypage/content/myInfoUpdate"; }
 
     @RequestMapping("/content3")
-    public String getContent3() { return "/mypage/content/content3"; }
+    public String getContent3(Model model, HttpServletRequest request, SearchVO svo) {
+        SessionVO sessionVO = (SessionVO) request.getSession().getAttribute("sessionVO");
+        try {
+            List<SendNumberVO> sendNumberList = sendNumberService.sendNumberList(sessionVO.getUser().getSeq(), svo);
+            model.addAttribute("list", sendNumberList);
+            model.addAttribute("svo", svo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "/mypage/content/content3";
+    }
 
     @RequestMapping("/content4")
     public String getContent4() { return "/mypage/content/content4"; }

@@ -90,6 +90,16 @@
         $('#topName').html('[[${session.sessionVO.user.userName}]]님, 반갑습니다.');
         $('#userId').html('[[${session.sessionVO.user.userId}]]');
         $('#userName').html('[[${session.sessionVO.user.userName}]]');
+        let userMobile = '[[${session.sessionVO.user.userMobile}]]';
+        $('#userMobile1').val(userMobile.substring(0,3));
+        $('#userMobile2').val(userMobile.substring(3,7));
+        $('#userMobile3').val(userMobile.substring(7,11));
+        let userEmail = '[[${session.sessionVO.user.userEmail}]]';
+        if (!isEmptyString(userEmail)) {
+            let pos = userEmail.indexOf('@');
+            $('#userEmail1').val(userEmail.substring(0, pos));
+            $('#userEmail2').val(userEmail.substring(pos + 1));
+        }
     }
     $(document).ready(function() {
         setMyInfo();

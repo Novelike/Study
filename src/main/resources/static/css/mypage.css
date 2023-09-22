@@ -123,6 +123,9 @@ p.message {
 .ml5 {
     margin-left: 5px;
 }
+.ml15 {
+    margin-left: 15px;
+}
 a#btnUserWithdrawal {
     font-size: 16px;
     color: #555;
@@ -130,4 +133,101 @@ a#btnUserWithdrawal {
 }
 .mt40 {
     margin-top: 40px;
+}
+.s_text {
+    font-size: 14px;
+    font-weight: 400;
+    color: #666;
+    margin-top: 10px;
+}
+.mt-10 {
+    margin-top: -10px;
+}
+.mb10 {
+    margin-bottom: 10px;
+}
+.fl_right {
+    float: right;
+}
+.paging_wrap {
+    display: inline-flex;
+    align-items: center;
+}
+.mt20 {
+    margin-top: 20px;
+}
+.mb70 {
+    margin-bottom: 70px;
+}
+.gray_button {
+    background-color: #e2e2e2;
+    color: #555;
+}
+.radio input:checked + label::after, .checkbox input:checked + label::after {
+    background-image: url(../images/content/icon_rdo_chk.png);
+}
+.radio input + label::after, .checkbox input + label::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 24px;
+    height: 24px;
+    background: url(../images/content/icon_rdo.png) no-repeat 0 0;
+    background-size: 100% auto;
+}
+.textarea {
+    padding: 15px 20px;
+    width: 100%;
+    border: 1px solid #ccc;
+    resize: none;
+    box-sizing: border-box;
+    background-color: #fff;
+}
+input[type="checkbox"].checkbox::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url(../images/content/icon_chk.png) no-repeat 0 0;
+}
+input[type="checkbox"].checkbox {
+    position: relative;
+    border: none;
+    width: 20px;
+    height: 20px;
+}
+input[type="checkbox"].checkbox:checked:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url(../images/content/icon_chk_chk.png) no-repeat 0 0;
+}
+.radio input, .checkbox input {
+    display: none;
+}
+.radio input + label, .checkbox input + label {
+    position: relative;
+    display: inline-block;
+    padding-left: 35px;
+    height: 24px;
+    line-height: 1.5;
+    cursor: pointer;
+    font-weight: 300;
+}
+.input_txt:focus, .select:focus, .textarea:focus {border:1px solid #332dbd; outline:none}
+input[type="number"]::-webkit-outer-spin-button,input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none;}
+hr{height:1px;background-color:#ddd;border:0;}
+.input_txt.inp_l {
+    height: 50px;
+}
+.tb_txt_S {
+    font-size: 16px;
+    color: #666;
+    margin-top: 5px;
 }

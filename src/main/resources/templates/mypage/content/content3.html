@@ -1,4 +1,169 @@
-<div>
-    This is Content3<br>
-    되는지 확인.
+<div id="tab-3" class="on">
+    <p class="message">
+        <strong>[[${session.sessionVO.user.userName}]]님, 반갑습니다.</strong>
+        [[${session.sessionVO.user.userName}]]님의 등록된 발신번호는 총<span
+            class="red">[[${svo.totalCnt}]]</span>건 입니다. <br/>
+        <th:block th:if="${svo.totalCnt} > 0 ">
+            <span class="s_text">* 발신번호는 1계정 당 최대 5개까지 등록할 수 있습니다.</span>
+        </th:block>
+    </p>
+    <form id="frm" class="mb70">
+        <div class="txt-c">
+            <input type="hidden" id="pagevalue" name="page" th:value="${svo.page}">
+            <input type="hidden" id="endLimit" name="size" th:value="${svo.size}">
+            <input type="hidden" id="sortType" name="sortType" value="">
+            <h4 class="sub_page_stit fl_left">발신번호 목록</h4>
+            <div class="fl_right mb10 mt-10">
+                <button type="button" id="btnBaseSendNumber" class="my_button">선택 항목
+                    기본으로 설정
+                </button>
+                <button type="button" id="btnDeleteSendNumber" class="my_button">선택삭제
+                </button>
+            </div>
+            <table class="table1">
+                <colgroup>
+                    <col style="width: 10%">
+                    <col style="width: 10%">
+                    <col style="width: 35%">
+                    <col style="width: 15%">
+                    <col style="width: 15%">
+                    <col style="width: 15%">
+                </colgroup>
+                <tr>
+                    <th>NO</th>
+                    <th>선택</th>
+                    <th>용도</th>
+                    <th>발신번호</th>
+                    <th>등록요청일시</th>
+                    <th>상태</th>
+                </tr>
+                <tr th:each="info, index :${list}">
+                    <td th:text="((${svo.page}-1)*${svo.size})+${index.count}">1</td>
+                    <td><input type="checkbox" class="checkbox" id="sendNumberList"
+                               name="sendNumberList" th:value="${info.sendNumberSeq}"/></td>
+                    <td>[[${info.regReason}]]</td>
+                    <td>[[${info.sendNumber}]]</td>
+                    <td>[[${info.regDate}]]</td>
+                    <td class="point">[[${info.certificationStatusName}]]</td>
+                </tr>
+                <tr th:if="${svo.totalCnt} == 0">
+                    <td colspan="6"><p class="cont_not">등록된 발신번호가 없습니다.</p></td>
+                </tr>
+            </table>
+            <!-- paging -->
+            [(${paging})]
+            <!-- //paging -->
+        </div>
+    </form>
+    <div class="mt30">
+        <h4 class="sub_page_stit fl_left">발신번호 등록</h4>
+        <table class="table1 type">
+            <colgroup>
+                <col style="width: 20%">
+                <col style="width: 80%">
+            </colgroup>
+            <tr>
+                <td>등록사유</td>
+                <td>
+                    <textarea id="regReason" class="textarea" placeholder="내용을 입력하세요"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>발신번호 입력</td>
+                <td>
+                    <input type="number" id="sendNumber1" maxlength="4"
+                           oninput="maxLengthCheck(this)" class="input_txt inp_m type2"/>
+                    <input type="number" id="sendNumber2" maxlength="4"
+                           oninput="maxLengthCheck(this)" class="input_txt inp_m type2"/>
+                    <input type="number" id="sendNumber3" maxlength="4"
+                           oninput="maxLengthCheck(this)" class="input_txt inp_m type2"/>
+                    <input type="hidden" id="isSendNumber" value="N"/>
+                </td>
+            </tr>
+            <tr>
+                <td>인증방법 선택</td>
+                <td>
+                    <div class="mb20">
+                                            <span class="radio">
+                                                <input type="radio" name="rdo_1" id="rdo-my1" value="B0201" checked="checked">
+                                                <label for="rdo-my1">휴대폰 인증</label>
+                                            </span>
+                        <span class="radio ml15">
+                                                <input type="radio" name="rdo_1" id="rdo-my2" value="B0202">
+                                                <label for="rdo-my2">서류 인증</label>
+                                            </span>
+                    </div>
+                    <!-- 휴대폰 인증 -->
+                    <div id="slideLayer01">
+                        <button type="button" id="btnCertification" class="my_button">
+                            인증하기
+                        </button>
+                        <span id="certificationMsg" class="point ml10" style="display:none">인증이 완료되었습니다.</span>
+                        <input type="hidden" id="isCertification" value="N"/>
+                    </div>
+                    <!-- 서류 인증 -->
+                    <div id="slideLayer02" class="slide_layer">
+                        <div class="inputArea">
+                            <input type="file" name="subscriptionCertificateUploadFile"
+                                   id="subscriptionCertificateUploadFile" style="display: none;"
+                                   accept="image/*,.pdf">
+                            <input type="text" id="subscriptionCertificateAttachFile"
+                                   class="input_txt inp_l" value=""
+                                   placeholder="통신사 가입증명서를 업로드 하세요." readonly/>
+
+                            <input type="file" name="businessRegUploadFile"
+                                   id="businessRegUploadFile" style="display: none;"
+                                   accept="image/*,.pdf">
+                            <input type="text" id="businessRegAttachFile" class="input_txt inp_l"
+                                   value="" placeholder="사업자등록증을 업로드 하세요." readonly/>
+
+                            <input type="file" name="employmentCertificateUploadFile"
+                                   id="employmentCertificateUploadFile" style="display: none;"
+                                   accept="image/*,.pdf">
+                            <input type="text" id="employmentCertificateAttachFile"
+                                   class="input_txt inp_l" value="" placeholder="재직증명서를 업로드 하세요."
+                                   readonly/>
+
+                            <input type="file" name="warrantUploadFile" id="warrantUploadFile"
+                                   style="display: none;" accept="image/*,.pdf">
+                            <input type="text" id="warrantAttachFile" class="input_txt inp_l"
+                                   value="" placeholder="위임장을 업로드 하세요." readonly/>
+                        </div>
+                        <p class="s_text">* 업로드는 5MB이내 jpg, png, pdf파일만 가능합니다.</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="bottom_btn_wrap txt-c">
+        <a href="javascript:void(0);" id="btnSaveSendNumber" class="my_button xl_button gray_button">확인</a>
+    </div>
 </div>
+<script>
+    $('input[name="rdo_1"]').on('click', function () {
+        let pId = $(this).attr("id");
+        if (pId === 'rdo-my1') {
+            $('#slideLayer01').css('display', 'block');
+        } else {
+            $('#slideLayer01').css('display', 'none');
+        }
+        if (pId === 'rdo-my2') {
+            $('#slideLayer02').css('display', 'block');
+        } else {
+            $('#slideLayer02').css('display', 'none');
+        }
+        setBtnSaveSendNumber(false);
+    });
+
+    function setBtnSaveSendNumber(chkDisabled) {
+        const $btnSaveSendNumber = $('#btnSaveSendNumber');
+        $btnSaveSendNumber.removeClass();
+        if (chkDisabled) {
+            $btnSaveSendNumber.addClass('my_button xl_button');
+            $btnSaveSendNumber.attr('disabled', false);
+        } else {
+            $btnSaveSendNumber.addClass('my_button xl_button gray_button');
+            $btnSaveSendNumber.attr('disabled', true);
+        }
+    }
+</script>

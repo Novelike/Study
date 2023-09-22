@@ -148,8 +148,8 @@
 		AND    message_type = #{selectValue1}
 		    </if>
 		</where>
-		ORDER BY seq DESC
 		LIMIT #{startRecord}, #{size}
+		ORDER BY seq DESC
 	</select>
 
 	<select id="selectSaveMessageBoxListCnt" parameterType="hashmap" resultType="Integer">
@@ -308,8 +308,8 @@
 		AND    user_seq = #{keyword}
 		    </if>
 		</where>
-		ORDER BY seq DESC
 		LIMIT #{startRecord}, #{size}
+		ORDER BY seq DESC
 	</select>
 
 	<delete id="receiverDelete" parameterType="hashmap">

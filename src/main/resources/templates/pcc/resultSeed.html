@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>본인 인증 결과</title>
+	<script src="/js/jquery-1.8.3.min.js"></script>
+</head>
+
+<body bgcolor="#FFFFFF" topmargin=0 leftmargin=0 marginheight=0 marginwidth=0>
+
+	<table style="display: none;">
+
+		<tr>
+			<td align="left">체크모드</td>
+			<td align="left" th:text="${checkmode}"></td>
+		</tr>
+
+		<tr th:each="list : ${info}">
+			<td align="left" th:text="${list}"></td>
+		</tr>
+		<!--<tr>
+			<td align="left">성명</td>
+			<td align="left" th:text="${info[0] }"></td>
+		</tr>
+		<tr>
+			<td align="left">생년월일</td>
+			<td align="left" th:text="${info[1] }"></td>
+		</tr>
+		<tr>
+			<td align="left">성별</td>
+			<td align="left"th:text="${info[2] }"></td>
+		</tr>
+
+		<tr>
+			<td align="left">내외국인 구분값(1:내국인, 2:외국인)</td>
+			<td align="left" th:text="${info[3] }"></td>
+		</tr>
+		<tr>
+			<td align="left">중복가입자정보di</td>
+			<td align="left" th:text="${info[4] }"></td>
+		</tr>
+		<tr>
+			<td align="left">연계정보1 ci1</td>
+			<td align="left" th:text="${info[5] }"></td>
+		</tr>
+		<tr>
+			<td align="left">연계정보2 ci2</td>
+			<td align="left" th:text="${info[6] }"></td>
+		</tr>
+		<tr>
+			<td align="left">연계정보버전</td>
+			<td align="left" th:text="${info[7] }"></td>
+		</tr>
+		<tr>
+			<td align="left">요청번호</td>
+			<td align="left" th:text="${info[8] }"></td>
+		</tr>
+		<tr>
+			<td align="left">인증성공여부</td>
+			<td align="left" th:text="${info[9] }"></td>
+		</tr>
+		<tr>
+			<td align="left">인증수단</td>
+			<td align="left" th:text="${info[10] }"></td>
+		</tr>
+		<tr>
+			<td align="left">핸드폰번호</td>
+			<td align="left" th:text="${info[11] }"></td>
+		</tr>
+		<tr>
+			<td align="left">이동통신사</td>
+			<td align="left" th:text="${info[12] }"></td>
+		</tr>
+		<tr>
+			<td align="left">요청시간</td>
+			<td align="left" th:text="${info[13] }"></td>
+		</tr>
+		<tr>
+			<td align="left">추가파라미터</td>
+			<td align="left" th:text="${info[14] }"></td>
+		</tr>
+		
+		<tr>
+			<td align="left">사이렌키</td>
+			<td align="left" th:text="${info[15] }"></td>
+		</tr>
+		<tr>
+			<td align="left">예약필드2</td>
+			<td align="left" th:text="${info[16] }"></td>
+		</tr>
+		<tr>
+			<td align="left">예약필드3</td>
+			<td align="left" th:text="${info[17] }"></td>
+		</tr>
+		<tr>
+			<td align="left">예약필드4</td>
+			<td align="left" th:text="${info[18] }"></td>
+		</tr>
+		<tr>
+			<td align="left">예약필드5</td>
+			<td align="left" th:text="${info[19] }"></td>
+		</tr>-->
+	</table>
+</body>
+
+<script th:inline="javascript">
+
+	/*<![CDATA[*/
+	var checkmode = /*[[${checkmode}]]*/ null;
+	
+	var checkId = /*[[${checkId}]]*/ null;
+	var name = /*[[${info[0]}]]*/ null;
+	var hp = /*[[${info[11]}]]*/ null;
+	var ci = /*[[${info[5]}]]*/ null;
+	var di = /*[[${info[4]}]]*/ null;
+	/*]]>*/
+	opener.console.log(document.documentElement.outerHTML);
+	opener.console.log(checkmode);
+	opener.console.log(checkId);
+	opener.console.log(name);
+	opener.console.log(hp);
+	opener.console.log(ci);
+	opener.console.log(di);
+
+	if(checkmode == 'modify'){
+		opener.pccUpdate(name,hp,di,ci);
+		window.close();
+	}
+	
+	if(checkmode == 'insert'){
+		if(ci == ''){
+			location.href = "/pcc/requestSeed?checkmode=insert";
+		}else{
+			opener.pccUpdate(name,hp,di,ci);
+			window.close();	
+		}
+	}
+
+	if(checkmode == 'findinfo'){
+		if(ci == ''){
+			location.href = "/pcc/requestSeed?checkmode=insert";
+		}else {
+			opener.pccUpdate(name,hp,di,ci);
+			window.close();	
+		}
+	}
+	
+	if(checkmode == 'modJoinMember'){
+		opener.alreadyMember(checkId, name);
+		window.close();
+	}
+	
+	if(checkmode == 'joinMember'){
+		var msg = checkId+' 이미 가입된 번호입니다.';
+		opener.alreadyMember(msg, name);
+		window.close();
+	}
+</script>
+
+</html>

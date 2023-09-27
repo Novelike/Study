@@ -1,6 +1,6 @@
 package com.kjh.controller;
 
-import com.kjh.service.SigninService;
+import com.kjh.service.UserService;
 import com.kjh.vo.UserMenuVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -21,7 +20,7 @@ import java.util.Map;
 public class MainController {
 
     @Autowired
-    private SigninService signinService;
+    private UserService userService;
 
     @RequestMapping({"/index"})
     public String mainView(Model model, HttpServletRequest request) {
@@ -29,7 +28,6 @@ public class MainController {
         List<UserMenuVO> menuList = (List<UserMenuVO>) request.getAttribute("menuList");
         model.addAttribute("valueMap", valueMap);
         model.addAttribute("menuList", menuList);
-        log.info(menuList.toString());
         model.addAttribute("url", "URL은 이거다");
         return "/main/index";
     }

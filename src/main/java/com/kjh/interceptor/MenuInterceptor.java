@@ -22,9 +22,7 @@ public class MenuInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws
             Exception {
-        SessionVO sessionVO = (SessionVO) request.getSession().getAttribute("sessionVO");
-        ResultDTO resultDTO =
-                menuService.menuSearch();
+        ResultDTO resultDTO = menuService.menuSearch();
         HashMap<String, Object> param = (HashMap<String, Object>)resultDTO.getData();
         List<UserMenuVO> menuList = (List<UserMenuVO>)param.get("userMenuList");
         request.setAttribute("menuList", menuList);

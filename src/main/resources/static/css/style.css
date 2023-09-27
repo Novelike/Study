@@ -673,4 +673,11 @@ select {
     text-align: left;
 }
 .input_txt::placeholder, .textarea::placeholder {color:#aaa;}
-/*[contenteditable=true]:empty:before{content:attr(placeholder); color:#aaa;}*/
+.popupBox.box_s {
+    width: 500px;
+    padding: 50px 40px;
+    line-height: 1.5;
+}
+.txt-c {
+    text-align: center;
+}

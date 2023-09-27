@@ -3,13 +3,11 @@ package com.kjh.controller;
 import com.kjh.dto.DataTableResponseDto;
 import com.kjh.dto.InquiryRequestDto;
 import com.kjh.dto.InquiryResponseDto;
-import com.kjh.dto.ResultDTO;
 import com.kjh.service.MyPageService;
 import com.kjh.service.SendNumberService;
 import com.kjh.vo.SearchVO;
 import com.kjh.vo.SendNumberVO;
 import com.kjh.vo.SessionVO;
-import com.kjh.vo.UserVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,7 +91,7 @@ public class MyPageController {
     @RequestMapping("/myInfoUpdate")
     public String myInfoUpdate() { return "/mypage/content/myInfoUpdate"; }
 
-    @RequestMapping("/content3")
+    @RequestMapping("/sendNumberManage")
     public String getContent3(Model model, HttpServletRequest request, SearchVO svo) {
         SessionVO sessionVO = (SessionVO) request.getSession().getAttribute("sessionVO");
         try {
@@ -103,7 +101,7 @@ public class MyPageController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "/mypage/content/content3";
+        return "/mypage/content/sendNumberManage";
     }
 
     @RequestMapping("/content4")

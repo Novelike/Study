@@ -46,6 +46,14 @@
     }
 
     $('#btnPasswordConfirm').click(function () {
+        submit();
+    })
+
+    $('#confirmUserPw').keyup(function (e) {
+        if(e.keyCode === 13) { submit(); }
+    })
+
+    function submit() {
         const userPw = $('#confirmUserPw').val();
         const param = {userPw: userPw};
         if (isEmptyString(userPw)) {
@@ -64,7 +72,7 @@
                 console.log(e);
             }
         })
-    })
+    }
 
     function myInfoUpdate() {
         $.ajax({

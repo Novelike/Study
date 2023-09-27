@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<body bgcolor="#FFFFFF" topmargin=0 leftmargin=0 marginheight=0 marginwidth=0  onload="openPCCWindow();">
+
+
+<form name="reqPCCForm" method="post" action="">
+    <input type="hidden" name="reqInfo" th:value = "${reqInfo}">
+	<input type="hidden" name="retUrl"  th:value = "${retUrl}">
+	<input type="hidden" name="verSion"	value = "2">
+</form>
+
+
+
+</body>
+
+<script language=javascript>
+
+    var PCC_window;
+
+    function openPCCWindow(){
+ 		document.reqPCCForm.action = 'https://pcc.siren24.com/pcc_V3/jsp/pcc_V3_j10_v2.jsp';
+    	document.reqPCCForm.submit();
+    }
+
+
+</script>
+
+</html>

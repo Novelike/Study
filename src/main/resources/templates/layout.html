@@ -85,7 +85,17 @@
         <div class="popup_close"><a href="javascript:" class="close_button" onclick="fnLayerPopupClose('info')"></a></div>
     </div>
 </div>
-
+<div class="dimmed_black" id="alertP01">
+    <div class="popupBox box_s">
+        <div id="popup_msg" class="popup_message">
+        </div>
+        <div class="btn_wrap txt-c mt20 popup_ok">
+            <a href="javascript:btnConfirm('alertP01');" class="my_button m_button">확인</a>
+            <input type="hidden" id="alertType"></input>
+        </div>
+        <div class="popup_close"><a href="javascript:btnConfirm('alertP01');" class="close_button"></a></div>
+    </div>
+</div>
 <th:block layout:fragment="includeScript"></th:block>
 <th:block layout:fragment="changeScript"></th:block>
 <script th:inline="javascript">
@@ -101,6 +111,20 @@
             signin.css('display', 'none');
         }
     });
+    function btnConfirm(thisId) {
+        if($("#alertType").val() == "login") {
+            location.href="/login/login";
+        } else if($("#alertType").val() == "logout") {
+            location.href="/logout";
+        } else if($("#alertType").val() == "reload") {
+            location.reload();
+        } else if($("#alertType").val() == "refresh") {
+            refresh();
+        } else {
+            $("#"+thisId).hide();
+            //unLockScroll();
+        }
+    }
 </script>
 
 </body>

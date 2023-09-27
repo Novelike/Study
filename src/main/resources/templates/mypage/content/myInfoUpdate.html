@@ -41,7 +41,7 @@
                        placeholder="비밀번호를 입력해 주세요.">
                 <input type="hidden" name="isPw" id="isPw" value="N"/>
                 <span id="userPwMsg" class="condition"></span>
-                <p class="tb_txt_S"><span class="red">*</span> 영문, 숫자 모두 포함 최소 8자~16자</p>
+                <p class="tb_txt_S"><span class="red">*</span> 영문, 숫자, 특수문자 모두 포함 최소 8자~16자</p>
             </td>
         </tr>
         <tr>
@@ -101,7 +101,126 @@
             $('#userEmail2').val(userEmail.substring(pos + 1));
         }
     }
+
+    function pccUpdate(name, hp, di, ci) {
+        $('#userName').html(name);
+        $('#userMobile').val(hp);
+        $('#userCI').val(ci);
+        $('#userDI').val(di);
+        console.log(name);
+        console.log(hp);
+        console.log(ci);
+        console.log(di);
+
+        let userMobile = hp;
+        $('#userMobile1').val(userMobile.substring(0, 3));
+        $('#userMobile2').val(userMobile.substring(3, 7));
+        $('#userMobile3').val(userMobile.substring(7, 11));
+    }
+
+    function alreadyMember(id, name) {
+        let userId = '[[${session.sessionVO.user.userId}]]';
+        if (userId !== id) {
+            $('#alertType').val("error");
+            let msg = name + '님의 휴대폰 번호로 가입된 아이디가 이미 존재합니다.';
+            $('#popup_msg').html(msg);
+            fnLayerPopup('alertP01');
+        }
+    }
+
     $(document).ready(function() {
         setMyInfo();
-    })
+        $('#mobileAuthorization1').click(function () {
+            $.ajax({
+                url:"/pcc/requestSeed?checkmode=modify",
+                dataType:"html",
+                success: function () {
+                    window.open('/pcc/requestSeed?checkmode=modify', 'pcc', 'width=700,height=700');
+                },
+                error: function(xhr, status, error) {alert(error);}
+            });
+        });
+        $('#mobileAuthorization2').click(function () {
+            $.ajax({
+                url:"/pcc/requestSeed?checkmode=modify",
+                dataType:"html",
+                success: function () {
+                    // w.location.href = '/pcc/requestSeed';
+                    window.open('/pcc/requestSeed?checkmode=modify', 'pcc', 'width=700,height=700');
+                },
+                error: function(xhr, status, error) {alert(error);}
+            });
+        });
+        const pwCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$/;
+        $('#newUserPw').on('propertychange change keyup paste input', function () {
+            if(!pwCheck.test($('#newUserPw').val())) {
+                $('#userPwMsg').html('영문 + 숫자 + 특수문자의 조합으로 8자~16자의 새 비밀번호를 입력하세요.');
+            } else {
+                $('#userPwMsg').html('');
+            }
+        });
+        $('#userPwConfirm').on('propertychange change keyup paste input', function () {
+            if($('#newUserPw').val() !== $('#userPwConfirm').val()) {
+                $('#userPwConfirmMsg').html('새 비밀번호를 확인해주세요.');
+            } else {
+                $('#userPwConfirmMsg').html('');
+            }
+        })
+        $('#btnUserModify').click(function () {
+            const userName = $('#userName').text();
+            const userPw = $('#newUserPw').val();
+            const userPwConfirm = $('#userPwConfirm').val();
+            const userPwMsg = $('#userPwMsg');
+            const userPwConfirmMsg = $('#userPwConfirmMsg');
+            const userMobile = $('#userMobile').val();
+            const userEmail = $('#userEmail').val();
+            const userCI = $('#userCI').val();
+            const userDI = $('#userDI').val();
+
+            if(isEmptyString(userPw) && isEmptyString(userPwConfirm)) {
+                if(!confirm('새 비밀번호가 입력되지 않았습니다.\n계속하시겠습니까?')) {
+                    return false;
+                }
+            }
+            if(isEmptyString(userPw) && !isEmptyString(userPwConfirm)) {
+                $('#alertType').val('error');
+                $('#popup_msg').html('새 비밀번호를 입력해주세요.');
+                fnLayerPopup('alertP01');
+                return false;
+            }
+            if(!isEmptyString(userPw) && isEmptyString(userPwConfirm)) {
+                $('#alertType').val('error');
+                $('#popup_msg').html('새 비밀번호를 확인해주세요.');
+                fnLayerPopup('alertP01');
+                return false;
+            }
+            if(!pwCheck.test(userPw) && !isEmptyString(userPw)) {
+                $('#alertType').val('error');
+                $('#popup_msg').html('영문 + 숫자 + 특수문자의 조합으로 8자~16자의 새 비밀번호를 입력하세요.');
+                fnLayerPopup('alertP01');
+            }
+            if(userPw !== userPwConfirm) {
+                $('#alertType').val('error');
+                $('#popup_msg').html('새 비밀번호를 확인해주세요.');
+                fnLayerPopup('alertP01');
+            }
+
+            const param = {userName:userName, userPw:userPw, userMobile:userMobile, userEmail: userEmail, userCI: userCI, userDI: userDI};
+            console.log(param);
+            $.ajax({
+                url: '/user/modify',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(param),
+                success: function() {
+                    $('#alertType').val('reload');
+                    $('#popup_msg').html('정보가 성공적으로 수정되었습니다.');
+                    fnLayerPopup('alertP01');
+                },
+                error: function(e) {
+                    console.log(e);
+                }
+            });
+        })
+    });
 </script>

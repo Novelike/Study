@@ -28,14 +28,16 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/error"); // 인터셉터에서 제외할 패턴
 
-        registry.addInterceptor(menuInterceptor) //menuInterceptor 등록
-                .order(2)
-                .addPathPatterns("/**");
-
         registry.addInterceptor(loginCheckInterceptor) //LoginCheckInterceptor 등록
-                .order(3)
+                .order(2)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/", "/main/index", "/images/**", "/js/**", "/css/**", "/sign/**", "/user/signin");
+                .excludePathPatterns("/", "/main/index", "/images/**", "/js/**", "/css/**", "/sign/**", "/user/signin", "/error");
+
+        registry.addInterceptor(menuInterceptor) // menuInterceptor 등록
+                .order(3)                        // 이것만 컨트롤러에 적용, 나머진 전역.
+                .addPathPatterns("/**")
+                .excludePathPatterns("/js/**", "/css/**", "/images/**", "/error", "/favicon.svg");
+
     }
 
 }

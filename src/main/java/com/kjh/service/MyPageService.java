@@ -50,8 +50,10 @@ public class MyPageService {
     }
 
     public boolean checkPw(String userPw, String myPw) {
-        log.info(userPw);
-        log.info(myPw);
+        log.info("userPw ==> {}",userPw);
+        log.info("enc userPw ==> {}", passwordEncoder.encode(userPw));
+        log.info("myPw ==> {}", myPw);
+        log.info("checkPw ==> {}", passwordEncoder.matches(userPw, myPw));
         return passwordEncoder.matches(userPw, myPw);
     }
 

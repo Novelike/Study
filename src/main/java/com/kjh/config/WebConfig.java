@@ -31,7 +31,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(loginCheckInterceptor) //LoginCheckInterceptor 등록
                 .order(2)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/", "/main/index", "/images/**", "/js/**", "/css/**", "/sign/**", "/user/signin", "/error");
+                .excludePathPatterns("/", "/main/index", "/favicon.svg", "/images/**", "/js/**", "/css/**", "/sign/**", "/user/signin", "/error");
 
         registry.addInterceptor(menuInterceptor) // menuInterceptor 등록
                 .order(3)                        // 이것만 컨트롤러에 적용, 나머진 전역.

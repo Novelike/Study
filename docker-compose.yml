@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  mysql:
+    container_name: mysql_db
+    image: mysql:8.0.34
+    environment:
+      MYSQL_DATABASE: message
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_ROOT_PASSWORD: 0
+      TZ: 'Asia/Seoul'
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql/conf.d:/etc/mysql/conf.d # MySQL 설정 파일 위치
+      - ./mysql/db:/var/lib/mysql
+    command:
+      - "mysqld"
+      - "--character-set-server=utf8mb4"
+      - "--collation-server=utf8mb4_unicode_ci"
+      - "--lower_case_table_names=1"
+    networks:
+      - test_network
+
+  application:
+    container_name: spring_boot_app
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "80:8080"
+    environment:
+      spring_datasource_driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+      SPRING_DATASOURCE_URL: jdbc:log4jdbc:mysql://mysql_db:3306/message?useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: "root"
+      SPRING_DATASOURCE_PASSWORD: "0"
+      TZ: "Asia/Seoul"
+    depends_on:
+      - mysql
+    networks:
+      - test_network
+
+networks:
+  test_network:

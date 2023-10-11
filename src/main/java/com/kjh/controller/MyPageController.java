@@ -33,7 +33,7 @@ public class MyPageController {
     @RequestMapping("/mypage")
     public String goInquiry(HttpServletRequest request, Model model) {
         model.addAttribute("default", "menu2");
-        return "/mypage/mypage";
+        return "mypage/mypage";
     }
 
     @ResponseBody
@@ -75,10 +75,10 @@ public class MyPageController {
 
 
     @RequestMapping("/my_inquiry")
-    public String getMyInquiry() { return "/mypage/content/myInquiry"; }
+    public String getMyInquiry() { return "mypage/content/myInquiry"; }
 
     @RequestMapping("/myInfo")
-    public String getMyInfo() { return "/mypage/content/myInfo"; }
+    public String getMyInfo() { return "mypage/content/myInfo"; }
 
     @ResponseBody
     @RequestMapping("/checkPw")
@@ -89,7 +89,7 @@ public class MyPageController {
     }
 
     @RequestMapping("/myInfoUpdate")
-    public String myInfoUpdate() { return "/mypage/content/myInfoUpdate"; }
+    public String myInfoUpdate() { return "mypage/content/myInfoUpdate"; }
 
     @RequestMapping("/sendNumberManage")
     public String getContent3(Model model, HttpServletRequest request, SearchVO svo) {
@@ -101,11 +101,11 @@ public class MyPageController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "/mypage/content/sendNumberManage";
+        return "mypage/content/sendNumberManage";
     }
 
     @RequestMapping("/content4")
-    public String getContent4() { return "/mypage/content/content4"; }
+    public String getContent4() { return "mypage/content/content4"; }
 
     private void extracted(InquiryRequestDto requestDto, HttpServletRequest request) {
         SessionVO sessionVO = (SessionVO) request.getSession().getAttribute("sessionVO");

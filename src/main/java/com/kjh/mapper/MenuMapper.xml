@@ -19,7 +19,7 @@
         , tum.reg_user_seq
         , '' AS class_name
         FROM   t_user_menu tum
-        INNER JOIN t_menu_info2 tmi
+        INNER JOIN t_menu_info tmi
         ON     tum.menu_seq = tmi.seq
         <where>
             <if test='userSeq != null and userSeq != 0 '>
@@ -47,7 +47,7 @@
              , seq AS menu_seq
              , #{regDate} AS reg_date
              , #{regUserSeq} AS reg_user_seq
-        FROM   t_menu_info2
+        FROM   t_menu_info
         WHERE  is_use = true
     </insert>
 
@@ -65,7 +65,7 @@
         , reg_date
         , reg_user_seq
         , '' AS class_name
-        FROM   t_menu_info2
+        FROM   t_menu_info
         <where>
             <if test='seq != null'>
                 AND seq = #{seq}

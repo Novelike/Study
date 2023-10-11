@@ -21,7 +21,7 @@ public class BaseController {
 
     @RequestMapping(value = {"/"})
     public String mainView() {
-        return "redirect:/main/index";
+        return "redirect:main/index";
     }
 
     @RequestMapping(value = {"/redirectUrl"})

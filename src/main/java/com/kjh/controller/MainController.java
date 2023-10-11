@@ -29,22 +29,22 @@ public class MainController {
         model.addAttribute("valueMap", valueMap);
         model.addAttribute("menuList", menuList);
         model.addAttribute("url", "URL은 이거다");
-        return "/main/index";
+        return "main/index";
     }
 
     @GetMapping("/send/result")
-    public String goSendResult(HttpServletRequest request, Model model) { return "/message/sendResult"; }
+    public String goSendResult(HttpServletRequest request, Model model) { return "message/sendResult"; }
 
     @GetMapping("/send/sms")
-    public String goSendSms() { return "/message/sendSms"; }
+    public String goSendSms() { return "message/sendSms"; }
 
     @GetMapping("/fee")
-    public String goFee() { return "/main/fee"; }
+    public String goFee() { return "main/fee"; }
 
     @GetMapping("/mypage")
     public String goMyPage(HttpServletRequest request, Model model) { return "redirect:/mypage/mypage"; }
 
     @GetMapping("/addressbook")
-    public String goAddressBook() { return "/main/addressbook"; }
+    public String goAddressBook() { return "main/addressbook"; }
 
 }

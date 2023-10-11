@@ -27,6 +27,7 @@ public class MenuService {
     public ResultDTO menuSearch() throws Exception {
         ResultDTO resultDTO = new ResultDTO();
 
+
         List<UserMenuVO> userMenuList = null;
         HashMap<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("isUse", true);
